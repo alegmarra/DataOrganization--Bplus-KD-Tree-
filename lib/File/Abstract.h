@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+#ifndef FILE_ABSTRACT
+#define FILE_ABSTRACT
+
 class FileAbstract 
 {
     protected:
@@ -16,3 +19,6 @@ class FileAbstract
     virtual void create() = 0;
     virtual void insert(void * r) = 0;
 };
+
+
+#endif
