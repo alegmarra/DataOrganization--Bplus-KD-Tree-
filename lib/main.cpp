@@ -14,16 +14,26 @@ class RecordComparator: public Comparator {
 
     public:
     
-    RecordComparator() : Comparator() { };
     RecordComparator(void * content) : Comparator(content) { };
     
     int compareTo(void * target) {
-        Record data =* (Record*)obj;
-        Record targetData =* (Record*)target;
+        Record * data = obj;
+        Record * targetData = target;
         
-        if (data.linea == targetData.linea) return 0;
-        if (data.linea > targetData.linea) return 1;
-        if (data.linea < targetData.linea) return -1;
+        if (data->linea == targetData->linea) {
+            printf("%d == %d\n", data->linea, targetData->linea);
+            return 0;
+        }
+        
+        if (data->linea > targetData->linea) {
+            printf("%d > %d\n", data->linea, targetData->linea);
+            return 1;
+        }
+        
+        if (data->linea < targetData->linea) {
+            printf("%d < %d\n", data->linea, targetData->linea);
+            return -1;
+        }
     }
 };
 
@@ -35,20 +45,16 @@ int main()
     Record a = {1, 2, 3, 4, 5};
     Record b = {6, 7, 8, 9, 0};
     Record c = {1, 5, 3, 4, 2};
+
+    RecordComparator aComp(&a);    
+    f.insert(&aComp, &a);
     
-    RecordComparator rComp;
-    Comparator * comp = &rComp;
-    
-    rComp(&a);
-    
-    f.insert(comp, &a);
-    /*
-    comp(&b);
-    f.insert(comp, &b);
-    
-    comp(&c);
-    f.insert(comp, &c);
-   */ 
+    RecordComparator bComp(&b);    
+    f.insert(&bComp, &b);
+
+    RecordComparator cComp(&c);    
+    f.insert(&cComp, &c);
+
     f.reset();
     
     void * ptr = f.next();

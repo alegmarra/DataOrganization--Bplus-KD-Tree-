@@ -14,6 +14,8 @@ class FileSequential: public FileAbstract
     virtual void remove(void * r);
     virtual void * find(Comparator * target);
     virtual void * next();
+    
+    bool hasKey(Comparator * c);
 };
 
 

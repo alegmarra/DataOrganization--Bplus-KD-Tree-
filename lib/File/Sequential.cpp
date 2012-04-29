@@ -9,10 +9,30 @@ void FileSequential::create() {
 
 void FileSequential::insert(Comparator * c, void * r) {
     open();
-    reset();
     
-    // TODO Poner al final
-    fwrite(r, length, 1, pFile);
+    if (!hasKey(c)) {
+    
+        do {
+            // Move on...
+        } while(next()); 
+        
+        fwrite(r, length, 1, pFile);
+    }
+}
+
+bool FileSequential::hasKey(Comparator * c) {
+    reset();
+    void * obj = next();
+    
+    while (obj != NULL) {
+        if (c->compareTo(obj) == 0) {
+            return true;
+        }
+        
+        obj = next();
+    }
+    
+    return false;
 }
 
 
@@ -28,7 +48,6 @@ void * FileSequential::find(Comparator* target) {
 };
 
 void * FileSequential::next() {
-    open();
     
     void * buffer = (void *) malloc(length);
     fread(buffer, length, 1, pFile);

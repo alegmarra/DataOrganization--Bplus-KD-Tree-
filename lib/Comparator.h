@@ -9,7 +9,6 @@ class Comparator
 
     public:
  
-    Comparator() { };
     Comparator(void * content);
     virtual int compareTo(void * target) = 0;
 };
