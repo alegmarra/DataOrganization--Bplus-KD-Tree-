@@ -9,7 +9,11 @@ class FileSequential: public FileAbstract
 
     FileSequential(const char * path, int record_size): FileAbstract(path, record_size) { };
     virtual void create();
-    virtual void insert(void * r);
+    virtual void insert(Comparator * c, void * r);
+    virtual void update(void * r);
+    virtual void remove(void * r);
+    virtual void * find(Comparator * target);
+    virtual void * next();
 };
 
 
