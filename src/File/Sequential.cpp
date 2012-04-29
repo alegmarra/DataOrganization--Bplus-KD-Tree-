@@ -12,10 +12,7 @@ void FileSequential::insert(Comparator * c, void * record) {
     
     if (!hasKey(c)) {
     
-        do {
-            // Move on...
-        } while(next()); 
-        
+        fseek(pFile, 0, SEEK_END);
         fwrite(record, length, 1, pFile);
     }
 }
