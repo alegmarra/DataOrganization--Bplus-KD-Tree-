@@ -1,0 +1,86 @@
+//============================================================================
+// Name        : TestCaseGen.cpp
+// Author      : 
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, ANSI-style
+//============================================================================
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <cstdlib>
+
+
+std::vector<std::string> recuperarCampos(std::string linea){
+
+	std::vector<std::string> campos;
+	char chr;
+	unsigned indx = 0;
+
+	chr = linea[indx];
+
+	while (indx < linea.size()){
+
+		if ((chr == '[') or (chr ==',')){
+
+			std::string palabra;
+			indx++;
+			chr = linea[indx];
+
+			do{
+				palabra = palabra + chr;
+				indx++;
+				chr = linea[indx];
+
+			}while ((chr != ']') and (chr !=',') and (chr != '\000'));
+
+			campos.push_back(palabra);
+		}
+
+		indx++;
+		chr = linea[indx];
+
+	}
+
+    return campos;
+
+}
+
+int main() {
+
+	std::ifstream inFile("/home/saasbook/tpDatos/TestCaseGen/src/fuenteDB.txt");
+	std::ofstream outFile("/home/saasbook/tpDatos/TestCaseGen/src/testData.txt");
+
+	std::string linea;
+
+	if (inFile.is_open() && outFile.is_open()){
+
+		getline (inFile,linea);
+
+		while (!inFile.eof())
+		{
+		   std::vector<std::string> campos;
+		   std::vector<std::string>::iterator it;
+
+
+//		   std::cout << linea << std::endl;
+
+		   campos = recuperarCampos(linea);
+
+		   srand((time(NULL)));
+
+		   unsigned random = (rand()%(campos.size()-1)+1);
+
+		   outFile << campos[0] << ": " << campos[random] << ", ";
+		   getline (inFile,linea);
+		}
+
+
+	}
+	outFile.close();
+	inFile.close();
+
+
+	return 0;
+}
