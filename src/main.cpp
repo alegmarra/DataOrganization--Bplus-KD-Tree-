@@ -91,6 +91,9 @@ int main()
     comp.setData(&a);
     f.update(&comp, &e);
 
+    comp.setData(&b);
+    f.remove(&comp);
+
     f.reset();
     
     void * ptr = f.next();

@@ -11,7 +11,7 @@ class FileSequential: public FileAbstract
     virtual void create();
     virtual void insert(Comparator * c, void * r);
     virtual void update(Comparator * c, void * record);
-    virtual void remove(void * r);
+    virtual void remove(Comparator * c);
     virtual void * find(Comparator * target);
     virtual void * next();
     

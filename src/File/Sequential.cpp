@@ -33,8 +33,18 @@ void FileSequential::update(Comparator * c, void * record) {
     }
 };
 
-void FileSequential::remove(void * record) {
+void FileSequential::remove(Comparator * c) {
 
+    fseek(pFile, -length, SEEK_END);
+    void * last = next();
+    void * record = find(c);
+
+    if (record) {
+        fseek(pFile, -length, SEEK_CUR);
+        fwrite(last, length, 1, pFile);
+        // TODO Truncate file
+    }
+    
 };
 
 void * FileSequential::find(Comparator * c) {
