@@ -21,7 +21,7 @@ class FileAbstract
     ~FileAbstract();
     virtual void create() = 0;
     virtual void insert(Comparator * c, void * r) = 0;
-    virtual void update(void * r) = 0;
+    virtual void update(Comparator * c, void * record) = 0;
     virtual void remove(void * r) = 0;
     virtual void * find(Comparator * target) = 0;
     virtual void * next() = 0;

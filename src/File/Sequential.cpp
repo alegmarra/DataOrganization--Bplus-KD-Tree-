@@ -7,7 +7,7 @@ void FileSequential::create() {
     pFile = NULL;
 }
 
-void FileSequential::insert(Comparator * c, void * r) {
+void FileSequential::insert(Comparator * c, void * record) {
     open();
     
     if (!hasKey(c)) {
@@ -16,35 +16,43 @@ void FileSequential::insert(Comparator * c, void * r) {
             // Move on...
         } while(next()); 
         
-        fwrite(r, length, 1, pFile);
+        fwrite(record, length, 1, pFile);
     }
 }
 
 bool FileSequential::hasKey(Comparator * c) {
+    void * obj = find(c);
+    return !!obj;
+}
+
+
+void FileSequential::update(Comparator * c, void * record) {
+    void * found = find(c);
+    
+    if (found) {
+        fseek(pFile, -length, SEEK_CUR);
+        // TODO checkeo de unicidad
+        fwrite(record, length, 1, pFile);
+    }
+};
+
+void FileSequential::remove(void * record) {
+
+};
+
+void * FileSequential::find(Comparator * c) {
     reset();
     void * obj = next();
     
     while (obj != NULL) {
         if (c->compareTo(obj) == 0) {
-            return true;
+            return obj;
         }
         
         obj = next();
     }
     
-    return false;
-}
-
-
-void FileSequential::update(void * r) {
-};
-
-void FileSequential::remove(void * r) {
-
-};
-
-void * FileSequential::find(Comparator* target) {
-    open();    
+    return NULL;
 };
 
 void * FileSequential::next() {

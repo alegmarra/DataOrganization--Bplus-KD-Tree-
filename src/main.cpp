@@ -26,6 +26,7 @@ class IntComparator: public Comparator
     }
 };
 
+// Very gronch Comparator
 class RecordComparator: public Comparator 
 {
     public:
@@ -45,8 +46,18 @@ class RecordComparator: public Comparator
             result = c.compareTo(&(targetData->franja_horaria));
             
             if(result == 0) {
-                c.setData(&(data->franja_horaria));
-                result = c.compareTo(&(targetData->franja_horaria));
+                c.setData(&(data->falla));
+                result = c.compareTo(&(targetData->falla));
+                
+                if (result == 0) {
+                    c.setData(&(data->accidente));
+                    result = c.compareTo(&(targetData->accidente));
+                    
+                    if (result == 0) {
+                        c.setData(&(data->formacion));
+                        result = c.compareTo(&(targetData->formacion));
+                    }
+                }
             }
         }
         
@@ -63,6 +74,7 @@ int main()
     Record b = {6, 7, 8, 9, 0};
     Record c = {1, 5, 3, 4, 2};
     Record d = {6, 7, 8, 9, 0}; // Este no deberia insertarse porque esta repetido
+    Record e = {8, 8, 8, 8, 8};
 
     RecordComparator comp(&a);    
     f.insert(&comp, &a);
@@ -75,6 +87,9 @@ int main()
 
     comp.setData(&d);    
     f.insert(&comp, &d);
+
+    comp.setData(&a);
+    f.update(&comp, &e);
 
     f.reset();
     
