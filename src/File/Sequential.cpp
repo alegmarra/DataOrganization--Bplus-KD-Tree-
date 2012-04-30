@@ -1,5 +1,6 @@
 #include "Sequential.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 void FileSequential::create() {
     pFile = fopen(filename, "wb");
@@ -24,6 +25,7 @@ bool FileSequential::hasKey(Comparator * c) {
 
 
 void FileSequential::update(Comparator * c, void * record) {
+    open();
     void * found = find(c);
     
     if (found) {
@@ -34,21 +36,25 @@ void FileSequential::update(Comparator * c, void * record) {
 };
 
 void FileSequential::remove(Comparator * c) {
-
     fseek(pFile, -length, SEEK_END);
     void * last = next();
     void * record = find(c);
+    int size;
 
     if (record) {
         fseek(pFile, -length, SEEK_CUR);
         fwrite(last, length, 1, pFile);
-        // TODO Truncate file
+        fseek(pFile, -length, SEEK_END);
+        size = ftell(pFile);
+        ftruncate(fileno(pFile), size);
+        rewind(pFile);
     }
-    
 };
 
 void * FileSequential::find(Comparator * c) {
+    open();
     reset();
+    
     void * obj = next();
     
     while (obj != NULL) {

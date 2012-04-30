@@ -67,8 +67,8 @@ class RecordComparator: public Comparator
 
 int main() 
 {
-    FileSequential f("/tmp/test.bin", sizeof(Record));
-    f.create();
+    FileSequential * f = new FileSequential("/tmp/test.bin", sizeof(Record));
+    f->create();
  
     Record a = {1, 2, 3, 4, 5};
     Record b = {6, 7, 8, 9, 0};
@@ -77,26 +77,31 @@ int main()
     Record e = {8, 8, 8, 8, 8};
 
     RecordComparator comp(&a);    
-    f.insert(&comp, &a);
+    f->insert(&comp, &a);
     
     comp.setData(&b);    
-    f.insert(&comp, &b);
+    f->insert(&comp, &b);
 
     comp.setData(&c);    
-    f.insert(&comp, &c);
+    f->insert(&comp, &c);
 
     comp.setData(&d);    
-    f.insert(&comp, &d);
+    f->insert(&comp, &d);
 
     comp.setData(&a);
-    f.update(&comp, &e);
+    f->update(&comp, &e);
+
 
     comp.setData(&b);
-    f.remove(&comp);
-
-    f.reset();
+    f->remove(&comp);
     
-    void * ptr = f.next();
+    delete f;
+
+
+    f = new FileSequential("/tmp/test.bin", sizeof(Record));
+    f->reset();
+    
+    void * ptr = f->next();
     
     while(ptr != NULL) {
         Record x =* (Record*)ptr;
@@ -106,9 +111,9 @@ int main()
         printf("Accidente: %d\n", x.accidente);
         printf("Formacion: %d\n", x.formacion);
         printf("===================\n");
-        ptr = f.next();
+        ptr = f->next();
     }
-    
+        
     return 0;
 }
 
