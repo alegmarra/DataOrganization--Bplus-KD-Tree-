@@ -1,8 +1,9 @@
 #include <stdio.h>
-#include "../Comparator.h"
 
 #ifndef FILE_ABSTRACT
 #define FILE_ABSTRACT
+
+class Comparator;
 
 class FileAbstract 
 {
