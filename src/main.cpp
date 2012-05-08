@@ -1,7 +1,7 @@
 #include "File/Sequential.h"
 #include "Comparator.h"
 
-struct Record 
+struct Record1
 {
     int linea;
     int franja_horaria;
@@ -9,6 +9,8 @@ struct Record
     int accidente;
     int formacion;
 };
+
+
 
 class IntComparator: public Comparator 
 {
@@ -23,19 +25,22 @@ class IntComparator: public Comparator
         if (data == targetData) return 0;
         if (data > targetData) return 1;
         if (data < targetData) return -1;
+
     }
 };
 
 // Very gronch Comparator
-class RecordComparator: public Comparator 
+
+/*
+class Record1Comparator: public Comparator
 {
     public:
     
-    RecordComparator(void * content) : Comparator(content) { };
+    Record1Comparator(void * content) : Comparator(content) { };
     
     int compareTo(void * target) {
-        Record * data = (Record*)obj;
-        Record * targetData = (Record*)target;
+        Record1 * data = (Record1*)obj;
+        Record1 * targetData = (Record1*)target;
         bool result;
         
         IntComparator c(&(data->linea));
@@ -64,21 +69,22 @@ class RecordComparator: public Comparator
         return result;
     }
 };
+*/
 
 int main() 
 {
-    FileSequential * f = new FileSequential("/tmp/test.bin", sizeof(Record));
+    FileSequential * f = new FileSequential("/tmp/test.bin", sizeof(Record1));
     f->create();
  
-    Record a = {1, 2, 3, 4, 5};
-    Record b = {6, 7, 8, 9, 0};
-    Record c = {1, 5, 3, 4, 2};
-    Record d = {6, 7, 8, 9, 0}; // Este no deberia insertarse porque esta repetido
-    Record e = {8, 8, 8, 8, 8};
-
-    RecordComparator comp(&a);    
+    Record1 a = {1, 2, 3, 4, 5};
+    Record1 b = {6, 7, 8, 9, 0};
+    Record1 c = {1, 5, 3, 4, 2};
+    Record1 d = {6, 7, 8, 9, 0}; // Este no deberia insertarse porque esta repetido
+    Record1 e = {8, 8, 8, 8, 8};
+/*
+    Record1Comparator comp(&a);
     f->insert(&comp, &a);
-    
+
     comp.setData(&b);    
     f->insert(&comp, &b);
 
@@ -94,17 +100,17 @@ int main()
 
     comp.setData(&b);
     f->remove(&comp);
-    
+    */
     delete f;
 
 
-    f = new FileSequential("/tmp/test.bin", sizeof(Record));
+    f = new FileSequential("/tmp/test.bin", sizeof(Record1));
     f->reset();
     
     void * ptr = f->next();
     
     while(ptr != NULL) {
-        Record x =* (Record*)ptr;
+        Record1 x =* (Record1*)ptr;
         printf("Linea: %d\n", x.linea);
         printf("Franja horaria: %d\n", x.franja_horaria);
         printf("Falla: %d\n", x.falla);

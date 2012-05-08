@@ -3,7 +3,8 @@
 #ifndef FILE_ABSTRACT
 #define FILE_ABSTRACT
 
-class Comparator;
+#include "Comparator.h"// Cambio class Comparator; por include,
+					   // sino da error en Sequential.cpp
 
 class FileAbstract 
 {

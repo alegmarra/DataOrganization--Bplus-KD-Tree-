@@ -12,7 +12,8 @@ class Comparator
     Comparator(void * content);
     virtual int compareTo(void * target) = 0;
     
-    void setData(void * target);
+//    void setData(void * target);
+
 };
 
 #endif

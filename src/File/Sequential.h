@@ -1,5 +1,4 @@
 #include "Abstract.h"
-
 #ifndef FILE_SEQUENTIAL
 #define FILE_SEQUENTIAL
 
