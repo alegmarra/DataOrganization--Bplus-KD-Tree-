@@ -20,13 +20,15 @@ class FileAbstract
     
     void reset();    
     FileAbstract(const char * path, int record_size);
-    ~FileAbstract();
+
     virtual void create() = 0;
     virtual void insert(Comparator * c, void * r) = 0;
     virtual void update(Comparator * c, void * record) = 0;
     virtual void remove(Comparator * c) = 0;
     virtual void * find(Comparator * target) = 0;
     virtual void * next() = 0;
+
+    virtual ~FileAbstract();
 };
 
 

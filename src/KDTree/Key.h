@@ -11,13 +11,18 @@
 #include<cstring>
 #include<string>
 #include "Comparator.h"
+#include "Exceptions/InvalidKeyException.cpp"
+#include "Exceptions/InvalidTargetException.cpp"
+
 
 const int MAX_STRN_SIZE = 80;
 
 class Key {
 public:
+
+	//Throws InvalidKeyException
 	Key(std::string key);
-	Key(unsigned key);
+	Key(long key);
 
 	std::string getKey();
 
@@ -33,9 +38,14 @@ private:
 	class KeyComparator: public Comparator{
 
 	public:
-		KeyComparator(std::string content): Comparator(&content){};
+		KeyComparator(std::string content):
+			Comparator(&content), myKey(content){};
 
 		virtual int compareTo(void * target);
+
+	private:
+
+		std::string myKey;
 
 	};
 

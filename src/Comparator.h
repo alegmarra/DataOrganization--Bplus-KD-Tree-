@@ -4,7 +4,7 @@
 
 class Comparator 
 {
-    protected:
+    private:
     void * obj;
 
     public:
@@ -14,6 +14,8 @@ class Comparator
     
 //    void setData(void * target);
 
+
+    virtual ~Comparator();
 };
 
 #endif

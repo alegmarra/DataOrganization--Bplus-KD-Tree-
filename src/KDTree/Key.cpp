@@ -11,15 +11,26 @@
 
 
 Key::Key(std::string key){
+
+	if (key != ""){
 		keyValue = -1;
 
 		strncpy(keyString, key.c_str(), MAX_STRN_SIZE -1);
 		keyString[MAX_STRN_SIZE -1] = '\0';
+	}
+	else
+		throw InvalidKeyException();
 }
 
-Key::Key(unsigned key){
+Key::Key(long key){
+
+	if (key > -1){
 		keyValue = key;
 		strcpy(keyString, "");
+	}
+	else
+		throw InvalidKeyException();
+
 }
 
 std::string Key::getKey(){
@@ -38,19 +49,24 @@ std::string Key::getKey(){
 int Key::KeyComparator::compareTo(void* target){
 
 	try{
-		std::string myKey = * ((std::string *)obj);
-		std::string targetKey = * ((std::string *)target);
+		std::string targetKey = ((Key*)target)->getKey();
 
 		int result = myKey.compare(targetKey);
 
-		if ( result > 0 ) return 1;
-		else if (result < 0 ) return -1;
-			 else return result;
+		myKey.compare(targetKey);
+
+		if ( result > 0 ) return 1; //this orders after target
+		else if (result < 0 ) return -1; //this orders before target
+			 else return result; //this equals target
 
 	}catch(...){
 
-		return -2;
+		throw InvalidTargetException();
 	}
+
+	//Error value
+	return -2;
+
 
 }
 

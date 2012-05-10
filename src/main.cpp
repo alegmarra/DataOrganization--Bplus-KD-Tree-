@@ -1,6 +1,8 @@
 #include "File/Sequential.h"
 #include "Comparator.h"
 
+#include "UnitTests/KeyTest.cpp"
+
 struct Record1
 {
     int linea;
@@ -11,7 +13,7 @@ struct Record1
 };
 
 
-
+/*
 class IntComparator: public Comparator 
 {
     public:
@@ -26,12 +28,15 @@ class IntComparator: public Comparator
         if (data > targetData) return 1;
         if (data < targetData) return -1;
 
+        // Error value
+        return -2;
+
     }
 };
 
 // Very gronch Comparator
 
-/*
+
 class Record1Comparator: public Comparator
 {
     public:
@@ -73,15 +78,16 @@ class Record1Comparator: public Comparator
 
 int main() 
 {
-    FileSequential * f = new FileSequential("/tmp/test.bin", sizeof(Record1));
+ /*
+	FileSequential * f = new FileSequential("/tmp/test.bin", sizeof(Record1));
     f->create();
- 
+
     Record1 a = {1, 2, 3, 4, 5};
     Record1 b = {6, 7, 8, 9, 0};
     Record1 c = {1, 5, 3, 4, 2};
     Record1 d = {6, 7, 8, 9, 0}; // Este no deberia insertarse porque esta repetido
     Record1 e = {8, 8, 8, 8, 8};
-/*
+
     Record1Comparator comp(&a);
     f->insert(&comp, &a);
 
@@ -100,7 +106,7 @@ int main()
 
     comp.setData(&b);
     f->remove(&comp);
-    */
+
     delete f;
 
 
@@ -119,7 +125,19 @@ int main()
         printf("===================\n");
         ptr = f->next();
     }
-        
+ */
+
+	KeyTest* test = new KeyTest();
+
+	test->test_StringConstructor_NoError();
+	test->test_StringConstructor_Throws_InvalidKeyException();
+	test->test_NumberConstructor_NoError();
+	test->test_NumberConstructor_Throws_InvalidKeyException();
+	test->test_getKey_NoError();
+	test->test_KeyComparator_NoError();
+
+	delete test;
+
     return 0;
 }
 

@@ -8,3 +8,9 @@ void Comparator::setData(void * target) {
     obj = target;
 }
 */
+
+
+Comparator::~Comparator() {
+
+}
+

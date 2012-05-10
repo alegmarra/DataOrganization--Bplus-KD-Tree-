@@ -18,7 +18,9 @@ public:
 
 	void addKey(Key key);
 
-	std::vector<Key> getKeys();
+	std::vector<Key>* getKeys();
+
+	unsigned getSize();
 
 	virtual ~ID();
 
