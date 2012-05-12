@@ -76,10 +76,6 @@ Comparator* Key::getComparator(){
 
 }
 
-Key::~Key() {
-
-	delete[] keyString;
-	// TODO Auto-generated destructor stub
-}
+Key::~Key() { }
 
 

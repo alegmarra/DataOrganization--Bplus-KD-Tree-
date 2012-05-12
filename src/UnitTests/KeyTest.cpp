@@ -118,7 +118,6 @@ public:
 
 		delete pStringKey;
 		delete pNumKey;
-
 	}
 
 	void test_KeyComparator_NoError(){
