@@ -9,6 +9,7 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include src/UnitTests/subdir.mk
+-include src/KDTree/Serializers/subdir.mk
 -include src/KDTree/subdir.mk
 -include src/File/subdir.mk
 -include src/Exceptions/subdir.mk

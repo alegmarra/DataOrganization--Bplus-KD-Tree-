@@ -7,6 +7,30 @@
 
 #include "KD.h"
 
+KDtree::KDtree(FileAbstract* myFile){
+
+ treeFile = myFile;
+
+ setRoot();
+
+}
+
+void KDtree::setRoot(){
+
+
+
+}
+
+void KDtree::insert(Record* record){
+
+	this->insert(root, record);
+}
+
+int KDtree::insert(Node* node, Record* record){
+
+
+}
+
 
 KDtree::~KDtree() {
 

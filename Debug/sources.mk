@@ -25,6 +25,7 @@ C_UPPER_DEPS :=
 SUBDIRS := \
 src \
 src/UnitTests \
+src/KDTree/Serializers \
 src/KDTree \
 src/File \
 src/Exceptions \
