@@ -1,20 +1,19 @@
+SRCPATH=src/
+TARGETPATH=lib/
+SOURCES := $(shell find $(SRCPATH) -name *.cpp)
+OBJECTS := $(patsubst $(TARGETPATH)%.cpp,$(TARGETPATH)%.o,$(SOURCES))
+EXECUTABLE=run
 CC=g++
-CFLAGS=-Isrc/
+CFLAGS=-I$(SRCPATH)
 
-all: main.o FileSequential.o FileAbstract.o Comparator.o
-	$(CC) lib/main.o lib/File/Sequential.o lib/File/Abstract.o lib/Comparator.o -o run $(CFLAGS)
-	
-FileAbstract.o:
-	$(CC) -c src/File/Abstract.cpp -o lib/File/Abstract.o $(CFLAGS)
+all: $(EXECUTABLE)
 
-FileSequential.o:
-	$(CC) -c src/File/Sequential.cpp -o lib/File/Sequential.o $(CFLAGS)
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $(EXECUTABLE) $(CFLAGS)
 	
-Comparator.o:
-	$(CC) -c src/Comparator.cpp -o lib/Comparator.o $(CFLAGS)
-	
-main.o:
-	$(CC) -c src/main.cpp -o lib/main.o $(CFLAGS)
+lib/%.o: src/%cpp
+	echo $(SOURCES)
+	$(CC) -c -o $@ $<
 	
 clean:
-	rm -rf lib run > /dev/null 2>&1; mkdir -p lib/File
+	rm -rf $(TARGETPATH) $(EXECUTABLE) > /dev/null 2>&1
