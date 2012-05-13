@@ -1,3 +1,6 @@
+/*
+ *
+ *
 #include "Sequential.h"
 #include <stdlib.h>
 #include <unistd.h>
@@ -8,7 +11,7 @@ void FileSequential::create() {
     pFile = NULL;
 }
 
-void FileSequential::insert(Comparator * c, void * record) {
+void FileSequential::insert(void * object) {
     open();
     
     if (!hasKey(c)) {
@@ -79,3 +82,6 @@ void * FileSequential::next() {
         return buffer;
     }
 }
+*
+*
+**/

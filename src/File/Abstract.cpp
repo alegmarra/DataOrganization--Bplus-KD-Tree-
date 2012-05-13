@@ -2,15 +2,13 @@
 #include "../Comparator.h"
 #include <stdio.h>
 
-FileAbstract::FileAbstract(const char * path, int record_size) 
-{
+FileAbstract::FileAbstract(const char * path, unsigned block_size){
     filename = path;
-    length = record_size;
+    length = block_size;
     pFile = NULL;
 }
     
-FileAbstract::~FileAbstract()
-{
+FileAbstract::~FileAbstract(){
     if (pFile) {
         fclose(pFile);
     }

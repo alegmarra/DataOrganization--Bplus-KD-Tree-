@@ -5,14 +5,17 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/Exceptions/InvalidKeyException.cpp \
+../src/Exceptions/InvalidOperationException.cpp \
 ../src/Exceptions/InvalidTargetException.cpp 
 
 OBJS += \
 ./src/Exceptions/InvalidKeyException.o \
+./src/Exceptions/InvalidOperationException.o \
 ./src/Exceptions/InvalidTargetException.o 
 
 CPP_DEPS += \
 ./src/Exceptions/InvalidKeyException.d \
+./src/Exceptions/InvalidOperationException.d \
 ./src/Exceptions/InvalidTargetException.d 
 
 

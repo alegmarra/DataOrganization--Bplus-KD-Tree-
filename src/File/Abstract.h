@@ -3,8 +3,9 @@
 #ifndef FILE_ABSTRACT
 #define FILE_ABSTRACT
 
-#include "Comparator.h"// Cambio class Comparator; por include,
+//#include "Comparator.h"// Cambio class Comparator; por include,
 					   // sino da error en Sequential.cpp
+#include "Exceptions/InvalidOperationException.cpp"
 
 class FileAbstract 
 {
@@ -14,20 +15,21 @@ class FileAbstract
     FILE * pFile;
     int length;
     
-    void open();
-    
     public:
+
+    void open();
+    void reset();
+
+    virtual void create() =0;
+	virtual void insert(void* object) =0;
+	virtual void update(void* object) =0;
+	virtual void remove(void* object) =0;
+	virtual void * find(void* object) =0;
+	virtual void * next() =0;
+
     
-    void reset();    
-    FileAbstract(const char * path, int record_size);
-
-    virtual void create() = 0;
-    virtual void insert(Comparator * c, void * r) = 0;
-    virtual void update(Comparator * c, void * record) = 0;
-    virtual void remove(Comparator * c) = 0;
-    virtual void * find(Comparator * target) = 0;
-    virtual void * next() = 0;
-
+    
+    FileAbstract(const char * path, unsigned block_size);
     virtual ~FileAbstract();
 };
 
