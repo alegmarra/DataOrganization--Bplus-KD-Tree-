@@ -35,13 +35,12 @@ unsigned FileBlocks::getFreeNumber(){
 		blockNumber = ((sizeof(pFile) / blockSize) +1);
 		return blockNumber;
 	}
-	else{
 
-		blockNumber = freeBlocksList.front();
-		freeBlocksList.pop_front();
+	blockNumber = freeBlocksList.front();
+	freeBlocksList.pop_front();
 
-		return blockNumber;
-	}
+	return blockNumber;
+
 }
 
 
