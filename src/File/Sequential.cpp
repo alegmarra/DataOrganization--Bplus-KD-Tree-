@@ -11,7 +11,7 @@ void FileSequential::create() {
     pFile = NULL;
 }
 
-void FileSequential::insert(void * object) {
+void FileSequential::insert(Comparator* c, void* record) {
     open();
     
     if (!hasKey(c)) {

@@ -1,8 +1,8 @@
 #include "KDTree/Key.h"
-#include <iostream>
-#include <assert.h>
 
-class KeyTest {
+#include "Test.cpp"
+
+class KeyTest: public Test {
 
 public:
 
@@ -11,6 +11,16 @@ public:
 		std::cout << "KeyTest BEGIN: "
 				  << std::endl << std::endl;
 	}
+
+	virtual void run(){
+		test_StringConstructor_NoError();
+		test_StringConstructor_Throws_InvalidKeyException();
+		test_NumberConstructor_NoError();
+		test_NumberConstructor_Throws_InvalidKeyException();
+		test_getKey_NoError();
+		test_KeyComparator_NoError();
+	}
+
 
 	void test_StringConstructor_NoError(){
 
@@ -152,7 +162,5 @@ public:
 		std::cout << "-------KeyTest END-------"
 				  << std::endl << std::endl;
 	}
-
-private:
 
 };

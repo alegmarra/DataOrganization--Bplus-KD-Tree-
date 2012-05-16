@@ -28,6 +28,7 @@ void KDtree::insert(Record* record){
 
 int KDtree::insert(Node* node, Record* record){
 
+	return 0;
 
 }
 
