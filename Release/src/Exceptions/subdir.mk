@@ -4,26 +4,23 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/KDTree/ID.cpp \
-../src/KDTree/KD.cpp \
-../src/KDTree/Key.cpp \
-../src/KDTree/Record.cpp 
+../src/Exceptions/InvalidKeyException.cpp \
+../src/Exceptions/InvalidOperationException.cpp \
+../src/Exceptions/InvalidTargetException.cpp 
 
 OBJS += \
-./src/KDTree/ID.o \
-./src/KDTree/KD.o \
-./src/KDTree/Key.o \
-./src/KDTree/Record.o 
+./src/Exceptions/InvalidKeyException.o \
+./src/Exceptions/InvalidOperationException.o \
+./src/Exceptions/InvalidTargetException.o 
 
 CPP_DEPS += \
-./src/KDTree/ID.d \
-./src/KDTree/KD.d \
-./src/KDTree/Key.d \
-./src/KDTree/Record.d 
+./src/Exceptions/InvalidKeyException.d \
+./src/Exceptions/InvalidOperationException.d \
+./src/Exceptions/InvalidTargetException.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-src/KDTree/%.o: ../src/KDTree/%.cpp
+src/Exceptions/%.o: ../src/Exceptions/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
 	g++ -I"/home/saasbook/tpDatos/src" -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"

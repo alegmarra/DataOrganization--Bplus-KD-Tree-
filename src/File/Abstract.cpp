@@ -18,6 +18,11 @@ void FileAbstract::open()
 {
     if (!pFile) {
         pFile = fopen(filename, "rb+");
+
+        if(!pFile)
+        	//No file, creates a new file and
+        	//opens it for reading or writing
+        	pFile = fopen(filename, "wb+");
     }
 }
 

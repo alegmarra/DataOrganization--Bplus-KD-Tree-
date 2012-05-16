@@ -7,17 +7,16 @@
 int main() 
 {
 
-	//Test* test;
+	Test* test;
 
 	//test = new KeyTest();
 	//test->run();
 
-	//test = new FileBlocksTest();
-	//test->run();
+	test = new FileBlocksTest();
+	test->run();
 
 
-	//delete test;
-
+	delete test;
 
     return 0;
 }
