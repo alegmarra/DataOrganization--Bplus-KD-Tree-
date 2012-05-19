@@ -1,6 +1,5 @@
 #include "Abstract.h"
 #include "../Comparator.h"
-#include <stdio.h>
 
 FileAbstract::FileAbstract(const char * path, unsigned block_size){
     filename = path;

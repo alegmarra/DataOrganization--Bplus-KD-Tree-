@@ -1,8 +1,10 @@
-#include <stdio.h>
-#include <list>
-
 #ifndef FILE_ABSTRACT
 #define FILE_ABSTRACT
+#include <stdlib.h>
+#include <stdio.h>
+#include <iostream>
+#include <stdio.h>
+#include <list>
 
 //#include "Comparator.h"// Cambio class Comparator; por include,
 					   // sino da error en Sequential.cpp
@@ -28,7 +30,7 @@ class FileAbstract
 	virtual int remove(void* object) =0;
 	virtual void * find(void* object) =0;
 
-    
+public:
     
     FileAbstract(const char * path, unsigned block_size);
     virtual ~FileAbstract();

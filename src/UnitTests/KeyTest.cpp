@@ -8,16 +8,22 @@ public:
 
 	KeyTest(){
 
-		std::cout << "KeyTest BEGIN: "
+		std::cout << std::endl << "KeyTest BEGIN: "
 				  << std::endl << std::endl;
 	}
 
 	virtual void run(){
+
 		test_StringConstructor_NoError();
+
 		test_StringConstructor_Throws_InvalidKeyException();
+
 		test_NumberConstructor_NoError();
+
 		test_NumberConstructor_Throws_InvalidKeyException();
+
 		test_getKey_NoError();
+
 		test_KeyComparator_NoError();
 	}
 
@@ -160,7 +166,7 @@ public:
 	virtual ~KeyTest(){
 
 		std::cout << "-------KeyTest END-------"
-				  << std::endl << std::endl;
+				  << std::endl;
 	}
 
 };

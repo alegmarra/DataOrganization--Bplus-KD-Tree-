@@ -6,7 +6,7 @@
  */
 
 #include "FileBlocks.h"
-#include <stdlib.h>
+//#include <stdlib.h>
 
 bool FileBlocks::isFree(unsigned* blockNumber){
 
@@ -27,12 +27,16 @@ void FileBlocks::setFree(unsigned blockNumber){
 }
 
 
-unsigned FileBlocks::getFreeNumber(){
+unsigned FileBlocks::getFreeBlock(){
 
 	unsigned blockNumber;
 
 	if ( freeBlocksList.empty() ){
-		blockNumber = ((sizeof(pFile) / blockSize) +1);
+		fseek(pFile, 0, SEEK_END);
+		unsigned fSize = ftell(pFile);
+		rewind(pFile);
+
+		blockNumber = (fSize / (blockSize-1));
 		return blockNumber;
 	}
 
@@ -63,12 +67,14 @@ int FileBlocks::insert(void* object, unsigned blockNumber){
 	result = fseek(pFile, 0, SEEK_END);
 	    if (result != 0) return 0;
 
-
 	char* buffer = (char*) object;
 
 	//writes the buffer from blocks beginning
-	result = fwrite ( buffer ,1, sizeof(buffer), pFile );
-    if (result != 1) return 0;
+	result = fwrite ( buffer ,1, (blockSize -1), pFile );
+    if (result != (blockSize -1)) return result;
+
+    fflush ( pFile );
+
 
     //Operation completed with no error
 	return 1;
@@ -86,7 +92,7 @@ int FileBlocks::update(void* object, unsigned blockNumber){
 		return 0;
 
 	size_t result;
-	unsigned offset = (blockNumber * this->blockSize);
+	unsigned offset = (blockNumber * (blockSize-1));
 
     reset();
 
@@ -97,10 +103,10 @@ int FileBlocks::update(void* object, unsigned blockNumber){
 	char* buffer = (char*) object;
 
 	//writes the buffer from blocks beginning
-	result = fwrite ( buffer ,1, sizeof(buffer), pFile );
+	result = fwrite ( buffer ,1, (blockSize-1), pFile );
     if (result != 1) return 0;
 
-	return 1;
+    return 1;
 }
 
 
@@ -121,30 +127,28 @@ int FileBlocks::remove(void* object){
 void* FileBlocks::find(void* object){
 
 
-	unsigned blockNumber = *((unsigned*)object);
-    unsigned offset = (blockNumber * this->blockSize);
-
-
     reset();
 
-    void* buffer;
-    // allocate memory to contain the whole file:
-    buffer = (void*) malloc (sizeof(char)*blockSize);
-    if (buffer == NULL) {fputs ("Memory error",stderr); exit (2);}
+    char* buffer;
+    buffer = new char [blockSize];
 
     // seek blocks begining
+	unsigned blockNumber = *((unsigned*)object);
+    unsigned offset = (blockNumber * (blockSize-1));
+
     size_t result = fseek(pFile, offset, SEEK_SET);
     if (result != 0) return NULL;
 
     // copy the block into the buffer:
-    result = fread (buffer,blockSize,1,pFile);
-    if (result != 1) return NULL;
+    result = fread (buffer,1, (blockSize-1) ,pFile);
+    if (result != (blockSize-1)) return NULL;
 
-    /* the whole Block is now loaded in the memory buffer. */
+    /* the whole block is now loaded in the memory buffer. */
     return buffer;
-
 }
 
+FileBlocks::~FileBlocks(){
+}
 
 
 

@@ -13,7 +13,7 @@
 class FileBlocks: public FileAbstract {
 public:
 	FileBlocks(const char * path, unsigned blockSize):
-		FileAbstract(path, blockSize){};
+		FileAbstract(path, blockSize), blockSize(blockSize){};
 
 	virtual int insert(void* object, unsigned blockNumber);
 	virtual int update(void* object, unsigned blockNumber);
@@ -21,20 +21,18 @@ public:
 	virtual void * find(void* object);
 
 	/*
-	 * 	Si hay bloques libres, devuelve el primero
+	 * 	If there is free blocks, pop's the first in queue
 	 *
-	 * 	Si no hay bloques libres, devuelve el siguiente
-	 * 	número a ser ocupado.
+	 * 	Else, returns next number to be inserted
 	 */
-	unsigned getFreeNumber();
+	unsigned getFreeBlock();
 
-	virtual ~FileBlocks(){};
+	virtual ~FileBlocks();
 
 private:
 	unsigned blockSize;
-	std::list<unsigned> freeBlocksList;
-	std::list<unsigned> usedWithSpaceBlocksList;
 
+	std::list<unsigned> freeBlocksList;
 
 	void setFree(unsigned blockNumber);
 
