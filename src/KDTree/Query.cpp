@@ -7,27 +7,37 @@
 
 Query::Query()
 {
-    conditions = new std::vector<Condition *>;
 }
 
-Query * const Query::addCondition(Condition * c)
+Query * const Query::addCondition(QueryCondition * c)
 {
-    conditions->push_back(c);
+    conditions.push_back(c);
     return this;
 }
 
 unsigned Query::size()
 {
-    return conditions->size();
+    return conditions.size();
 }
 
 Query::~Query()
 {
-    for (int i = 1; i < conditions->size(); i++) {
-        delete (*conditions)[i];
+    for (int i = 1; i < conditions.size(); i++) {
+        delete conditions[i];
     }
     
-    delete conditions;
+}
+
+bool Query::eval(Key * k)
+{
+    for (int i = 0; i < conditions.size(); i++) {
+    
+        if (!conditions[i]->inRange(k)) {
+            return false;
+        }
+    }
+    
+    return true;
 }
 
 

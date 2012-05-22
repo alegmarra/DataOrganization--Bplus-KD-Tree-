@@ -7,8 +7,8 @@
 
 #include "Key.h"
 #include <sstream>
-
-
+#include <iostream>
+#include <stdio.h>
 
 Key::Key(std::string key){
 
@@ -36,10 +36,16 @@ Key::Key(long key){
 std::string Key::getKey(){
 
 	std::stringstream out;
+    std::stringstream pre;
 
 	if (keyValue == -1) return keyString;
-	else{
+	else {
+		pre << keyValue;
+		for (int i = 0; i < 10 - (int)pre.str().size(); i++) {
+		    out << "0";
+		}
 		out << keyValue;
+		
 		return out.str();
 	}
 

@@ -109,7 +109,7 @@ public:
 
 		Key* pNumKey = new Key(1990);
 
-		spected = "1990";
+		spected = "0000001990";
 
 		assert(spected == pNumKey->getKey());
 
@@ -142,6 +142,32 @@ public:
 		assert (result == 1);
 
 		std::cout << "test_KeyComparator_NoError: OK"
+				  << std::endl;
+
+	}
+	
+	void test_IntKeyComparator_NoError(){
+
+		Comparator* cOrigin = (new Key(10))->getComparator();
+		Key* targetEQL = new Key(10);
+		Key* targetOVER = new Key(15);
+		Key* targetUNDER = new Key(5);
+
+
+
+		int result = cOrigin->compareTo(targetEQL);
+
+		assert (result == 0);
+
+		result = cOrigin->compareTo(targetOVER);
+
+		assert (result == -1);
+
+		result = cOrigin->compareTo(targetUNDER);
+
+		assert (result == 1);
+
+		std::cout << "test_IntKeyComparator_NoError: OK"
 				  << std::endl;
 
 	}

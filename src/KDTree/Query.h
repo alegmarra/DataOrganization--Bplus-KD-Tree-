@@ -8,12 +8,14 @@ class Query
 {
 
 private:
-    std::vector<Condition *> * conditions;
+    //std::vector<QueryCondition *> * conditions;
+    std::vector<QueryCondition *> conditions;
 
 public:
     Query();
-    Query * const addCondition(Condition * c);
+    Query * const addCondition(QueryCondition * c);
     unsigned size();
+    bool eval(Key * k);
     virtual ~Query();
 
 

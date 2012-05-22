@@ -22,14 +22,16 @@ int main()
 	key_test->test_NumberConstructor_Throws_InvalidKeyException();
 	key_test->test_getKey_NoError();
 	key_test->test_KeyComparator_NoError();
+    key_test->test_IntKeyComparator_NoError();
 
 	delete key_test;
 
     QueryTest * query_test = new QueryTest();
     
     query_test->test_addCondition_NoError();
+    query_test->test_evalIntKey_NoError();
     
-    //delete query_test;
+    delete query_test;
 
     return 0;
 }
