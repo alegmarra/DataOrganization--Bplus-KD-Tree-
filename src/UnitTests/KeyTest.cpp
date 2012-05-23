@@ -25,6 +25,10 @@ public:
 		test_getKey_NoError();
 
 		test_KeyComparator_NoError();
+
+        test_IntKeyComparator_NoError();
+
+
 	}
 
 

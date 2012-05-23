@@ -3,20 +3,21 @@
 
 #include <assert.h>
 #include <iostream>
+#include "Test.cpp"
+
 #include "KDTree/Query.h"
 #include "KDTree/Key.h"
 #include "KDTree/Query/Condition.h"
 
-class QueryTest 
+class QueryTest: public Test
 {
 
 public:
   
 	QueryTest()
 	{
-		std::cout << "QueryTest BEGIN: "
-				  << std::endl 
-				  << std::endl;
+		std::cout << std::endl << "QueryTest BEGIN: "
+				  << std::endl << std::endl;
 	}
   
     void test_addCondition_NoError() 
@@ -46,7 +47,6 @@ public:
 
         // k <= 10
         // .:. -Inf < k <= 10
-        /*
         q = new Query;
         q->addCondition(new QueryCondition(new KeyInfinity(), new Key(10)));
         
@@ -55,7 +55,7 @@ public:
         assert(!q->eval(k3));
       
         delete q;
-        */
+        
         // k >= 5
         // .:. 5 <= k < +Inf
         q = new Query();
@@ -76,8 +76,20 @@ public:
         assert(!q->eval(k3));
       
         delete q;
+        
+        std::cout << "test_evalIntKey: OK"
+				  << std::endl;
+        
     }
     
+    virtual void run()
+    {
+
+        test_addCondition_NoError();
+        
+        test_evalIntKey_NoError();
+
+	}
 };
 
 #endif
