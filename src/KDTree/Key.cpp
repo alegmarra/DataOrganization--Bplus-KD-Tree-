@@ -33,7 +33,8 @@ Key::Key(long key){
 
 }
 
-std::string Key::getKey(){
+std::string Key::getKey()
+{
 
 	std::stringstream out;
     std::stringstream pre;
@@ -51,7 +52,7 @@ std::string Key::getKey(){
 
 
 }
-
+/*
 int Key::KeyComparator::compareTo(void* target){
 
 	try{
@@ -80,6 +81,14 @@ Comparator* Key::getComparator(){
 
 	return new KeyComparator(getKey());
 
+}
+*/
+int Key::compareTo(Key * k)
+{
+    int result = getKey().compare(k->getKey());
+    if (result < 0) return -1;
+    if (result > 0) return 1;
+    return 0;
 }
 
 Key::~Key() { }

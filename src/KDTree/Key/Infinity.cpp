@@ -3,10 +3,15 @@
 
 #include "KDTree/Key/Infinity.h"
 
+//#include <iostream>
+
+/*
 int KeyInfinity::KeyInfinityComparator::compareTo(void* target)
 {
-    bool * pIs_pos = (bool *)is_positive;
-    bool is_pos = *pIs_pos;
+    //bool * pIs_pos = (bool *)is_positive;
+    //bool is_pos = *pIs_pos;
+    
+    std::cout << std::endl << is_pos << std::endl;
     
     if (is_pos) { 
         return -1; // target < +Infinity
@@ -27,6 +32,28 @@ Comparator * KeyInfinity::getComparator()
 
 }
 
+KeyInfinity::KeyInfinityComparator::KeyInfinityComparator(bool is_positive): Comparator(&is_pos)
+{
+    is_pos = is_positive;
+}
+*/
 
+int KeyInfinity::compareTo(Key * k)
+{
+    if (is_positive) {
+        return 1;
+    } else {
+        return -1;
+    }
+}
+
+std::string KeyInfinity::getKey()
+{
+    if (is_positive) {
+        return "+Inf";
+    } else {
+        return "-Inf";
+    }
+}
 
 #endif

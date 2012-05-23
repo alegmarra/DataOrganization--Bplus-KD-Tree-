@@ -24,9 +24,10 @@ public:
 	Key(std::string key);
 	Key(long key);
 
-	std::string getKey();
+	virtual std::string getKey();
+	virtual int compareTo(Key * k);
 
-	Comparator* getComparator();
+	//Comparator* getComparator();
 
 	virtual ~Key();
 
@@ -35,7 +36,7 @@ private:
 	long keyValue;
 	char keyString[MAX_STRN_SIZE];
 
-
+/*
 	class KeyComparator: public Comparator{
 
 	public:
@@ -49,7 +50,7 @@ private:
 		std::string myKey;
 
 	};
-
+*/
 
 };
 

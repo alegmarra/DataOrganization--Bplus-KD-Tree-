@@ -11,27 +11,29 @@ private:
     bool is_positive;
 
 public:
-    KeyInfinity(): Key("Inf") { KeyInfinity(false); };
-    KeyInfinity(bool positive): Key("Inf") { is_positive = positive; };
+    KeyInfinity(): Key("ZZZZ") { KeyInfinity(false); };
+    KeyInfinity(bool positive): Key("ZZZZZ") { is_positive = positive; };
     
-    Comparator* getComparator();
+    virtual int compareTo(Key * k);
+    virtual std::string getKey();
+    //Comparator* getComparator();
     
 private:
-
+/*
 	class KeyInfinityComparator: public Comparator
 	{
 
 	private:
-		bool is_positive;
+		bool is_pos;
 
 	public:
-		KeyInfinityComparator(bool is_positive): Comparator(&is_positive) {};
+		KeyInfinityComparator(bool is_positive);
 		virtual int compareTo(void * target);
 
 
 	};
 
-    
+  */  
 };
 
 #endif

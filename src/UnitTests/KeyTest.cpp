@@ -24,9 +24,9 @@ public:
 
 		test_getKey_NoError();
 
-		test_KeyComparator_NoError();
+		//test_KeyComparator_NoError();
 
-        test_IntKeyComparator_NoError();
+        //test_IntKeyComparator_NoError();
 
 
 	}
@@ -139,7 +139,7 @@ public:
 		delete pStringKey;
 		delete pNumKey;
 	}
-
+/*
 	void test_KeyComparator_NoError(){
 
 		Comparator* cOrigin = (new Key("hello"))->getComparator();
@@ -165,7 +165,7 @@ public:
 				  << std::endl;
 
 	}
-	
+
 	void test_IntKeyComparator_NoError(){
 
 		Comparator* cOrigin = (new Key(10))->getComparator();
@@ -192,6 +192,7 @@ public:
 
 	}
 
+*/	
 
 	virtual ~KeyTest(){
 
@@ -200,3 +201,4 @@ public:
 	}
 
 };
+

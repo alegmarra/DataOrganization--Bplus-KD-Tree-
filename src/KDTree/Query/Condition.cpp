@@ -26,12 +26,11 @@ bool QueryCondition::inRange(Key * k)
     s[1] = '=';
     s[2] = '>';
 
-    std::cout << "Low: " << low_key->getKey() << s[low_key->getComparator()->compareTo(k) + 1] << k->getKey() << std::endl;
-    std::cout << "High: " << hi_key->getKey() << s[hi_key->getComparator()->compareTo(k) + 1] << k->getKey() << std::endl;
+    std::cout << low_key->getKey() << " " << s[low_key->compareTo(k) + 1] << " " << k->getKey() << std::endl;
     std::cout << std::endl;
     */
     
-    return low_key->getComparator()->compareTo(k) < 1 && hi_key->getComparator()->compareTo(k) > -1;
+    return low_key->compareTo(k) < 1 && hi_key->compareTo(k) > -1;
 };
 
 #endif
