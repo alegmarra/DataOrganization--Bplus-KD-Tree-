@@ -1,15 +1,6 @@
 #include "UnitTests/KeyTest.cpp"
 #include "UnitTests/QueryTest.cpp"
 
-struct Record1
-{
-    int linea;
-    int franja_horaria;
-    int falla;
-    int accidente;
-    int formacion;
-};
-
 
 int main() 
 {
@@ -32,6 +23,15 @@ int main()
     query_test->test_evalIntKey_NoError();
     
     delete query_test;
+	Test* test;
+
+	test = new KeyTest();
+	test->run();
+
+	test = new FileBlocksTest();
+	test->run();
+
+	delete test;
 
     return 0;
 }

@@ -9,12 +9,13 @@
 #define NODE_H_
 
 #include<vector>
-#include "Serializers/NodeSerializer.cpp"
+//#include "Serializers/NodeSerializer.cpp"
 
 class Record;
 class Key;
 class PairKeyNode;
 class NodeIterator; // REMOVE
+
 
 class Node {
 public:

@@ -2,7 +2,7 @@
  * FileBlocks.h
  *
  *  Created on: May 12, 2012
- *      Author: saasbook
+ *      Author: AleMarra
  */
 
 #ifndef FILEBLOCKS_H_
@@ -13,19 +13,30 @@
 class FileBlocks: public FileAbstract {
 public:
 	FileBlocks(const char * path, unsigned blockSize):
-		FileAbstract(path, blockSize){};
+		FileAbstract(path, blockSize), blockSize(blockSize){};
 
-	virtual void create();
-	virtual void insert(void* object);
-	virtual void update(void* object);
-	virtual void remove(void* object);
+	virtual int insert(void* object, unsigned blockNumber);
+	virtual int update(void* object, unsigned blockNumber);
+	virtual int remove (void* object);
 	virtual void * find(void* object);
-	virtual void * next();
+
+	/*
+	 * 	If there is free blocks, pop's the first in queue
+	 *
+	 * 	Else, returns next number to be inserted
+	 */
+	unsigned getFreeBlock();
 
 	virtual ~FileBlocks();
 
 private:
 	unsigned blockSize;
+
+	std::list<unsigned> freeBlocksList;
+
+	void setFree(unsigned blockNumber);
+
+	bool isFree(unsigned* blockNumber);
 };
 
 #endif /* FILEBLOCKS_H_ */

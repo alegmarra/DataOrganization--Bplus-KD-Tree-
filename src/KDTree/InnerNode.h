@@ -6,7 +6,7 @@ public:
 
 	InnerNode(unsigned level);
 
-	virtual int insert(Key* key, Node* next);
+	virtual int insert(Key* key, unsigned next);
 
 	virtual bool isLeaf();
 

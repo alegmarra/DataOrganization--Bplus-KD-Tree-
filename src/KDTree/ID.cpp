@@ -8,13 +8,14 @@
 #include "ID.h"
 
 
-void ID::addKey(Key key){
+void ID::addKey(t_Key type, Key* key){
 
-	keys.push_back(key);
+	keys->insert ( std::pair<t_Key, Key>(type, *key));
 }
 
-std::vector<Key>* ID::getKeys(){
-	return &keys;
+Key* ID::getKey(t_Key type){
+
+	return & ((*(keys->find(type))).second);
 }
 
 unsigned ID::getSize(){

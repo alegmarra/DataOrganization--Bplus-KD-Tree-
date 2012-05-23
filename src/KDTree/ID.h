@@ -7,18 +7,20 @@
 
 #ifndef ID_H_
 #define ID_H_
-#include<vector>
+#include <stdlib.h>
+#include<map>
 
 #include "Key.h"
 
+enum t_Key{ Linea, Franja, Falla, Accidente, Formacion };
 
 class ID {
 public:
-	ID(std::vector<Key> idKeys): keys(idKeys), size(idKeys.size()){};
+	ID(std::map<t_Key,Key>* idKeys);
 
-	void addKey(Key key);
+	void addKey(t_Key type, Key* key);
 
-	std::vector<Key>* getKeys();
+	Key* getKey(t_Key type);
 
 	unsigned getSize();
 
@@ -26,7 +28,7 @@ public:
 
 private:
 
-	std::vector<Key> keys;
+	std::map<t_Key,Key>* keys;
 	unsigned size;
 
 };
