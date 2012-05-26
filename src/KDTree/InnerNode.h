@@ -1,27 +1,50 @@
+#ifndef INNER_NODE_H
+#define INNER_NODE_H
+
 #include "Node.h"
+
+class PairKeyNode;
 
 class InnerNode: public Node{
 
-public:
+    public:
+        InnerNode();
+        InnerNode(unsigned _level);
 
-	InnerNode(unsigned level);
+        int insert(Record* record);
+        Node* split();
+//
+//        virtual Node* getLeftChild();
+//        virtual Node* getRightChild();
+//
+//        virtual void setLeft(Node* child);
+//        virtual void setRight(Node* child);
 
-	virtual int insert(Key* key, unsigned next);
+        int serialize(char* buffer);
+        int deserialize(const char* buffer);
 
-	virtual bool isLeaf();
-
-	virtual Node* getLeftChild();
-	virtual Node* getRightChild();
-
-	virtual void setLeft(Node* child);
-	virtual void setRight(Node* child);
-
-
-	virtual ~InnerNode();
-
-private:
-
-	std::vector<PairKeyNode*> elements;
-
-
+        ~InnerNode();
+        /** fea idea, pero es por falta de tiempo */
+#ifdef TESTING
+        friend class SerializersTest;
+#endif
+    private:
+        unsigned firstLeft;
+        std::vector<PairKeyNode> elements;
 };
+
+class PairKeyNode{
+
+    private:
+        Key* key;
+        unsigned next;
+
+    public:
+        PairKeyNode();
+        PairKeyNode(Key* _key, unsigned nextNodeNumber);
+
+        Key* getKey();
+        unsigned getNode();
+};
+
+#endif  // INNER_NODE_H

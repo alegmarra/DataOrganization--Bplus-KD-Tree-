@@ -8,20 +8,27 @@
 #ifndef RECORD_H_
 #define RECORD_H_
 
-#include "ID.h"
+#include "Serializers/Serializable.h"
 
-class Record {
+class ID;
 
-public:
-	Record(ID* id): myID(id){};
+class Record : public Serializable {
 
-	ID* getID();
+    public:
+        Record();
+        Record(ID* id);
 
+        ID* getID();
+    //	Data* getData();
 
-	virtual ~Record();
+        int serialize(char* buffer);
+        int deserialize(const char* buffer);
 
-private:
-	ID* myID;
+        virtual ~Record();
+
+    private:
+        ID* myID;
+    //	Data* datos;
 };
 
 #endif /* RECORD_H_ */

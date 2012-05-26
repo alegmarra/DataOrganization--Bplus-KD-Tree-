@@ -1,10 +1,11 @@
 #include "UnitTests/KeyTest.cpp"
 #include "UnitTests/QueryTest.cpp"
 #include "UnitTests/FileBlocksTest.cpp"
+#include "UnitTests/SerializersTest.cpp"
 
 #include <iostream>
 
-int main() 
+int main()
 {
 	Test* test;
 
@@ -22,6 +23,10 @@ int main()
 
     std::cout << std::endl << "UnitTest END" 
                << std::endl << std::endl;
+
+    test = new SerializersTest();
+    test->run();
+    delete test;
 
     return 0;
 }

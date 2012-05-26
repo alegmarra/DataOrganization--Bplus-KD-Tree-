@@ -8,7 +8,7 @@ FileAbstract::FileAbstract(const char * path, unsigned block_size){
 
     open();
 }
-    
+
 FileAbstract::~FileAbstract(){
 	close();
 }
@@ -30,7 +30,7 @@ void FileAbstract::close(){
         fclose(pFile);
     }
 }
-    
+
 
 
 void FileAbstract::reset()
@@ -40,4 +40,11 @@ void FileAbstract::reset()
     } else {
         rewind(pFile);
     }
+}
+
+void FileAbstract::deleteData() {
+    if (pFile)
+        pFile = freopen(filename, "wb+", pFile);
+    else
+        pFile = fopen(filename, "wb+");
 }

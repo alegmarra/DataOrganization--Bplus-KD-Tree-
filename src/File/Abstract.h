@@ -8,9 +8,9 @@
 
 //#include "Comparator.h"// Cambio class Comparator; por include,
 					   // sino da error en Sequential.cpp
-#include "Exceptions/InvalidOperationException.cpp"
+#include "../Exceptions/InvalidOperationException.cpp"
 
-class FileAbstract 
+class FileAbstract
 {
     protected:
 
@@ -30,8 +30,13 @@ class FileAbstract
 	virtual int remove(void* object) =0;
 	virtual void * find(void* object) =0;
 
+	/**
+	 * @brief borra todo el contenido
+     */
+    void deleteData();
+
 public:
-    
+
     FileAbstract(const char * path, unsigned block_size);
     virtual ~FileAbstract();
 };
