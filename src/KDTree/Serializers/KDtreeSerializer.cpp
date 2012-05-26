@@ -1,4 +1,4 @@
-
+/** @deprecated
 #include<vector>
 
 
@@ -18,3 +18,4 @@ public:
 	static std::vector<unsigned> getFreeNodes(FileAbstract* treeFile);
 
 };
+*/

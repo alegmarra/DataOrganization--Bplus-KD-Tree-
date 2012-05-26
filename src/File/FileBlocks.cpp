@@ -104,7 +104,7 @@ int FileBlocks::update(void* object, unsigned blockNumber){
 
 	//writes the buffer from blocks beginning
 	result = fwrite ( buffer ,1, (blockSize-1), pFile );
-    if (result != 1) return 0;
+    if (result != blockSize-1) return 0;
 
     return 1;
 }
