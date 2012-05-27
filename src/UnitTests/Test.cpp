@@ -4,6 +4,10 @@
 #include <iostream>
 #include <assert.h>
 
+#define TESTING 1
+#define BLOCKSIZE 4096
+#define K   5
+
 class Test{
 public:
 	virtual void run()= 0;

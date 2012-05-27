@@ -177,11 +177,15 @@ int FileBlocks::update(void* object, unsigned blockNumber){
 
     //writes the buffer from blocks beginning
 	result = fwrite ( buffer ,1, (blockSize-1), pFile );
+<<<<<<< HEAD
     if (result != (blockSize -1)) return 0;
 
     updateSpace(blockNumber, strlen((char*)object));
 
     delete[] buffer;
+=======
+    if (result != blockSize-1) return 0;
+>>>>>>> 2b426eca9298f825aae6671da5bac6b96ba7440b
 
     return 1;
 }

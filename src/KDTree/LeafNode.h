@@ -1,21 +1,27 @@
 #include "Node.h"
+#include "Record.h"
+
+#define IS_LEAF 0x80
 
 class LeafNode: public Node{
+    public:
+        LeafNode();
+        LeafNode(unsigned _level);
 
-public:
+        int insert(Record* record);
+        Node* split();
 
-	LeafNode(unsigned level, Node* next);
+    //	virtual Node* nextLeaf();
 
-	virtual int insert(Record* record);
+        int serialize(char* buffer);
+        int deserialize(const char* buffer);
 
-	virtual bool isLeaf();
+        ~LeafNode();
 
-	virtual Node* nextLeaf();
-
-	virtual ~LeafNode();
-
-private:
-
-	std::vector<Record*> elements;
-
+        /** fea idea, pero es por falta de tiempo */
+#ifdef TESTING
+        friend class SerializersTest;
+#endif
+    private:
+        std::vector<Record* > elements;
 };
