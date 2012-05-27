@@ -12,7 +12,7 @@ int InnerNode::insert(Record* record) {
 
 }
 
-/** @todo int InnerNode::split() */
+/** @todo Node* InnerNode::split() */
 Node* InnerNode::split() {
 
 }

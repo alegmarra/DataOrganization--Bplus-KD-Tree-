@@ -1,8 +1,8 @@
 #ifndef KDTREE_QUERY_CONDITION_H
 #define KDTREE_QUERY_CONDITION_H
 
-#include "KDTree/RecordID/Key.h"
-#include "KDTree/RecordID/Infinity.h"
+#include "../RecordID/Key.h"
+#include "../RecordID/Infinity.h"
 
 class QueryCondition
 {

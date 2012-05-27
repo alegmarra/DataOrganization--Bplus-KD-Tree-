@@ -22,6 +22,7 @@ class SerializersTest : public Test {
         }
 
         void run() {
+            test_serializeDeserializeRecord();
             test_NodeSerializer_serializeNode_throws_FileNotSet();
             test_NodeSerializer_deserializeNode_throws_FileNotSet();
             test_NodeSerializer_serializeNode_assigns_nodeNumber();
@@ -37,6 +38,43 @@ class SerializersTest : public Test {
         }
 
     private:
+        Record* initRecord(const std::string& linea,
+                           int_least64_t franjaHoraria,
+                           const std::string& falla,
+                           const std::string& accidente,
+                           int formacion) {
+            ID* id = new ID(K);
+            id->addKey(LINEA, new Linea(linea));
+            id->addKey(FRANJA, new FranjaHoraria(franjaHoraria));
+            id->addKey(FALLA, new Falla(falla));
+            id->addKey(ACCIDENTE, new Accidente(accidente));
+            id->addKey(FORMACION, new Formacion(formacion));
+            return new Record(id);
+        }
+
+        void test_serializeDeserializeRecord() {
+            std::string info = "test_serializeDeserializeRecord: ";
+            Record* rec = initRecord("Sarmiento", 123456789, "Sin frenos",
+                                     "Chocó con tu hermana", 1234);
+            char buffer[256];
+            int bytes = rec->serialize(buffer);
+            Record* recHidratado = new Record();
+
+            std::cout << info;
+            if (bytes == recHidratado->deserialize(buffer))
+                std::cout << "bytes usados OK";
+            else
+                std::cout << "bytes usados NO OK";
+
+            std::cout << std::endl << info;
+            if (rec->getID()->equalsTo(recHidratado->getID()))
+                std::cout << "ID OK";
+            else
+                std::cout << "ID NO OK";
+            std::cout << std::endl;
+
+        }
+
         void test_NodeSerializer_serializeNode_throws_FileNotSet() {
             std::cout << "test_NodeSerializer_serializeNode_throws_FileNotSet: ";
 
@@ -92,8 +130,6 @@ class SerializersTest : public Test {
         }
 
         void test_NodeSerializer_serializeNode_existing_nodeNumber() {
-
-
             NodeSerializer::newFile(FILENAME, BLOCKSIZE);
             Node* nodes[3];
             unsigned nodeNumber, expected;
@@ -111,19 +147,6 @@ class SerializersTest : public Test {
                 delete nodes[i];
             }
         }
-        Record* initRecord(const std::string& linea,
-                           int_least64_t franjaHoraria,
-                           const std::string& falla,
-                           const std::string& accidente,
-                           int formacion) {
-            ID* id = new ID(K);
-            id->addKey(LINEA, new Linea(linea));
-            id->addKey(FRANJA, new FranjaHoraria(franjaHoraria));
-            id->addKey(FALLA, new Falla(falla));
-            id->addKey(ACCIDENTE, new Accidente(accidente));
-            id->addKey(FORMACION, new Formacion(formacion));
-            return new Record(id);
-        }
 
         void test_NodeSerializer_serializeDeserializeNode_Leaf() {
             // ini
@@ -132,7 +155,7 @@ class SerializersTest : public Test {
             int level = 4;
             const unsigned cant = 3;
             std::string lineas[cant] = { "Sarmiento", "Mitre", "Roca"};
-            int_least64_t franjasHorarias[3] = { 1337080562LL, 1337800000LL, 1};
+            int_least64_t franjasHorarias[3] = { 1337080562LL, 13378000008LL, 1};
             std::string fallas[cant] = { "Frenos andando 40%",
                 "Ruedas desalineadas", "Motor roto" };
             std::string accidentes[cant] = { "Chocó con otra formación",
@@ -161,15 +184,132 @@ class SerializersTest : public Test {
                 return;
             }
 
+            std::cout << info;
+            if (lfHidratado->level == lf->level)
+                std::cout << "level OK";
+            else
+                std::cout << "level NO OK";
 
+            std::cout << std::endl << info;
+            if (lfHidratado->numElements == lf->numElements)
+                std::cout << "numElements OK";
+            else
+                std::cout << "numElements NO OK";
 
-            std::cout << "@todo terminar" << std::endl;
+            ID* idOriginal;
+            ID* idHidratado;
+            for (unsigned i = 0; i < cant; ++i) {
+                std::cout << std::endl << info;
+                idOriginal = lf->elements[i]->getID();
+                idHidratado = lfHidratado->elements[i]->getID();
+                if (idOriginal->equalsTo(idHidratado))
+                    std::cout << "registro " << i << " OK";
+                else
+                    std::cout << "registro " << i << " NO OK";
+            }
+
+            std::cout << std::endl;
+
+            delete lf;
+            delete lfHidratado;
         }
 
         void test_NodeSerializer_serializeDeserializeNode_Inner() {
-            std::cout << "test_NodeSerializer_serializeDeserializeNode_Inner: ";
+            // ini
+            std::cout << "test_NodeSerializer_serializeDeserializeNode_Inner: 5 inner nodes, 5 keys\n";
+            NodeSerializer::newFile(FILENAME, BLOCKSIZE);
+            const unsigned cant = 5;
+            std::string lineas[cant] = { "Sarmiento", "Mitre", "Roca", "San Martín", "Tigre" };
+            int_least64_t franjasHorarias[cant] = { 1337080562LL, 13378000008LL, 1, 234, 543623 };
+            std::string fallas[cant] = { "Frenos andando 40%",
+                "Ruedas desalineadas", "Motor roto", "Puertas no abren", "Sin fallas" };
+            std::string accidentes[cant] = { "Chocó con otra formación",
+                "Descarriló", "Se frenó sin previo aviso", "", "Ninguno" };
+            unsigned formaciones[cant] = { 204, 1203, 4, 1, 1337};
+            Record* recs[cant];
+            InnerNode* inNodes[cant];
+            Node* nodesHidratados[cant];
+            unsigned nodeNumbers[cant];
+            for (unsigned i = 0; i < cant; ++i) {
+                recs[i] = initRecord(lineas[i], franjasHorarias[i], fallas[i],
+                                     accidentes[i], formaciones[i]);
+                inNodes[i] = new InnerNode(i);
+                inNodes[i]->firstLeft = i+30;
+            }
+            Key* k;
+            for (unsigned i = 0; i < cant; ++i) {
+                for (unsigned j = 0; j < cant; ++j) {
+                    k = recs[j]->getID()->getKey(i);
+                    inNodes[i]->elements.push_back(PairKeyNode(k, (i+2)*(j+3)));
+                }
+                inNodes[i]->numElements = inNodes[i]->elements.size();
+            }
 
-            std::cout << "@todo" << std::endl;
+            // fin ini
+
+            // serialize-deserialize
+            for (unsigned i = 0; i < cant; ++i) {
+                nodeNumbers[i] = NodeSerializer::serializeNode(inNodes[i], NEW_NODE);
+                nodesHidratados[i] = NodeSerializer::deserializeNode(nodeNumbers[i]);
+            }
+            // fin serialize-deserialize
+
+            // testing
+            InnerNode* in;
+            for (unsigned i = 0; i < cant; ++i) {
+                std::cout << "\t testing node " << i << std::endl;
+                in = dynamic_cast<InnerNode* >(nodesHidratados[i]);
+                if (in)
+                    std::cout << "\t\t creación InnerNode \tOK";
+                else {
+                    std::cout << "\t\t creción InnerNode \tNO OK";
+                    delete nodesHidratados[i];
+                    continue;
+                }
+
+                std::cout << std::endl << "\t\t level \t\t\t";
+                if (in->level == inNodes[i]->level)
+                    std::cout << "OK";
+                else
+                    std::cout << "NO OK";
+
+                std::cout << std::endl << "\t\t numElements \t\t";
+                if (in->numElements == inNodes[i]->numElements)
+                    std::cout << "OK";
+                else
+                    std::cout << "NO OK";
+
+                std::cout << std::endl << "\t\t firstLeft \t\t";
+                if (in->firstLeft == inNodes[i]->firstLeft)
+                    std::cout << "OK";
+                else
+                    std::cout << "NO OK";
+
+                PairKeyNode pOriginal;
+                PairKeyNode pHidratado;
+                for (unsigned j = 0; j < cant; ++j) {
+                    std::cout << std::endl << "\t\t pair " << j+1 << " \tkeys\t";
+                    pOriginal = inNodes[i]->elements[j];
+                    pHidratado = in->elements[j];
+                    if (!pHidratado.getKey()->compareTo(pOriginal.getKey()))
+                        std::cout << "OK";
+                    else
+                        std::cout << "NO OK";
+
+                    std::cout << "\tnextChild ";
+                    if (pHidratado.getNode() == pOriginal.getNode())
+                        std::cout << "OK";
+                    else
+                        std::cout << "NO OK";
+                    std::cout << std::endl;
+                }
+                std::cout << std::endl;
+                delete in;
+            }
+            // fin testing
+
+            for (unsigned i = 0; i < cant; ++i)
+                delete inNodes[i];
         }
 
 };

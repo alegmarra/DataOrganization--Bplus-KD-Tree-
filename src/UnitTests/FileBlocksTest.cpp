@@ -203,7 +203,7 @@ public:
     void test_Insert_BlockAlreadyExists_Error(){
         //New empty file
     	remove(path);
-        
+
         FileBlocks* pFile = new FileBlocks(path, blockSize);
 
         //Generate Buffers for in - out;

@@ -8,13 +8,9 @@ int main()
 {
 	Test* test;
 
-	/*
 	test = new KeyTest();
 	test->run();
 	delete test;
-
-    delete test;
-	*/
 
    /* test = new QueryTest();
     test->run();

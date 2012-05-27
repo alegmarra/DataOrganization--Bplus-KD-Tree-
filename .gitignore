@@ -1,6 +1,9 @@
 /lib
 /run
 /nbproject/private/
+/obj
+/bin
 tpDatos.cbp
 tpDatos.depend
 tpDatos.layout
+testFile_nodeSerializer.bin
