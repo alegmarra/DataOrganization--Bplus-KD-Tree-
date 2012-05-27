@@ -10,8 +10,8 @@ RM := rm -rf
 -include sources.mk
 -include src/UnitTests/subdir.mk
 -include src/KDTree/Serializers/subdir.mk
+-include src/KDTree/RecordID/subdir.mk
 -include src/KDTree/Query/subdir.mk
--include src/KDTree/Key/subdir.mk
 -include src/KDTree/subdir.mk
 -include src/File/subdir.mk
 -include src/Exceptions/subdir.mk

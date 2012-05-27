@@ -9,10 +9,7 @@ FileAbstract::FileAbstract(const char * path, unsigned block_size){
     open();
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 2b426eca9298f825aae6671da5bac6b96ba7440b
 FileAbstract::~FileAbstract(){
 	close();
 }
@@ -46,9 +43,3 @@ void FileAbstract::reset()
     }
 }
 
-void FileAbstract::deleteData() {
-    if (pFile)
-        pFile = freopen(filename, "wb+", pFile);
-    else
-        pFile = fopen(filename, "wb+");
-}

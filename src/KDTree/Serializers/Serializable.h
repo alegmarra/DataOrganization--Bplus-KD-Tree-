@@ -15,6 +15,8 @@ class Serializable {
          * @return cantidad de bytes leídos
          */
         virtual int deserialize(const char* buffer) = 0;
+
+        virtual ~Serializable(){};
 };
 
 #endif  // __SERIALIZABLE_H__

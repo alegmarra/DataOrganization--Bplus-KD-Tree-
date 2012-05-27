@@ -1,17 +1,17 @@
 src/KDTree/Record.d: ../src/KDTree/Record.cpp ../src/KDTree/Record.h \
- ../src/KDTree/ID.h ../src/KDTree/Key.h \
- /home/saasbook/tpDatos/src/Comparator.h \
- /home/saasbook/tpDatos/src/Exceptions/InvalidKeyException.cpp \
- /home/saasbook/tpDatos/src/Exceptions/InvalidTargetException.cpp
+ ../src/KDTree/Serializers/Serializable.h ../src/KDTree/RecordID/ID.h \
+ ../src/KDTree/RecordID/Key.h \
+ ../src/KDTree/RecordID/../../Exceptions/InvalidKeyException.cpp \
+ ../src/KDTree/RecordID/../Serializers/Serializable.h
 
 ../src/KDTree/Record.h:
 
-../src/KDTree/ID.h:
+../src/KDTree/Serializers/Serializable.h:
 
-../src/KDTree/Key.h:
+../src/KDTree/RecordID/ID.h:
 
-/home/saasbook/tpDatos/src/Comparator.h:
+../src/KDTree/RecordID/Key.h:
 
-/home/saasbook/tpDatos/src/Exceptions/InvalidKeyException.cpp:
+../src/KDTree/RecordID/../../Exceptions/InvalidKeyException.cpp:
 
-/home/saasbook/tpDatos/src/Exceptions/InvalidTargetException.cpp:
+../src/KDTree/RecordID/../Serializers/Serializable.h:

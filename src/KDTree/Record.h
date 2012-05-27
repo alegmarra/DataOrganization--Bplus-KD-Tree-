@@ -24,17 +24,13 @@ class Record : public Serializable {
         int serialize(char* buffer);
         int deserialize(const char* buffer);
 
-<<<<<<< HEAD
+        virtual ~Record();
+
 private:
 	ID* myID;
        // Data* data;
-=======
-        virtual ~Record();
 
-    private:
-        ID* myID;
-    //	Data* datos;
->>>>>>> 2b426eca9298f825aae6671da5bac6b96ba7440b
+
 };
 
 #endif /* RECORD_H_ */

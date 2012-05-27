@@ -64,6 +64,8 @@ void NodeSerializer::setFile(const char* filename, unsigned _blockSize) {
 }
 
 void NodeSerializer::newFile(const char* filename, unsigned _blockSize) {
+    remove(filename);
+
     setFile(filename, _blockSize);
     file->deleteData();
 }

@@ -9,10 +9,11 @@ class FileBlocksTest: public Test {
 private:
 	unsigned blockSize;
 	const char * path;
+	const char * spacePath;
 
 	char* makeBuffer(const char* s){
 
-        char* buffer = new char[20];//blockSize];
+        char* buffer = new char[strlen(s)+1];
 
         for (unsigned i = 0; i< strlen(s); i++)
         	buffer[i] = s[i];
@@ -27,13 +28,14 @@ public:
 
 		blockSize = 4096;
 		path = "my_test_file.bin";
+		spacePath = "my_test_file_space.bin";
 
 		std::cout << std::endl << "FileBlocksTest BEGIN: "
 				  << std::endl << std::endl;
 	}
 
 	virtual void run(){
-/*
+
 		test_Constructor_NewFile();
 
 		test_Constructor_ExistingFile();
@@ -57,7 +59,7 @@ public:
 		test_Remove_And_GetFree_NoError();
 
 		test_Remove_NoBlock_Error();
-*/
+
 		test_serialize();
 
  	}
@@ -65,6 +67,7 @@ public:
 
 	void test_Constructor_NewFile(){
 
+		remove(path);
 		FileAbstract* testFile = new FileBlocks(path, 4096);
 
 		delete testFile;
@@ -90,9 +93,15 @@ public:
 
 	void test_Constructor_ExistingFile(){
 
+		remove(path);
 		/*
 		 * Create new file, and saves control message
 		 */
+
+		FileAbstract* preFile = new FileBlocks(path, 4096);
+		//Generates asociated space file;
+		delete preFile;
+
 		FILE* pFile;
 		pFile = fopen (path,"wb+");
 		rewind(pFile);
@@ -179,7 +188,6 @@ public:
 
         std::string out = buffer;
 
-        std::cout  << out << std::endl;
         assert((out.compare("Hello World") == 0));
 
         std::cout << "test_Insert_NoError: OK"
@@ -347,11 +355,12 @@ public:
         buffer = (char*)pFile->find(&block);
 
         assert (buffer == NULL);
-        std::cout << "test_Find_NoBlock_Error_LoadedFile: OK" << std::endl;
 
         delete[] buffer;
         delete pFile;
         remove(path);
+        std::cout << "test_Find_NoBlock_Error_LoadedFile: OK" << std::endl;
+
 
     }
 
@@ -361,39 +370,23 @@ public:
     	//New empty file
     	remove(path);
 
+    	//Generate Space data
+    	FileBlocks* preFile = new FileBlocks(path, blockSize);
+
     	//Generate data in File
         char* message = makeBuffer("Hello World");
 
-        char* buffer ;
+        preFile->insert(message, preFile->getFreeBlock());
+        preFile->insert(message, preFile->getFreeBlock());
+        preFile->insert(message, preFile->getFreeBlock());
+        preFile->insert(message, preFile->getFreeBlock());
 
-        if (strlen(message) < (blockSize)){
+    	delete preFile;
+    	delete[] message;
 
-            buffer = new char[blockSize];
-            for (unsigned i = 0; i< strlen(message); i++)
-                buffer[i] = message[i];
-
-            buffer [strlen(message)] ='\0';
-
-            for (unsigned i = (strlen(message)+1); i< blockSize; i++)
-                buffer[i] = '#';
-
-            delete[] message;
-        }
-        else
-           buffer = (char*) message;
-
-
-
-    	FILE* f = fopen (path,"wb+");
-		for (int i = 0; i<4; i++){
-	    	fseek(f, ((blockSize-1)*i), SEEK_SET);
-	    	fwrite( buffer, 1, (blockSize-1), f);
-		}
-		fclose(f);
 
 		//Updates file
     	FileBlocks* pFile = new FileBlocks(path, blockSize);
-    	delete[] buffer;
 
 
     	char* outBuffer = makeBuffer("GoodBye World");
@@ -401,15 +394,15 @@ public:
     	size_t result = pFile->update(outBuffer, 1);
         if (result != 1) assert (false);
 
-    	pFile->update(outBuffer, 3);
+    	result = pFile->update(outBuffer, 3);
+    	if (result != 1) assert (false);
 
     	delete[] outBuffer;
-
     	delete pFile;
 
 
     	std::string out;
-    	f = fopen (path,"rb+");
+    	FILE* f = fopen (path,"rb+");
     	outBuffer = new char[blockSize];
 
     	for (int i = 0; i<4; i++){
@@ -515,19 +508,16 @@ public:
     	//New empty file
     	remove(path);
 
-    	//Generate data in File
-        char* buffer = makeBuffer("Hello World");
-
-    	FILE* f = fopen (path,"wb+");
-		for (int i = 0; i<4; i++){
-	    	fseek(f, ((blockSize-1)*i), SEEK_SET);
-	    	fwrite( buffer, 1, (blockSize-1), f);
-		}
-		fclose(f);
-
 		//Removes block number 2
     	FileBlocks* pFile = new FileBlocks(path, blockSize);
 
+    	//Generate data in File
+        char* buffer = makeBuffer("Hello World");
+
+		for (int i = 0; i<4; i++)
+			pFile->insert(buffer, i);
+
+		//remove block #2
     	unsigned bn = 2;
     	pFile->remove(&bn);
 

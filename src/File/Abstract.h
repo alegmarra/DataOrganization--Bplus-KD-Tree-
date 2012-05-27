@@ -30,8 +30,6 @@ public:
 	virtual int remove(void* object) =0;
 	virtual void * find(void* object) =0;
 
-<<<<<<< HEAD
-=======
 	/**
 	 * @brief borra todo el contenido
      */
@@ -39,14 +37,9 @@ public:
 
 public:
 
->>>>>>> 2b426eca9298f825aae6671da5bac6b96ba7440b
+
     FileAbstract(const char * path, unsigned block_size);
     virtual ~FileAbstract();
-
-private:
-
-
-
 
 };
 

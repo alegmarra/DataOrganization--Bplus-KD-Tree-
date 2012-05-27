@@ -10,6 +10,7 @@
 
 #include "../../Exceptions/InvalidKeyException.cpp"
 #include "../Serializers/Serializable.h"
+#include <string>
 /**
  * @todo llenar la clase de responsabilidades para las que hereden
  */
@@ -23,6 +24,7 @@ class Key : public Serializable {
          * @throw InvalidKeyException
          */
         virtual int compareTo(Key * k) = 0;
+        virtual ~Key(){};
 };
 
 #endif /* KEY_H_ */

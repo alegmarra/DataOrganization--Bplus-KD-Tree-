@@ -5,7 +5,7 @@
 #include "Test.cpp"
 
 #define UINT_TEST 0x79ULL
-
+/*
 class KeyTest: public Test {
 
 public:
@@ -17,7 +17,6 @@ public:
 	}
 
 	virtual void run(){
-<<<<<<< HEAD
 
 		test_StringConstructor_NoError();
 
@@ -285,7 +284,7 @@ public:
      * Serializa en el mismo buffer 16 IntKey de 1-8 bytes, intercalando
      * positivos con negativos. Luego hidrata 16 IntKeys, y compara con las
      * 16 primeras, dado que el compareTo está testeado
-     */
+     *
     void test_IntKey_SerializeDeserialize() {
         // ini
         std::string info = "test_IntKey_SerializeDeserialize: ";
@@ -349,9 +348,8 @@ public:
             delete intKeysTestNegativosHidratados[i];
         }
     }
->>>>>>> 2b426eca9298f825aae6671da5bac6b96ba7440b
 
-	void test_IntKeyComparator_NoError(){
+    void test_IntKeyComparator_NoError(){
 
 		Comparator* cOrigin = (new Key(10))->getComparator();
 		Key* targetEQL = new Key(10);
@@ -377,7 +375,7 @@ public:
 
 	}
 
-*/	
+
 
 	virtual ~KeyTest(){
 
@@ -386,4 +384,4 @@ public:
 	}
 
 };
-
+*/

@@ -12,17 +12,31 @@ FileBlocks::FileBlocks(const char * path, unsigned blockSize)
 					   :FileAbstract(path, blockSize){
 	this->blockSize = blockSize;
 
+	std::string s = path;
+	std::string listPath = s.substr(0, (s.size() -4));
+
+	listPath += "_space.bin";
+
 	fseek(pFile, 0, SEEK_END);
 	unsigned fSize = ftell(pFile);
 	rewind(pFile);
 
-	if(fSize != 0) deserialize();
+	if(fSize != 0){
+		f_space = fopen(listPath.c_str(), "r+b");
+
+		deserialize();
+	}
 	else{
 		//Reserves block 0 for metadata
 		char* buffer = new char[blockSize];
-		rewind(pFile);
-		fwrite(buffer, 1, (blockSize-1), pFile);
-		updateSpace(0, (blockSize-1));
+
+        for (unsigned i = 0; i< blockSize; i++)
+            buffer[i] = '#';
+
+		f_space = fopen(listPath.c_str(), "wb+");
+		fwrite(buffer, 1, (blockSize-1), f_space);
+
+		//updateSpace(0, (blockSize-1));
 		delete[] buffer;
 	}
 
@@ -43,7 +57,7 @@ unsigned FileBlocks::getFreeBlock(){
 		unsigned fSize = ftell(pFile);
 		rewind(pFile);
 
-		blockNumber = ((fSize / (blockSize-1)) +1);
+		blockNumber = (fSize / (blockSize-1));
 		return blockNumber;
 	}
 
@@ -61,11 +75,11 @@ void FileBlocks::updateSpace(unsigned blockNumber,unsigned occupied){
 		throw InvalidOperationException();
 
 	unsigned int size = spaceInBlocks.size();
-	if ((size < blockNumber) || (size == 0))
+	if (size == blockNumber)
 		spaceInBlocks.push_back(freeSpace);
 
 	else
-		spaceInBlocks.at(blockNumber-1) = freeSpace;
+		spaceInBlocks.at(blockNumber) = freeSpace;
 }
 
 
@@ -74,7 +88,7 @@ void FileBlocks::updateSpace(unsigned blockNumber,unsigned occupied){
  */
 int FileBlocks::insert(void* object, unsigned blockNumber){
 
-	if (blockNumber == 0) throw InvalidOperationException();
+//	if (blockNumber == 0) throw InvalidOperationException();
 
 
 	char * buffer =(char*) find(&blockNumber);
@@ -136,56 +150,46 @@ int FileBlocks::insert(void* object, unsigned blockNumber){
  */
 int FileBlocks::update(void* object, unsigned blockNumber){
 
-	if (blockNumber == 0) throw InvalidOperationException();
+//	if (blockNumber == 0) throw InvalidOperationException();
 
-	char * buffer =(char*) find(&blockNumber);
-
-	if ( !buffer)
+	char * buffer =(char*) (find(&blockNumber));
+	if (!buffer)
 		//Block not found
 		return 0;
-
 	delete[] buffer;
 
-    
-    size_t result;
-	unsigned offset = (blockNumber * (blockSize-1));
+	size_t result;
+	unsigned offset = (blockNumber * (blockSize - 1));
+	unsigned inputSize = strlen((char*) (object));
 
-    reset();
-
+	reset();
 	//Seeks blocks beginning
-    result = fseek(pFile, offset, SEEK_SET);
-    if (result != 0) return 0;
+	result = fseek(pFile, offset, SEEK_SET);
+	if (result != 0)
+		return 0;
 
+	if (inputSize < (blockSize)) {
+		buffer = new char[blockSize];
+		for (unsigned i = 0; i < inputSize; i++) {
+			buffer[i] = ((char*) (object))[i];
+		}
+		buffer[inputSize] = '\0';
+		for (unsigned i = (inputSize + 1); i < blockSize; i++) {
+			buffer[i] = '#';
+		}
+	} else
+		buffer = (char*) (object);
 
-    if (strlen((char*)object) < (blockSize)){
-        
-        buffer = new char[blockSize];
-        
-        for (unsigned i = 0; i< strlen((char*)object); i++){
-            buffer[i] = ((char*)object)[i];
-        }
-        
-        buffer [strlen((char*)object)] ='\0';
+	//writes the buffer from blocks beginning
+	result = fwrite(buffer, 1, (blockSize - 1), pFile);
+	if (result != (blockSize - 1))
+		return 0;
 
-        for (unsigned i = (strlen((char*)object)+1); i< blockSize; i++){
-            buffer[i] = '#';
-        }
-    }
-    else
-       buffer = (char*) object;
-
-
-    //writes the buffer from blocks beginning
-	result = fwrite ( buffer ,1, (blockSize-1), pFile );
-<<<<<<< HEAD
-    if (result != (blockSize -1)) return 0;
-
-    updateSpace(blockNumber, strlen((char*)object));
+	updateSpace(blockNumber, inputSize);
 
     delete[] buffer;
-=======
+
     if (result != blockSize-1) return 0;
->>>>>>> 2b426eca9298f825aae6671da5bac6b96ba7440b
 
     return 1;
 }
@@ -201,19 +205,16 @@ int FileBlocks::remove(void* object){
 		return 0;
 
 	setFree(*blockNumber);
-
     updateSpace(*blockNumber, 0);
 
-
 	delete[] buffer;
-
 	return 1;
 }
 
 
 void* FileBlocks::find(void* object){
 
-	if (*((unsigned*)object) == 0) throw InvalidOperationException();
+	//if (*((unsigned*)object) == 0) throw InvalidOperationException();
 
     reset();
 
@@ -258,7 +259,8 @@ void* FileBlocks::serialize(){
 		j++;
 	}
 
-	buffer[j] = 99999;
+	for (j; j<(blockSize / 4); j++)
+		buffer[j] = 99999;
 
 	return buffer;
 }
@@ -267,27 +269,49 @@ void FileBlocks::deserialize(){
 
 	unsigned* buffer = new unsigned[(blockSize / 4)];
 
-	fread(buffer, 4, ((blockSize/4)-1), pFile);
+	fread(buffer, 4, ((blockSize/4)-1), f_space);
 
 	unsigned i = 0;
 	unsigned block = 0;
 
-	while (buffer[i] != 99999){
-		updateSpace(block,buffer[i]);
-		block++;
-		i++;
+	try{
+		while (buffer[i] != 99999){
+			updateSpace(block,buffer[i]);
+			if(buffer[i] == 4095)
+				setFree(block);
+			block++;
+			i++;
+		}
+	}catch(...){
+		std::cout << i << "   " << buffer[i] <<std::endl;
 	}
-
 	delete[] buffer;
-	rewind(pFile);
+	rewind(f_space);
 }
 
+void FileBlocks::deleteData() {
+	if (pFile){
+	    pFile = freopen(filename, "wb+", pFile);
+		std::string s = filename;
+		std::string listPath = s.substr(0, (s.size() -4));
+
+		listPath += "_space.bin";
+
+		f_space= freopen(listPath.c_str(), "wb+", pFile);
+
+		freeBlocksList.clear();
+		spaceInBlocks.clear();
+	}
+	else
+	    pFile = fopen(filename, "wb+");
+}
 
 FileBlocks::~FileBlocks(){
 	void* buffer = serialize();
-	rewind(pFile);
-	fwrite(buffer, 4, ((blockSize/4)-1), pFile);
-	delete[] ((char*)buffer);
+	rewind(f_space);
+	fwrite(buffer, 4, ((blockSize/4)-1), f_space);
+	fclose(f_space);
+	delete[] (unsigned*)buffer;
 }
 
 

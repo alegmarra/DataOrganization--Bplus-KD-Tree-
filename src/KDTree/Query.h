@@ -4,7 +4,7 @@
 #include "KDTree/Query/Condition.h"
 #include<vector>
 
-class Query 
+class Query
 {
 
 private:
@@ -17,6 +17,7 @@ public:
     unsigned size();
     bool eval(Key * k);
     virtual ~Query();
+
 
 };
 

@@ -92,6 +92,8 @@ class SerializersTest : public Test {
         }
 
         void test_NodeSerializer_serializeNode_existing_nodeNumber() {
+
+
             NodeSerializer::newFile(FILENAME, BLOCKSIZE);
             Node* nodes[3];
             unsigned nodeNumber, expected;

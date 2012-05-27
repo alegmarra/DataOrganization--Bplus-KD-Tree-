@@ -19,7 +19,7 @@ public:
 	virtual int update(void* object, unsigned blockNumber);
 	virtual int remove (void* object);
 	virtual void * find(void* object);
-
+	void deleteData();
 	/*
 	 * 	If there is free blocks, pop's the first in queue
 	 *
@@ -37,14 +37,17 @@ public:
 private:
 	unsigned blockSize;
 	std::list<unsigned> freeBlocksList;
-    //vector.at(n) has the remaining space in the n block
-    std::vector<unsigned> spaceInBlocks;
 
-	void setFree(unsigned blockNumber);
+	//vector.at(n) has the remaining space in the n block
+    std::vector<unsigned> spaceInBlocks;
+    FILE* f_space;
+    void setFree(unsigned blockNumber);
 	void updateSpace(unsigned blockNumber, unsigned occupied);
 
 	virtual void* serialize();
 	virtual void deserialize();
+
+
 };
 
 #endif /* FILEBLOCKS_H_ */

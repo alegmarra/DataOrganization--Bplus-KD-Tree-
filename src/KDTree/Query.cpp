@@ -25,18 +25,18 @@ Query::~Query()
     for (int i = 1; i < conditions.size(); i++) {
         delete conditions[i];
     }
-    
+
 }
 
 bool Query::eval(Key * k)
 {
     for (int i = 0; i < conditions.size(); i++) {
-    
+
         if (!conditions[i]->inRange(k)) {
             return false;
         }
     }
-    
+
     return true;
 }
 
