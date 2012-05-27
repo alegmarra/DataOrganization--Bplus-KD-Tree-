@@ -4,16 +4,16 @@
  *  Created on: May 12, 2012
  *      Author: AleMarra
  */
-
 #ifndef FILEBLOCKS_H_
 #define FILEBLOCKS_H_
 
 #include "Abstract.h"
+#include <list>
+#include <vector>
 
 class FileBlocks: public FileAbstract {
 public:
-	FileBlocks(const char * path, unsigned blockSize):
-		FileAbstract(path, blockSize), blockSize(blockSize){};
+	FileBlocks(const char * path, unsigned blockSize);
 
 	virtual int insert(void* object, unsigned blockNumber);
 	virtual int update(void* object, unsigned blockNumber);
@@ -29,14 +29,22 @@ public:
 
 	virtual ~FileBlocks();
 
+	// DO NOT USE THIS METHOD
+    std::vector<unsigned> space();
+    // REMOVE
+
+
 private:
 	unsigned blockSize;
-
 	std::list<unsigned> freeBlocksList;
+    //vector.at(n) has the remaining space in the n block
+    std::vector<unsigned> spaceInBlocks;
 
 	void setFree(unsigned blockNumber);
+	void updateSpace(unsigned blockNumber, unsigned occupied);
 
-	bool isFree(unsigned* blockNumber);
+	virtual void* serialize();
+	virtual void deserialize();
 };
 
 #endif /* FILEBLOCKS_H_ */

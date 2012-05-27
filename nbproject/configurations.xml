@@ -39,9 +39,16 @@
           <in>Abstract.h</in>
           <in>FileBlocks.cpp</in>
           <in>FileBlocks.h</in>
-          <in>Sequential.h</in>
         </df>
         <df name="KDTree">
+          <df name="Key">
+            <in>Infinity.cpp</in>
+            <in>Infinity.h</in>
+          </df>
+          <df name="Query">
+            <in>Condition.cpp</in>
+            <in>Condition.h</in>
+          </df>
           <df name="Serializers">
             <in>KDtreeSerializer.cpp</in>
             <in>NodeSerializer.cpp</in>
@@ -55,12 +62,15 @@
           <in>Key.h</in>
           <in>LeafNode.h</in>
           <in>Node.h</in>
+          <in>Query.cpp</in>
+          <in>Query.h</in>
           <in>Record.cpp</in>
           <in>Record.h</in>
         </df>
         <df name="UnitTests">
           <in>FileBlocksTest.cpp</in>
           <in>KeyTest.cpp</in>
+          <in>QueryTest.cpp</in>
           <in>Test.cpp</in>
         </df>
         <in>Comparator.cpp</in>
@@ -91,7 +101,7 @@
           <buildCommandWorkingDir>.</buildCommandWorkingDir>
           <buildCommand>${MAKE} -f Makefile</buildCommand>
           <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
-          <executablePath></executablePath>
+          <executablePath>run</executablePath>
           <ccTool>
             <incDir>
               <pElem>src</pElem>

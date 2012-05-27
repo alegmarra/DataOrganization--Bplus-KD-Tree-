@@ -27,8 +27,6 @@ public:
 	virtual std::string getKey();
 	virtual int compareTo(Key * k);
 
-	//Comparator* getComparator();
-
 	virtual ~Key();
 
 private:

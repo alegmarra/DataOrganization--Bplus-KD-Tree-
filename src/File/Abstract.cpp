@@ -8,7 +8,8 @@ FileAbstract::FileAbstract(const char * path, unsigned block_size){
 
     open();
 }
-    
+
+
 FileAbstract::~FileAbstract(){
 	close();
 }

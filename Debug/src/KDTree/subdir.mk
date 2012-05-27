@@ -7,18 +7,21 @@ CPP_SRCS += \
 ../src/KDTree/ID.cpp \
 ../src/KDTree/KD.cpp \
 ../src/KDTree/Key.cpp \
+../src/KDTree/Query.cpp \
 ../src/KDTree/Record.cpp 
 
 OBJS += \
 ./src/KDTree/ID.o \
 ./src/KDTree/KD.o \
 ./src/KDTree/Key.o \
+./src/KDTree/Query.o \
 ./src/KDTree/Record.o 
 
 CPP_DEPS += \
 ./src/KDTree/ID.d \
 ./src/KDTree/KD.d \
 ./src/KDTree/Key.d \
+./src/KDTree/Query.d \
 ./src/KDTree/Record.d 
 
 

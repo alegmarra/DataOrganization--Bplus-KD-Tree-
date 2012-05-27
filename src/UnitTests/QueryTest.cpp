@@ -5,9 +5,9 @@
 #include <iostream>
 #include "Test.cpp"
 
-#include "KDTree/Query.h"
-#include "KDTree/Key.h"
-#include "KDTree/Query/Condition.h"
+#include "../KDTree/Query.h"
+#include "../KDTree/Key.h"
+#include "../KDTree/Query/Condition.h"
 
 class QueryTest: public Test
 {

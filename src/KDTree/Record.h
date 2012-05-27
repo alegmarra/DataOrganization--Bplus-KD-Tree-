@@ -22,6 +22,7 @@ public:
 
 private:
 	ID* myID;
+       // Data* data;
 };
 
 #endif /* RECORD_H_ */

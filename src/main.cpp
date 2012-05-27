@@ -6,16 +6,20 @@ int main()
 {
 	Test* test;
 
+	/*
 	test = new KeyTest();
 	test->run();
+	delete test;
+	*/
 
 	test = new FileBlocksTest();
 	test->run();
-
-    test = new QueryTest();
-    test->run();
-
 	delete test;
+
+   // test = new QueryTest();
+   // test->run();
+
+	//delete test;
 
     return 0;
 }

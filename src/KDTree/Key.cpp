@@ -12,11 +12,11 @@
 
 Key::Key(std::string key){
 
-	if (key != ""){
+	if ((key != "") && (key.size() < MAX_STRN_SIZE)){
 		keyValue = -1;
 
-		strncpy(keyString, key.c_str(), MAX_STRN_SIZE -1);
-		keyString[MAX_STRN_SIZE -1] = '\0';
+		strcpy(keyString, key.c_str());//, MAX_STRN_SIZE -1);
+		//keyString[MAX_STRN_SIZE -1] = '\0';
 	}
 	else
 		throw InvalidKeyException();
@@ -36,7 +36,7 @@ Key::Key(long key){
 std::string Key::getKey()
 {
 
-	std::stringstream out;
+    std::stringstream out;
     std::stringstream pre;
 
 	if (keyValue == -1) return keyString;
@@ -49,7 +49,6 @@ std::string Key::getKey()
 		
 		return out.str();
 	}
-
 
 }
 /*
@@ -85,11 +84,16 @@ Comparator* Key::getComparator(){
 */
 int Key::compareTo(Key * k)
 {
-    int result = getKey().compare(k->getKey());
-    if (result < 0) return -1;
-    if (result > 0) return 1;
-    return 0;
-}
+    try{
+	int result = getKey().compare(k->getKey());
+        if (result < 0) return -1;
+        if (result > 0) return 1;
+        return 0;
+    }catch(...){
+
+	throw InvalidTargetException();
+    }    
+ }
 
 Key::~Key() { }
 

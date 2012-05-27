@@ -18,7 +18,6 @@ public:
     bool eval(Key * k);
     virtual ~Query();
 
-
 };
 
 #endif
