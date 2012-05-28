@@ -60,24 +60,20 @@ private:
             
             try {
                 c = new QueryCondition(new IntKey(1, 2), new IntKey(10, 2));
-                //c = new QueryCondition();
+                delete c;
                 pass();
             } catch (...) {
                 fail("Invalid range in range constructor");
             }
             
-            delete c;
             
-            /*
             try {
                 c = new QueryCondition(new IntKey(10, 2), new IntKey(1, 2));
                 fail("Range constructor accepted an invalid range");
+                delete c;            
             } catch (...) {
                 pass();
             }
-
-            delete c;            
-            */
             
             stop();
         }
@@ -85,7 +81,31 @@ private:
         void test_SetHi() 
         {
             start("SetHi");
-            fail("Not implemented yet!");
+
+            QueryCondition * c;
+            
+            c = new QueryCondition(new IntKey(10, 2));
+
+            try {
+                c->setHi(new IntKey(15, 2));
+                pass();
+            } catch (...) {
+                fail("Could not change Hi Key to a valid value");
+            }
+
+            delete c;
+
+            c = new QueryCondition(new IntKey(10, 2));
+
+            try {
+                c->setHi(new IntKey(5, 2));
+                fail("Allowed an invalid value for Hi Key");
+            } catch (...) {
+                pass();
+            }
+
+            delete c;
+
             stop();
         }
         

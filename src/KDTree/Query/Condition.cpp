@@ -38,7 +38,10 @@ QueryCondition * const QueryCondition::setLow(Key * k)
         throw InvalidConditionRangeException();
     } 
     
-    delete low_key;
+    if (low_key != hi_key) {    
+        delete low_key;
+    }
+    
     low_key = k;
     return this;
 }
@@ -48,8 +51,11 @@ QueryCondition * const QueryCondition::setHi(Key * k)
     if (low_key->compareTo(k) > 0) {
         throw InvalidConditionRangeException();
     } 
+
+    if (low_key != hi_key) {    
+        delete hi_key;
+    }
     
-    delete hi_key;
     hi_key = k;
     return this;
 }
