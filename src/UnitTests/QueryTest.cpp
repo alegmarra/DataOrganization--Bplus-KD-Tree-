@@ -1,8 +1,7 @@
 #ifndef QUERY_TEST_CPP
 #define QUERY_TEST_CPP
 
-#include <assert.h>
-#include <iostream>
+#include <stdio.h>
 #include "Test.cpp"
 
 #include "../KDTree/Query.h"
@@ -19,24 +18,30 @@ public:
   
     void test_addCondition_NoError() 
     {
-    
+        start("addCondition_NoError");
+        
         Query* q = new Query;
         
-        q->addCondition(new QueryCondition())
-            ->addCondition(new QueryCondition())
-            ->addCondition(new QueryCondition());
+        q->addCondition(1, new QueryCondition())
+            ->addCondition(1, new QueryCondition())
+            ->addCondition(2, new QueryCondition());
         
-        assert(q->size() == 3);
+        if (q->size() == 3) pass();
+        else {
+            char buff[50];
+            sprintf(buff, "Expected query size 3. Got %d.", q->size());
+            fail(buff);
+        }
 
-        std::cout << "test_addCondition: OK"
-				  << std::endl;
         
         delete q;
-    
+        stop();
     }
     
     void test_evalIntKey_NoError()
     {
+        start("evalIntKey_NoError");
+        
         Query* q;
         Key* k1 = new IntKey(4, 2);
         Key* k2 = new IntKey(14, 2);
@@ -45,46 +50,73 @@ public:
         // k <= 10
         // .:. -Inf < k <= 10
         q = new Query;
-        q->addCondition(new QueryCondition(new KeyInfinity(), new IntKey(10, 2)));
+        q->addCondition(1, new QueryCondition(new KeyInfinity(), new IntKey(10, 2)));
         
-        assert(q->eval(k1));        
-        assert(!q->eval(k2));
-        assert(!q->eval(k3));
+        if(q->eval(1, k1) == Query::MATCH) pass();
+        else fail("4 out of range [-inf,10]");
+        
+        if(q->eval(1, k2) == Query::HIGHER) pass();
+        else fail("14 in range [-inf,10]");
+        
+        if(q->eval(1, k3) == Query::HIGHER) pass();
+        else fail("30 in range [-inf,10]");
       
         delete q;
         
         // k >= 5
         // .:. 5 <= k < +Inf
         q = new Query();
-        q->addCondition(new QueryCondition(new IntKey(5, 2), new KeyInfinity(true)));
+        q->addCondition(1, new QueryCondition(new IntKey(5, 2), new KeyInfinity(true)));
         
-        assert(!q->eval(k1));        
-        assert(q->eval(k2));
-        assert(q->eval(k3));
+        if(q->eval(1, k1) == Query::LOWER) pass();
+        else fail("4 in range [5,+inf]");
+                
+        if(q->eval(1, k2) == Query::MATCH) pass();
+        else fail("14 out of range [5,+inf]");
+        
+        if(q->eval(1, k3) == Query::MATCH) pass();
+        else fail("30 out of range [5,+inf]");
       
         delete q;
         
         // 10 <= k <= 20
         q = new Query();
-        q->addCondition(new QueryCondition(new IntKey(10, 2), new IntKey(20, 2)));
+        q->addCondition(1, new QueryCondition(new IntKey(10, 2), new IntKey(20, 2)));
         
-        assert(!q->eval(k1));        
-        assert(q->eval(k2));
-        assert(!q->eval(k3));
+        if(q->eval(1, k1) == Query::LOWER) pass();
+        else fail("4 in range [10,20]");
+        
+        if(q->eval(1, k2) == Query::MATCH) pass();
+        else fail("14 out of range [10,20]");
+        
+        if(q->eval(1, k3) == Query::HIGHER) pass();
+        else fail("30 out of range [10,20]");
       
         delete q;
+
+        // 14 == k == 14
+        q = new Query();
+        q->addCondition(1, new QueryCondition(new IntKey(14, 2), new IntKey(14, 2)));
         
-        std::cout << "test_evalIntKey: OK"
-				  << std::endl;
+        if(q->eval(1, k1) == Query::LOWER) pass();
+        else fail("4 is not equal to 14");
         
+        if(q->eval(1, k2) == Query::EQUAL) pass();
+        else fail("14 should be equal to 14");
+        
+        if(q->eval(1, k3) == Query::HIGHER) pass();
+        else fail("30 is not equal to 14");
+      
+        delete q;
+
+        
+        stop();
     }
-    
+
     virtual void run()
     {
-
         test_addCondition_NoError();
         test_evalIntKey_NoError();
-
 	}
 };
 

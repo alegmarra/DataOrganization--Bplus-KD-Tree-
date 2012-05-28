@@ -12,9 +12,12 @@ private:
     Key * hi_key;
 
 public:
+
+
     QueryCondition();
     QueryCondition(Key * low, Key * hi);
     bool inRange(Key * k);
+    int eval(Key * k);
 };
 
 #endif
