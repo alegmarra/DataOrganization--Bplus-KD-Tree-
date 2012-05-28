@@ -19,24 +19,26 @@ public:
   
     void test_addCondition_NoError() 
     {
-    
+        start("addCondition_NoError");
+        
         Query* q = new Query;
         
         q->addCondition(new QueryCondition())
             ->addCondition(new QueryCondition())
             ->addCondition(new QueryCondition());
         
-        assert(q->size() == 3);
+        if (q->size() == 3) pass();
+        else fail("Expected query size 3");
 
-        std::cout << "test_addCondition: OK"
-				  << std::endl;
         
         delete q;
-    
+        stop();
     }
     
     void test_evalIntKey_NoError()
     {
+        start("evalIntKey_NoError");
+        
         Query* q;
         Key* k1 = new IntKey(4, 2);
         Key* k2 = new IntKey(14, 2);
@@ -47,9 +49,14 @@ public:
         q = new Query;
         q->addCondition(new QueryCondition(new KeyInfinity(), new IntKey(10, 2)));
         
-        assert(q->eval(k1));        
-        assert(!q->eval(k2));
-        assert(!q->eval(k3));
+        if(q->eval(k1)) pass();
+        else fail("4 out of range [-inf,10]");
+        
+        if(!q->eval(k2)) pass();
+        else fail("14 in range [-inf,10]");
+        
+        if(!q->eval(k3))pass();
+        else fail("30 in range [-inf,10]");
       
         delete q;
         
@@ -58,9 +65,14 @@ public:
         q = new Query();
         q->addCondition(new QueryCondition(new IntKey(5, 2), new KeyInfinity(true)));
         
-        assert(!q->eval(k1));        
-        assert(q->eval(k2));
-        assert(q->eval(k3));
+        if(!q->eval(k1)) pass();
+        else fail("4 in range [5,+inf]");
+                
+        if(q->eval(k2)) pass();
+        else fail("14 out of range [5,+inf]");
+        
+        if(q->eval(k3)) pass();
+        else fail("30 out of range [5,+inf]");
       
         delete q;
         
@@ -68,15 +80,18 @@ public:
         q = new Query();
         q->addCondition(new QueryCondition(new IntKey(10, 2), new IntKey(20, 2)));
         
-        assert(!q->eval(k1));        
-        assert(q->eval(k2));
-        assert(!q->eval(k3));
+        if(!q->eval(k1)) pass();
+        else fail("4 in range [10,20]");
+        
+        if(q->eval(k2)) pass();
+        else fail("14 out of range [10,20]");
+        
+        if(!q->eval(k3)) pass();
+        else fail("30 out of range [10,20]");
       
         delete q;
         
-        std::cout << "test_evalIntKey: OK"
-				  << std::endl;
-        
+        stop();
     }
     
     virtual void run()
