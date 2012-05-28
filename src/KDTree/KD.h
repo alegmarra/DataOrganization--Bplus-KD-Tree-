@@ -9,7 +9,7 @@
 #define KD_H_
 #include<iostream>
 #include<fstream>
-#include "Node.h"
+#include "KDTree/Serializers/NodeSerializer.h"
 #include "KDTree/Query.h"
 //#include "Serializers/NodeSerializer.cpp"
 

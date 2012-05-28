@@ -234,7 +234,7 @@ class SerializersTest : public Test {
             for (unsigned i = 0; i < cant; ++i) {
                 for (unsigned j = 0; j < cant; ++j) {
                     k = recs[j]->getID()->getKey(i);
-                    inNodes[i]->elements.push_back(PairKeyNode(k, (i+2)*(j+3)));
+                    inNodes[i]->elements.push_back(new PairKeyNode(k, (i+2)*(j+3)));
                 }
                 inNodes[i]->numElements = inNodes[i]->elements.size();
             }
@@ -283,8 +283,8 @@ class SerializersTest : public Test {
                 PairKeyNode pHidratado;
                 for (unsigned j = 0; j < cant; ++j) {
                     std::cout << std::endl << "\t\t pair " << j+1 << " \tkeys\t";
-                    pOriginal = inNodes[i]->elements[j];
-                    pHidratado = in->elements[j];
+                    pOriginal = *(inNodes[i]->elements[j]);
+                    pHidratado = *(in->elements[j]);
                     if (!pHidratado.getKey()->compareTo(pOriginal.getKey()))
                         std::cout << "OK";
                     else

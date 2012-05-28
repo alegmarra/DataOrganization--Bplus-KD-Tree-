@@ -5,6 +5,7 @@
 
 int main()
 {
+
 	Test* test;
 	test = new KeyTest();
 	test->run();

@@ -1,19 +1,59 @@
 #include "LeafNode.h"
 
+
 LeafNode::LeafNode() : Node() {}
 
 LeafNode::LeafNode(unsigned _level) : Node(_level) {}
 
 LeafNode::~LeafNode() {}
 
+
+Node* LeafNode::grow() {
+
+	/*
+	 * Ya tiene agregado en elements el record que causo el overflow
+	 * ordenado por la key levelActual
+	 *
+	 * instancia 2 nuevos nodos, uno interno otro hoja
+	 * a la hoja le pasa la mitad mayor de su contenido
+	 * al interno le pasa el promedio por la key levelActual de
+	 * todos los registros
+	 */
+
+	InnerNode* newInner = new InnerNode(level);
+
+	//La hoja tiene sus records ordenados por key[level]
+	//Size no deberia ser nunca 0, pues hay overflow
+	Key* parentKey = elements.at((elements.size()/2) +1)->getID()->getKey(level);
+
+	//New Leafs in next level
+	//Half the elements in each
+	this->level++;
+	Node* newLeaf = this->split();
+
+	//Assigns new number on serialization
+	unsigned parentLeft = NodeSerializer::serializeNode(this);
+	unsigned parentRight = NodeSerializer::serializeNode(newLeaf);
+
+
+	newInner->setLeft(parentLeft);
+	newInner->addPair(new PairKeyNode(parentKey, parentRight));
+
+	return newInner;
+
+}
+
 /** @todo int LeafNode::insert(Record* ) */
 int LeafNode::insert(Record* record) {
 
+	//TODO
+	return 1;
 }
 
 /** @todo Node* LeafNode::split() */
 Node* LeafNode::split() {
 
+	//TODO
 }
 
 int LeafNode::serialize(char* buffer) {

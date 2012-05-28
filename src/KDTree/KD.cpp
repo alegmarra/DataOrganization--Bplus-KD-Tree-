@@ -19,7 +19,7 @@ void KDtree::setRoot(){
 
 /*
  * 	NodeSerializer::setFile(treeFile);
- */
+
 	try{
 
 		root = NodeSerializer::deserializeNode(0);
@@ -27,6 +27,7 @@ void KDtree::setRoot(){
 	}catch(FileErrorException*){
 
 	}
+*/
 }
 
 int KDtree::insert(Record* record){
@@ -41,7 +42,9 @@ int KDtree::insert(Record* record){
 		break;
 	//root Overflow
 	case 2:
-		root->grow();
+		//Splits in two leafs and returns an inner node,
+		//the new root.
+		root = root->grow();
 		NodeSerializer::serializeNode(root, 0);
 		break;
 	//Duplicated record
@@ -55,5 +58,7 @@ int KDtree::insert(Record* record){
 
 
 KDtree::~KDtree() {
+
+
 
 }

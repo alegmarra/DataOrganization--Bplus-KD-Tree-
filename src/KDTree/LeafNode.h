@@ -1,4 +1,9 @@
+#ifndef LEAF_NODE_H
+#define LEAF_NODE_H
+
 #include "Node.h"
+#include "InnerNode.h"
+#include "Serializers/NodeSerializer.h"
 #include "Record.h"
 
 #define IS_LEAF 0x80
@@ -8,8 +13,11 @@ class LeafNode: public Node{
         LeafNode();
         LeafNode(unsigned _level);
 
-        int insert(Record* record);
-        Node* split();
+
+    	virtual Node* split();
+
+    	virtual int insert(Record* record);
+    	virtual Node* grow();
 
     //	virtual Node* nextLeaf();
 
@@ -25,3 +33,4 @@ class LeafNode: public Node{
     private:
         std::vector<Record* > elements;
 };
+#endif

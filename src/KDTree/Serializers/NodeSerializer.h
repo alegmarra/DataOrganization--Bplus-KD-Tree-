@@ -3,7 +3,8 @@
 
 #define NEW_NODE -1
 
-class Node;
+#include "KDTree/Node.h"
+
 class FileBlocks;
 
 class NodeSerializer {
@@ -11,12 +12,14 @@ class NodeSerializer {
         /**
          * @brief serializa un nodo y lo guarda en el archivo
          * @param node          nodo a serializar
-         * @param nodeNumber    número del nodo (NEW_NODE si es nuevo)
+         * @param nodeNumber    número del nodo
+         *     		            si no se especifica, se considera nuevo nodo.
          * @return nodeNumber
          * @throw FileNotSetException, FileErrorException
          */
         static unsigned serializeNode(Node* node, int nodeNumber);
 
+        static unsigned serializeNode(Node* node);
         /**
          * @brief hidrata un nodo a partir de un archivo
          * @param node  número del nodo

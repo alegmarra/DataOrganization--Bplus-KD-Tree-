@@ -12,6 +12,12 @@
 FileBlocks* NodeSerializer::file = NULL;
 unsigned NodeSerializer::blockSize = BLOCKSIZE;
 
+unsigned NodeSerializer::serializeNode(Node* node) {
+
+	serializeNode(node, NEW_NODE);
+}
+
+
 unsigned NodeSerializer::serializeNode(Node* node, int nodeNumber) {
     if (!file)
         throw FileNotSetException();

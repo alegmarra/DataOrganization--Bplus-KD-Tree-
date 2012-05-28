@@ -1,23 +1,15 @@
-/*
- * Node.h
- *
- *  Created on: Apr 30, 2012
- *      Author: AleMarra
- */
-
 #ifndef NODE_H_
 #define NODE_H_
 
 #include <vector>
 #include "Serializers/Serializable.h"
-//#include "Serializers/NodeSerializer.cpp"
+//#include "Serializers/NodeSerializer.h"
 
 #define LEVEL_MASK 0x7F
 
 class Record;
 class Key;
 class PairKeyNode;
-class NodeIterator; // REMOVE
 
 
 class Node : public Serializable {
@@ -31,6 +23,8 @@ public:
 	virtual Node* split() = 0;
 
 	virtual int insert(Record* record)=0;
+
+	virtual Node* grow() =0;
 
 	virtual ~Node();
 
