@@ -112,14 +112,52 @@ private:
         void test_SetLow() 
         {
             start("SetLow");
-            fail("Not implemented yet!");
+
+            QueryCondition * c;
+            
+            c = new QueryCondition(new IntKey(10, 2));
+
+            try {
+                c->setLow(new IntKey(5, 2));
+                pass();
+            } catch (...) {
+                fail("Could not change Low Key to a valid value");
+            }
+
+            delete c;
+
+            c = new QueryCondition(new IntKey(10, 2));
+
+            try {
+                c->setLow(new IntKey(15, 2));
+                fail("Allowed an invalid value for Low Key");
+            } catch (...) {
+                pass();
+            }
+
+            delete c;
+            
             stop();
         }
         
         void test_InRange() 
         {
             start("InRange");
-            fail("Not implemented yet!");
+            
+            QueryCondition c = QueryCondition(new IntKey(10, 2), new IntKey(20, 2));
+            IntKey k1 = IntKey(5, 2);
+            IntKey k2 = IntKey(15, 2);
+            IntKey k3 = IntKey(25, 2);
+            
+            if (c.inRange(&k1)) fail("5 is not in range [10,20]");
+            else pass();
+            
+            if (c.inRange(&k2)) pass();
+            else fail("15 is in range [10,20]");
+            
+            if (c.inRange(&k3)) fail("25 is not in range [10,20]");
+            else pass();
+            
             stop();
         }
         
