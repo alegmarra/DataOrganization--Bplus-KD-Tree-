@@ -56,11 +56,13 @@ bool Query::eval(unsigned dimension, Key * k)
 
 Query::~Query()
 {
-/*
-    for (int i = 1; i < conditions.size(); i++) {
-        delete conditions[i];
+    std::map< unsigned, std::vector< QueryCondition * > >::iterator it;
+    
+    for(it = conditions.begin(); it != conditions.end(); it++) {
+        for (int i = 1; i < it->second.size(); i++) {
+            delete it->second[i];
+        }
     }
-*/
 }
 
 #endif
