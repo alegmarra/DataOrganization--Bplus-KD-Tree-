@@ -2,20 +2,20 @@
 #define KD_TREE_QUERY_H
 
 #include "Query/Condition.h"
+#include<map>
 #include<vector>
 
 class Query
 {
 
 private:
-    //std::vector<QueryCondition *> * conditions;
-    std::vector<QueryCondition *> conditions;
+    std::map< unsigned, std::vector< QueryCondition * > > conditions;
 
 public:
     Query();
-    Query * const addCondition(QueryCondition * c);
+    Query * const addCondition(unsigned dimension, QueryCondition * c);
     unsigned size();
-    bool eval(Key * k);
+    bool eval(unsigned dimension, Key * k);
     virtual ~Query();
 
 
