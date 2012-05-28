@@ -15,11 +15,7 @@ class QueryTest: public Test
 
 public:
   
-	QueryTest()
-	{
-		std::cout << std::endl << "QueryTest BEGIN: "
-				  << std::endl << std::endl;
-	}
+	QueryTest(): Test("Query") { }
   
     void test_addCondition_NoError() 
     {
