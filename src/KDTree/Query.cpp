@@ -5,40 +5,62 @@
 #include <stdlib.h>
 #include <vector>
 
-Query::Query()
-{
-}
+Query::Query() { }
 
-Query * const Query::addCondition(QueryCondition * c)
+Query * const Query::addCondition(unsigned dimension, QueryCondition * c)
 {
-    conditions.push_back(c);
+    std::map< unsigned, std::vector< QueryCondition * > >::iterator it;
+    
+    it = conditions.find(dimension);
+
+    if (it != conditions.end()) {
+        it->second.push_back(c);
+    } else {
+        std::vector< QueryCondition * > v;
+        v.push_back(c);
+        conditions[dimension] = v;
+    }
+
     return this;
 }
 
 unsigned Query::size()
 {
-    return conditions.size();
+    std::map< unsigned, std::vector< QueryCondition * > >::iterator it;
+    unsigned size = 0;
+   
+    for (it = conditions.begin() ; it != conditions.end(); it++) {
+        size += it->second.size();
+    }
+    
+    return size;
+}
+
+int Query::eval(unsigned dimension, Key * k)
+{
+    std::map< unsigned, std::vector< QueryCondition * > >::iterator it;
+    
+    it = conditions.find(dimension);
+    
+    if (it != conditions.end()) {
+        for (int i = 0; i < it->second.size(); i++) {
+            return it->second[i]->eval(k);
+        }
+    }
+    
+
+    return 0;
 }
 
 Query::~Query()
 {
-    for (int i = 1; i < conditions.size(); i++) {
-        delete conditions[i];
-    }
-
-}
-
-bool Query::eval(Key * k)
-{
-    for (int i = 0; i < conditions.size(); i++) {
-
-        if (!conditions[i]->inRange(k)) {
-            return false;
+    std::map< unsigned, std::vector< QueryCondition * > >::iterator it;
+    
+    for(it = conditions.begin(); it != conditions.end(); it++) {
+        for (int i = 1; i < it->second.size(); i++) {
+            delete it->second[i];
         }
     }
-
-    return true;
 }
-
 
 #endif
