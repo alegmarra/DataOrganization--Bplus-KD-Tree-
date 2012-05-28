@@ -2,19 +2,52 @@
 #define KD_TREE_QUERY_CONDITION_CPP
 
 #include "../RecordID/Key.h"
+#include "../RecordID/Infinity.h"
 #include "../Query.h"
 #include "../Query/Condition.h"
+#include "../../Exceptions/InvalidConditionRangeException.h"
 
 
 QueryCondition::QueryCondition()
 {
+    low_key = new KeyInfinity();
+    hi_key = new KeyInfinity(true);
 };
+
+QueryCondition::QueryCondition(Key * equal) 
+{
+    low_key = equal;
+    hi_key = equal;
+}
 
 QueryCondition::QueryCondition(Key * low, Key * hi)
 {
-    low_key = low;
-    hi_key = hi;
+    QueryCondition();
+    setLow(low);
+    setHi(hi);
 };
+
+QueryCondition * const QueryCondition::setLow(Key * k)
+{
+    if (hi_key->compareTo(k) < 0) {
+        throw InvalidConditionRangeException();
+    } 
+    
+    delete low_key;
+    low_key = k;
+    return this;
+}
+
+QueryCondition * const QueryCondition::setHi(Key * k)
+{
+    if (low_key->compareTo(k) > 0) {
+        throw InvalidConditionRangeException();
+    } 
+    
+    delete hi_key;
+    hi_key = k;
+    return this;
+}
 
 bool QueryCondition::inRange(Key * k)
 {
@@ -35,6 +68,12 @@ int QueryCondition::eval(Key * k)
     } else {
         return Query::MATCH;
     }
+}
+
+QueryCondition::~QueryCondition()
+{
+    delete low_key;
+    delete hi_key;
 }
 
 #endif

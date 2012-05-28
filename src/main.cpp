@@ -1,4 +1,5 @@
 #include "UnitTests/KeyTest.cpp"
+#include "UnitTests/ConditionTest.cpp"
 #include "UnitTests/QueryTest.cpp"
 #include "UnitTests/FileBlocksTest.cpp"
 #include "UnitTests/SerializersTest.cpp"
@@ -10,6 +11,10 @@ int main()
 	test->run();
 	delete test;
 
+    test = new ConditionTest();
+    test->run();
+    delete test;
+    
     test = new QueryTest();
     test->run();
 	delete test;
