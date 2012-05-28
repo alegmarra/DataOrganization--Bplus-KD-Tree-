@@ -1,5 +1,9 @@
 #include "Test.cpp"
 
+#include "../KDTree/Query/Condition.h"
+#include "../KDTree/RecordID/IntKey.h"
+
+
 class ConditionTest: public Test 
 {
 public:
@@ -10,23 +14,41 @@ public:
         test_EmptyConstructor();
         test_OneKeyConstructor();
         test_RangeConstructor();
-        test_setHi();
-        test_setLow();
+        test_SetHi();
+        test_SetLow();
+        test_InRange();
+        test_Eval();
     }
     
 private:
 
+        /**
+         * Dummy test
+         */
         void test_EmptyConstructor() 
         {
             start("EmptyConstructor");
-            fail("Not implemented yet!");
+            
+            QueryCondition * c = new QueryCondition();
+            delete c;
+            
+            pass();
+            
             stop();
         }
         
+        /**
+         * Dummy test
+         */
         void test_OneKeyConstructor() 
         {
             start("OneKeyConstructor");
-            fail("Not implemented yet!");
+            
+            QueryCondition * c = new QueryCondition(new IntKey(10, 2));
+            delete c;
+           
+            pass();            
+            
             stop();
         }
         
@@ -37,16 +59,30 @@ private:
             stop();
         }
         
-        void test_setHi() 
+        void test_SetHi() 
         {
-            start("setHi");
+            start("SetHi");
             fail("Not implemented yet!");
             stop();
         }
         
-        void test_setLow() 
+        void test_SetLow() 
         {
-            start("setLow");
+            start("SetLow");
+            fail("Not implemented yet!");
+            stop();
+        }
+        
+        void test_InRange() 
+        {
+            start("InRange");
+            fail("Not implemented yet!");
+            stop();
+        }
+        
+        void test_Eval()
+        {
+            start("Eval");
             fail("Not implemented yet!");
             stop();
         }

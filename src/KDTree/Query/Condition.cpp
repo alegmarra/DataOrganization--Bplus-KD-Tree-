@@ -72,8 +72,12 @@ int QueryCondition::eval(Key * k)
 
 QueryCondition::~QueryCondition()
 {
-    delete low_key;
-    delete hi_key;
+    if (low_key == hi_key) {
+        delete low_key;
+    } else {
+        delete low_key;
+        delete hi_key;
+    }
 }
 
 #endif

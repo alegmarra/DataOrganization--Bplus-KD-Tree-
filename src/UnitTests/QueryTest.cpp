@@ -38,6 +38,9 @@ public:
         stop();
     }
     
+    /**
+     * @todo Mejorar este test porque ahora es como los de Condition
+     */
     void test_evalIntKey_NoError()
     {
         start("evalIntKey_NoError");
