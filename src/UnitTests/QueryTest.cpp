@@ -6,7 +6,8 @@
 #include "Test.cpp"
 
 #include "../KDTree/Query.h"
-#include "../KDTree/RecordID/Key.h"
+#include "../KDTree/RecordID/IntKey.h"
+#include "../KDTree/RecordID/Infinity.h"
 #include "../KDTree/Query/Condition.h"
 
 class QueryTest: public Test
@@ -37,18 +38,18 @@ public:
         delete q;
     
     }
- /*
+    
     void test_evalIntKey_NoError()
     {
         Query* q;
-        Key* k1 = new Key(4);
-        Key* k2 = new Key(14);
-        Key* k3 = new Key(30);
+        Key* k1 = new IntKey(4, 2);
+        Key* k2 = new IntKey(14, 2);
+        Key* k3 = new IntKey(30, 2);
 
         // k <= 10
         // .:. -Inf < k <= 10
         q = new Query;
-        q->addCondition(new QueryCondition(new KeyInfinity(), new Key(10)));
+        q->addCondition(new QueryCondition(new KeyInfinity(), new IntKey(10, 2)));
         
         assert(q->eval(k1));        
         assert(!q->eval(k2));
@@ -59,7 +60,7 @@ public:
         // k >= 5
         // .:. 5 <= k < +Inf
         q = new Query();
-        q->addCondition(new QueryCondition(new Key(5), new KeyInfinity(true)));
+        q->addCondition(new QueryCondition(new IntKey(5, 2), new KeyInfinity(true)));
         
         assert(!q->eval(k1));        
         assert(q->eval(k2));
@@ -69,7 +70,7 @@ public:
         
         // 10 <= k <= 20
         q = new Query();
-        q->addCondition(new QueryCondition(new Key(10), new Key(20)));
+        q->addCondition(new QueryCondition(new IntKey(10, 2), new IntKey(20, 2)));
         
         assert(!q->eval(k1));        
         assert(q->eval(k2));
@@ -81,14 +82,12 @@ public:
 				  << std::endl;
         
     }
-*/
     
     virtual void run()
     {
 
         test_addCondition_NoError();
-        
- //       test_evalIntKey_NoError();
+        test_evalIntKey_NoError();
 
 	}
 };

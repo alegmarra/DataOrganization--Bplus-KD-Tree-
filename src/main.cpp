@@ -3,7 +3,6 @@
 #include "UnitTests/FileBlocksTest.cpp"
 #include "UnitTests/SerializersTest.cpp"
 
-
 int main()
 {
 	Test* test;
@@ -12,16 +11,14 @@ int main()
 	test->run();
 	delete test;
 
-   /* test = new QueryTest();
+    test = new QueryTest();
     test->run();
 
 	delete test;
-    */
 
 	test = new FileBlocksTest();
 	test->run();
 	delete test;
-
 
     test = new SerializersTest();
     test->run();
