@@ -10,8 +10,7 @@
 
 QueryCondition::QueryCondition()
 {
-    low_key = new KeyInfinity();
-    hi_key = new KeyInfinity(true);
+    init();
 };
 
 QueryCondition::QueryCondition(Key * equal) 
@@ -22,10 +21,16 @@ QueryCondition::QueryCondition(Key * equal)
 
 QueryCondition::QueryCondition(Key * low, Key * hi)
 {
-    QueryCondition();
+    init();
     setLow(low);
     setHi(hi);
 };
+
+void QueryCondition::init()
+{
+    low_key = new KeyInfinity();
+    hi_key = new KeyInfinity(true);
+}
 
 QueryCondition * const QueryCondition::setLow(Key * k)
 {

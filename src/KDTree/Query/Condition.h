@@ -75,6 +75,10 @@ public:
      * Destructor. Deletes both high and low keys
      */
     virtual ~QueryCondition();
+
+private:
+
+    void init();
 };
 
 #endif

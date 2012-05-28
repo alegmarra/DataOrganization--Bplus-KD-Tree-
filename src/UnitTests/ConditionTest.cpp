@@ -55,7 +55,30 @@ private:
         void test_RangeConstructor() 
         {
             start("RangeConstructor");
-            fail("Not implemented yet!");
+            
+            QueryCondition * c;
+            
+            try {
+                c = new QueryCondition(new IntKey(1, 2), new IntKey(10, 2));
+                //c = new QueryCondition();
+                pass();
+            } catch (...) {
+                fail("Invalid range in range constructor");
+            }
+            
+            delete c;
+            
+            /*
+            try {
+                c = new QueryCondition(new IntKey(10, 2), new IntKey(1, 2));
+                fail("Range constructor accepted an invalid range");
+            } catch (...) {
+                pass();
+            }
+
+            delete c;            
+            */
+            
             stop();
         }
         
