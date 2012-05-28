@@ -1,26 +1,23 @@
 #ifndef KDTREE_KEY_INFINITY_CPP
 #define KDTREE_KEY_INFINITY_CPP
 
-#include "KDTree/Key/Infinity.h"
+#include "KDTree/RecordID/Infinity.h"
 
 //#include <iostream>
 
 /*
 int KeyInfinity::KeyInfinityComparator::compareTo(void* target)
 {
-    //bool * pIs_pos = (bool *)is_positive;
-    //bool is_pos = *pIs_pos;
-    
-    std::cout << std::endl << is_pos << std::endl;
-    
-    if (is_pos) { 
-        return -1; // target < +Infinity
-    } else {
-        return 1; // -Infinity < target
-    }
-    
-	//Error value
-	return -2;
+//bool * pIs_pos = (bool *)is_positive;
+//bool is_pos = *pIs_pos;
+std::cout << std::endl << is_pos << std::endl;
+if (is_pos) {
+return -1; // target < +Infinity
+} else {
+return 1; // -Infinity < target
+}
+//Error value
+return -2;
 
 
 }
@@ -28,13 +25,13 @@ int KeyInfinity::KeyInfinityComparator::compareTo(void* target)
 Comparator * KeyInfinity::getComparator()
 {
 
-	return new KeyInfinityComparator(&is_positive);
+return new KeyInfinityComparator(&is_positive);
 
 }
 
 KeyInfinity::KeyInfinityComparator::KeyInfinityComparator(bool is_positive): Comparator(&is_pos)
 {
-    is_pos = is_positive;
+is_pos = is_positive;
 }
 */
 
@@ -56,4 +53,16 @@ std::string KeyInfinity::getKey()
     }
 }
 
+int KeyInfinity::serialize(char* buffer){
+
+	return 0;
+}
+
+int KeyInfinity::deserialize(const char* buffer){
+
+	return 0;
+}
+
+
 #endif
+

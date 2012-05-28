@@ -1,10 +1,10 @@
 #ifndef KDTREE_QUERY_CONDITION_H
 #define KDTREE_QUERY_CONDITION_H
 
-#include "KDTree/Key.h"
-#include "KDTree/Key/Infinity.h"
+#include "../RecordID/Key.h"
+#include "../RecordID/Infinity.h"
 
-class QueryCondition 
+class QueryCondition
 {
 
 private:

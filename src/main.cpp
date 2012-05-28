@@ -3,23 +3,24 @@
 #include "UnitTests/FileBlocksTest.cpp"
 #include "UnitTests/SerializersTest.cpp"
 
-#include <iostream>
-
 int main()
 {
 	Test* test;
 
 	test = new KeyTest();
 	test->run();
-    delete test;
+	delete test;
+
+   /* test = new QueryTest();
+    test->run();
+
+	delete test;
+    */
 
 	test = new FileBlocksTest();
 	test->run();
-    delete test;
-
-    test = new QueryTest();
-    test->run();
 	delete test;
+
 
     std::cout << std::endl << "UnitTest END" 
                << std::endl << std::endl;

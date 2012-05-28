@@ -17,9 +17,7 @@ unsigned NodeSerializer::serializeNode(Node* node, int nodeNumber) {
         throw FileNotSetException();
 
     char* buffer = new char[blockSize];
-    int bytes;
-
-    bytes = node->serialize(buffer);
+    int bytes = node->serialize(buffer);
 
     unsigned blockNumber;
     if (nodeNumber == NEW_NODE) {

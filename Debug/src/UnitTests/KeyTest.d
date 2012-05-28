@@ -1,16 +1,18 @@
 src/UnitTests/KeyTest.d: ../src/UnitTests/KeyTest.cpp \
- /home/saasbook/tpDatos/src/KDTree/Key.h \
- /home/saasbook/tpDatos/src/Comparator.h \
- /home/saasbook/tpDatos/src/Exceptions/InvalidKeyException.cpp \
- /home/saasbook/tpDatos/src/Exceptions/InvalidTargetException.cpp \
- ../src/UnitTests/Test.cpp
+ ../src/UnitTests/../KDTree/RecordID/StringKey.h \
+ ../src/UnitTests/../KDTree/RecordID/Key.h \
+ ../src/UnitTests/../KDTree/RecordID/../../Exceptions/InvalidKeyException.cpp \
+ ../src/UnitTests/../KDTree/RecordID/../Serializers/Serializable.h \
+ ../src/UnitTests/../KDTree/RecordID/IntKey.h ../src/UnitTests/Test.cpp
 
-/home/saasbook/tpDatos/src/KDTree/Key.h:
+../src/UnitTests/../KDTree/RecordID/StringKey.h:
 
-/home/saasbook/tpDatos/src/Comparator.h:
+../src/UnitTests/../KDTree/RecordID/Key.h:
 
-/home/saasbook/tpDatos/src/Exceptions/InvalidKeyException.cpp:
+../src/UnitTests/../KDTree/RecordID/../../Exceptions/InvalidKeyException.cpp:
 
-/home/saasbook/tpDatos/src/Exceptions/InvalidTargetException.cpp:
+../src/UnitTests/../KDTree/RecordID/../Serializers/Serializable.h:
+
+../src/UnitTests/../KDTree/RecordID/IntKey.h:
 
 ../src/UnitTests/Test.cpp:

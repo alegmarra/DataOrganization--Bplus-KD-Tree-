@@ -1,10 +1,10 @@
 #ifndef KD_TREE_QUERY_H
 #define KD_TREE_QUERY_H
 
-#include "KDTree/Query/Condition.h"
+#include "Query/Condition.h"
 #include<vector>
 
-class Query 
+class Query
 {
 
 private:

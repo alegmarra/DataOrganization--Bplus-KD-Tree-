@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
-#include <stdio.h>
-#include <list>
+
+
 
 //#include "Comparator.h"// Cambio class Comparator; por include,
 					   // sino da error en Sequential.cpp
@@ -12,7 +12,7 @@
 
 class FileAbstract
 {
-    protected:
+protected:
 
     const char * filename;
     FILE * pFile;
@@ -22,7 +22,7 @@ class FileAbstract
     void reset();
     void close();
 
-    public:
+public:
 
 
 	virtual int insert(void* object, unsigned number) =0;
@@ -37,8 +37,10 @@ class FileAbstract
 
 public:
 
+
     FileAbstract(const char * path, unsigned block_size);
     virtual ~FileAbstract();
+
 };
 
 

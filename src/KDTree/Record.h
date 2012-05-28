@@ -26,9 +26,11 @@ class Record : public Serializable {
 
         virtual ~Record();
 
-    private:
-        ID* myID;
-    //	Data* datos;
+private:
+	ID* myID;
+       // Data* data;
+
+
 };
 
 #endif /* RECORD_H_ */

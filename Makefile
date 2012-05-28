@@ -3,7 +3,7 @@ TARGETPATH=lib/
 SOURCES := $(shell find $(SRCPATH) -name *.cpp)
 OBJECTS := $(patsubst $(TARGETPATH)%.cpp,$(TARGETPATH)%.o,$(SOURCES))
 EXECUTABLE=run
-CC=g++
+CC=g++ -g
 CFLAGS=-I$(SRCPATH)
 
 all: $(EXECUTABLE)

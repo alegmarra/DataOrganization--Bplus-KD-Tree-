@@ -26,7 +26,9 @@ SUBDIRS := \
 src \
 src/UnitTests \
 src/KDTree/Serializers \
+src/KDTree/RecordID \
 src/KDTree \
+src/KDTree/Query \
 src/File \
 src/Exceptions \
 

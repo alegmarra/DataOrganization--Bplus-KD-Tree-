@@ -9,10 +9,11 @@ class FileBlocksTest: public Test {
 private:
 	unsigned blockSize;
 	const char * path;
+	const char * spacePath;
 
 	char* makeBuffer(const char* s){
 
-        char* buffer = new char[blockSize];
+        char* buffer = new char[strlen(s)+1];
 
         for (unsigned i = 0; i< strlen(s); i++)
         	buffer[i] = s[i];
@@ -27,6 +28,7 @@ public:
 
 		blockSize = 4096;
 		path = "my_test_file.bin";
+		spacePath = "my_test_file_space.bin";
 
 		std::cout << std::endl << "FileBlocksTest BEGIN: "
 				  << std::endl << std::endl;
@@ -48,7 +50,7 @@ public:
 
 		test_Find_NoBlock_Error_LoadedFile();
 
-		test_Update_NoError();
+        test_Update_NoError();
 
 		test_Update_NoBlock_Error();
 
@@ -57,11 +59,15 @@ public:
 		test_Remove_And_GetFree_NoError();
 
 		test_Remove_NoBlock_Error();
-	}
+
+		test_serialize();
+
+ 	}
 
 
 	void test_Constructor_NewFile(){
 
+		remove(path);
 		FileAbstract* testFile = new FileBlocks(path, 4096);
 
 		delete testFile;
@@ -87,18 +93,22 @@ public:
 
 	void test_Constructor_ExistingFile(){
 
-
+		remove(path);
 		/*
 		 * Create new file, and saves control message
 		 */
+
+		FileAbstract* preFile = new FileBlocks(path, 4096);
+		//Generates asociated space file;
+		delete preFile;
+
 		FILE* pFile;
 		pFile = fopen (path,"wb+");
 		rewind(pFile);
 
-		const char* buffer = "Hello World";
-		fwrite( buffer, 1, sizeof(buffer), pFile);
+		char* buffer = makeBuffer("Hello World");
+		fwrite( buffer, 1,(strlen(buffer)-1), pFile);
 		fclose(pFile);
-
 
 		/*
 		 * Must open the same file
@@ -120,18 +130,24 @@ public:
 		}
 		else{
 			rewind(pFile);
-			char* output = new char [sizeof(buffer)];
+			char* output = new char [strlen(buffer)];
 
-			fread (output,1,sizeof(buffer),pFile);
-
-			std::string s(output);
+			size_t result = fread (output,1,(strlen(buffer)-1),pFile);
+			if (result != (strlen(buffer)-1)){
+				delete[] buffer;
+				delete[] output;
+ 				assert(false);
+			}
+			std::string s = output;
+			delete[] output;
 
 			assert(s.compare("Hello World"));
 				std::cout << "test_Constructor_ExistingFile: OK"
 						  << std::endl;
-			delete output;
+
 		}
 
+		delete[] buffer;
 		fclose(pFile);
 		remove(path);
 	}
@@ -149,13 +165,14 @@ public:
         FileBlocks* pFile = new FileBlocks(path, blockSize);
 
        //Generate Buffers for in - out;
-        char* buffer = makeBuffer("Hello World");
+        char* message = makeBuffer("Hello World");
 
         // Begins insertion
-        int result = pFile->insert(buffer, 0);
+        int result = pFile->insert(message, 0);
         if ((result == 3) || (result == 0))	assert(false);
 
         delete pFile;
+        delete[] message;
 
         //Checks insertion
         FILE* f = fopen(path, "rb+");
@@ -165,19 +182,21 @@ public:
 			assert(false);
         }
 
+        char* buffer = new char[blockSize];
+
         fread(buffer, 1, (blockSize -1 ),f);
 
         std::string out = buffer;
 
         assert((out.compare("Hello World") == 0));
 
-        std::cout << "test_InsertOnce_NoError: OK"
+        std::cout << "test_Insert_NoError: OK"
 				  << std::endl;
 
         fclose(f);
 		remove(path);
 
-		delete buffer;
+		delete[] buffer;
 
         }
 
@@ -196,7 +215,6 @@ public:
 
          //Re-inserts in the same block
         result = pFile->insert(buffer, 0);
-
         if ((result == 3)) assert(true);
 
         else assert(false);
@@ -204,7 +222,7 @@ public:
 				  << std::endl;
 
         delete pFile;
- 		delete buffer;
+ 		delete[] buffer;
  		remove(path);
 
     }
@@ -220,19 +238,27 @@ public:
 
        //Generate Buffers for in - out;
         char* buffer = new char[blockSize];
+
         std::string s = "0123456789";
 
         FILE* f;
 		f = fopen (path,"wb+");
 		rewind(f);
 
-        for (unsigned i = 0; i<10; i++){
+        for (unsigned i = 0; i< s.size(); i++){
+
         	buffer[i] = s[i];
         	buffer[(i+1)] = '\0';
+            for (unsigned j = (i+2); j< blockSize; j++){
+                buffer[j] = '#';
+            }
         	fseek(f, ((blockSize-1)*i), SEEK_SET);
         	fwrite( buffer, 1, (blockSize-1), f);
+
         	//first (#0) block has '0', second (#1) has '01', etc
         }
+
+        delete[] buffer;
         fclose(f);
         //File filled with data and closed
 
@@ -243,7 +269,7 @@ public:
         std::string out;
         std::string control = "";
 
-        for (unsigned i = 0; i<10; i++){
+        for (unsigned i = 0; i<s.size(); i++){
         	block = i;
             buffer = (char*)pFile->find(&block);
             if ( !(buffer) ){
@@ -253,16 +279,16 @@ public:
             }
 
             out = buffer;
-            control += s[i];
+    		delete[] buffer;
 
+            control += s[i];
             assert((control.compare(out) == 0));
+
         }
 
         std::cout << "test_Find_NoError: OK" << std::endl;
 
 		delete pFile;
-		delete buffer;
-
 		remove(path);
     }
 
@@ -272,20 +298,18 @@ public:
     	 * Find on empty file, return NULL
     	 */
 		remove(path);
-        char* buffer = new char[blockSize];
 
         FileBlocks* pFile = new FileBlocks(path, blockSize);
 
         unsigned block = 0;
         //Excess by one
 
-        buffer = (char*)pFile->find(&block);
+        char* buffer = (char*)pFile->find(&block);
 
         assert (buffer == NULL);
         std::cout << "test_Find_NoBlock_Error_EmptyFile: OK" << std::endl;
 
-
-        delete buffer;
+        delete[] buffer;
         delete pFile;
         remove(path);
 
@@ -310,11 +334,15 @@ public:
         for (unsigned i = 0; i<5; i++){
         	buffer[i] = s[i];
         	buffer[(i+1)] = '\0';
+        	for(unsigned j =(i+2); j<blockSize; j++)
+        		buffer[j] = '#';
+
         	fseek(f, ((blockSize-1)*i), SEEK_SET);
         	fwrite( buffer, 1, (blockSize-1), f);
         	//first (#0) block has '0', second (#1) has '01', etc
         }
         fclose(f);
+        delete[] buffer;
         //File filled with data and closed
 
 
@@ -327,11 +355,12 @@ public:
         buffer = (char*)pFile->find(&block);
 
         assert (buffer == NULL);
-        std::cout << "test_Find_NoBlock_Error_LoadedFile: OK" << std::endl;
 
-        delete buffer;
+        delete[] buffer;
         delete pFile;
         remove(path);
+        std::cout << "test_Find_NoBlock_Error_LoadedFile: OK" << std::endl;
+
 
     }
 
@@ -341,33 +370,46 @@ public:
     	//New empty file
     	remove(path);
 
-    	//Generate data in File
-        char* buffer = makeBuffer("Hello World");
+    	//Generate Space data
+    	FileBlocks* preFile = new FileBlocks(path, blockSize);
 
-    	FILE* f = fopen (path,"wb+");
-		for (int i = 0; i<4; i++){
-	    	fseek(f, ((blockSize-1)*i), SEEK_SET);
-	    	fwrite( buffer, 1, (blockSize-1), f);
-		}
-		fclose(f);
+    	//Generate data in File
+        char* message = makeBuffer("Hello World");
+
+        preFile->insert(message, preFile->getFreeBlock());
+        preFile->insert(message, preFile->getFreeBlock());
+        preFile->insert(message, preFile->getFreeBlock());
+        preFile->insert(message, preFile->getFreeBlock());
+
+    	delete preFile;
+    	delete[] message;
+
 
 		//Updates file
     	FileBlocks* pFile = new FileBlocks(path, blockSize);
 
-    	buffer = makeBuffer("GoodBye World");
 
-    	pFile->update(buffer, 1);
-    	pFile->update(buffer, 3);
+    	char* outBuffer = makeBuffer("GoodBye World");
 
+    	size_t result = pFile->update(outBuffer, 1);
+        if (result != 1) assert (false);
+
+    	result = pFile->update(outBuffer, 3);
+    	if (result != 1) assert (false);
+
+    	delete[] outBuffer;
     	delete pFile;
 
+
     	std::string out;
-    	f = fopen (path,"rb+");
+    	FILE* f = fopen (path,"rb+");
+    	outBuffer = new char[blockSize];
 
     	for (int i = 0; i<4; i++){
 	    	fseek(f, ((blockSize-1)*i), SEEK_SET);
-	    	fread (buffer,1,(blockSize-1),f);
-	    	out = buffer;
+	    	fread (outBuffer,1,(blockSize-1),f);
+
+	    	out = outBuffer;
 
 	    	switch (i){
 	    	case 0:	assert((out.compare("Hello World") == 0));
@@ -382,7 +424,8 @@ public:
 		}
 		fclose(f);
 
-		delete buffer;
+		delete[] outBuffer;
+
 		remove(path);
 
         std::cout << "test_Update_NoError: OK" << std::endl;
@@ -403,6 +446,7 @@ public:
 	    	fwrite( buffer, 1, (blockSize-1), f);
 		}
 		fclose(f);
+		delete[] buffer;
 
 		//Updates file
     	FileBlocks* pFile = new FileBlocks(path, blockSize);
@@ -419,7 +463,7 @@ public:
     	assert(true);
 
     	delete pFile;
-		delete buffer;
+		delete[] buffer;
 		remove(path);
 
         std::cout << "test_Update_NoBlock_Error: OK" << std::endl;
@@ -448,12 +492,13 @@ public:
 
     	pFile = new FileBlocks(path, blockSize);
     	unsigned bn = pFile->getFreeBlock();
+    	//First free (new block) after existing blocks
     	assert (bn == 4);
 
         std::cout << "test_GetFreeBlock_WhenNoFreeBlocks: OK" << std::endl;
 
     	delete pFile;
-    	delete buffer;
+    	delete[] buffer;
     	remove (path);
 
     }
@@ -463,19 +508,16 @@ public:
     	//New empty file
     	remove(path);
 
-    	//Generate data in File
-        char* buffer = makeBuffer("Hello World");
-
-    	FILE* f = fopen (path,"wb+");
-		for (int i = 0; i<4; i++){
-	    	fseek(f, ((blockSize-1)*i), SEEK_SET);
-	    	fwrite( buffer, 1, (blockSize-1), f);
-		}
-		fclose(f);
-
 		//Removes block number 2
     	FileBlocks* pFile = new FileBlocks(path, blockSize);
 
+    	//Generate data in File
+        char* buffer = makeBuffer("Hello World");
+
+		for (int i = 0; i<4; i++)
+			pFile->insert(buffer, i);
+
+		//remove block #2
     	unsigned bn = 2;
     	pFile->remove(&bn);
 
@@ -485,7 +527,7 @@ public:
         std::cout << "test_Remove_And_GetFree_NoError: OK" << std::endl;
 
     	delete pFile;
-    	delete buffer;
+    	delete[] buffer;
     	remove (path);
     }
 
@@ -509,7 +551,50 @@ public:
 
     }
 
-	virtual ~FileBlocksTest(){
+    void test_serialize(){
+
+    	remove(path);
+
+        FileBlocks* pFile = new FileBlocks(path, blockSize);
+
+    	char* buffer = new char[blockSize];
+        std::string s = "0123456789";
+
+        for (unsigned i = 0; i< s.size(); i++){
+
+        	buffer[i] = s[i];
+        	buffer[(i+1)] = '\0';
+
+        	unsigned bNumber = pFile->getFreeBlock();
+
+            pFile->insert(buffer, bNumber);
+        	//first (#0) block has '0', second (#1) has '01', etc
+        }
+
+
+        delete[] buffer;
+        delete pFile;
+
+        /*
+         * File left with 10 blocks of sizes
+         * 1, 2, 3...10 bytes occupied
+         */
+
+        pFile = new FileBlocks(path, blockSize);
+        std::vector<unsigned> v = pFile->space();
+        std::vector<unsigned>::iterator it;
+        int size = 1;
+
+        for (it = v.begin(); it<v.end(); it++){
+        	assert (size == *it);
+        	size++;
+        }
+
+        delete pFile;
+        remove(path);
+    }
+
+    virtual ~FileBlocksTest(){
 
 		std::cout << "-------FileBlocksTest END-------"
 				  << std::endl;

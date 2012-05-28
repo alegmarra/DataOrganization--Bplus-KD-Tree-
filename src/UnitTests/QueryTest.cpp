@@ -5,9 +5,9 @@
 #include <iostream>
 #include "Test.cpp"
 
-#include "KDTree/Query.h"
-#include "KDTree/Key.h"
-#include "KDTree/Query/Condition.h"
+#include "../KDTree/Query.h"
+#include "../KDTree/RecordID/Key.h"
+#include "../KDTree/Query/Condition.h"
 
 class QueryTest: public Test
 {
@@ -37,7 +37,7 @@ public:
         delete q;
     
     }
-    
+ /*
     void test_evalIntKey_NoError()
     {
         Query* q;
@@ -81,13 +81,14 @@ public:
 				  << std::endl;
         
     }
+*/
     
     virtual void run()
     {
 
         test_addCondition_NoError();
         
-        test_evalIntKey_NoError();
+ //       test_evalIntKey_NoError();
 
 	}
 };
