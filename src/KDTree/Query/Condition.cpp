@@ -2,13 +2,12 @@
 #define KD_TREE_QUERY_CONDITION_CPP
 
 #include "../RecordID/Key.h"
+#include "../Query.h"
 #include "../Query/Condition.h"
 
-//#include <iostream>
 
 QueryCondition::QueryCondition()
 {
-  //  QueryCondition(new KeyInfinity(), new KeyInfinity(true));
 };
 
 QueryCondition::QueryCondition(Key * low, Key * hi)
@@ -19,18 +18,23 @@ QueryCondition::QueryCondition(Key * low, Key * hi)
 
 bool QueryCondition::inRange(Key * k)
 {
-    /*
-// Requiere iostream para testear
-char s[3];
-s[0] = '<';
-s[1] = '=';
-s[2] = '>';
-
-std::cout << low_key->getKey() << " " << s[low_key->compareTo(k) + 1] << " " << k->getKey() << std::endl;
-std::cout << std::endl;
-*/
-
-    return low_key->compareTo(k) < 1 && hi_key->compareTo(k) > -1;
+    return low_key->compareTo(k) <= 0 && hi_key->compareTo(k) >= 0;
 };
+
+int QueryCondition::eval(Key * k)
+{
+    int comp_low = low_key->compareTo(k);
+    int comp_high = hi_key->compareTo(k);
+    
+    if (comp_low > 0) { // Lower end is higher than key
+        return Query::LOWER;
+    } else if (comp_high < 0) { // Higher end is lower than key
+        return Query::HIGHER;
+    } else if(comp_low == comp_high && comp_low == 0) { // Key matches exactly both ends
+        return Query::EQUAL;    
+    } else {
+        return Query::MATCH;
+    }
+}
 
 #endif

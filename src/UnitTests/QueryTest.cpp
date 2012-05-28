@@ -52,13 +52,13 @@ public:
         q = new Query;
         q->addCondition(1, new QueryCondition(new KeyInfinity(), new IntKey(10, 2)));
         
-        if(q->eval(1, k1)) pass();
+        if(q->eval(1, k1) == Query::MATCH) pass();
         else fail("4 out of range [-inf,10]");
         
-        if(!q->eval(1, k2)) pass();
+        if(q->eval(1, k2) == Query::HIGHER) pass();
         else fail("14 in range [-inf,10]");
         
-        if(!q->eval(1, k3))pass();
+        if(q->eval(1, k3) == Query::HIGHER) pass();
         else fail("30 in range [-inf,10]");
       
         delete q;
@@ -68,13 +68,13 @@ public:
         q = new Query();
         q->addCondition(1, new QueryCondition(new IntKey(5, 2), new KeyInfinity(true)));
         
-        if(!q->eval(1, k1)) pass();
+        if(q->eval(1, k1) == Query::LOWER) pass();
         else fail("4 in range [5,+inf]");
                 
-        if(q->eval(1, k2)) pass();
+        if(q->eval(1, k2) == Query::MATCH) pass();
         else fail("14 out of range [5,+inf]");
         
-        if(q->eval(1, k3)) pass();
+        if(q->eval(1, k3) == Query::MATCH) pass();
         else fail("30 out of range [5,+inf]");
       
         delete q;
@@ -83,13 +83,13 @@ public:
         q = new Query();
         q->addCondition(1, new QueryCondition(new IntKey(10, 2), new IntKey(20, 2)));
         
-        if(!q->eval(1, k1)) pass();
+        if(q->eval(1, k1) == Query::LOWER) pass();
         else fail("4 in range [10,20]");
         
-        if(q->eval(1, k2)) pass();
+        if(q->eval(1, k2) == Query::MATCH) pass();
         else fail("14 out of range [10,20]");
         
-        if(!q->eval(1, k3)) pass();
+        if(q->eval(1, k3) == Query::HIGHER) pass();
         else fail("30 out of range [10,20]");
       
         delete q;

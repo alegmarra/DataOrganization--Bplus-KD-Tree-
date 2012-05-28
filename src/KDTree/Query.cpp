@@ -36,7 +36,7 @@ unsigned Query::size()
     return size;
 }
 
-bool Query::eval(unsigned dimension, Key * k)
+int Query::eval(unsigned dimension, Key * k)
 {
     std::map< unsigned, std::vector< QueryCondition * > >::iterator it;
     
@@ -44,14 +44,12 @@ bool Query::eval(unsigned dimension, Key * k)
     
     if (it != conditions.end()) {
         for (int i = 0; i < it->second.size(); i++) {
-            if (!it->second[i]->inRange(k)) {
-                return false;
-            }
+            return it->second[i]->eval(k);
         }
     }
     
 
-    return true;
+    return 0;
 }
 
 Query::~Query()
