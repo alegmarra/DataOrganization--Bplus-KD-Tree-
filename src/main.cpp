@@ -11,19 +11,14 @@ int main()
 	test->run();
 	delete test;
 
-   /* test = new QueryTest();
+    test = new QueryTest();
     test->run();
 
 	delete test;
-    */
 
 	test = new FileBlocksTest();
 	test->run();
 	delete test;
-
-
-    std::cout << std::endl << "UnitTest END" 
-               << std::endl << std::endl;
 
     test = new SerializersTest();
     test->run();
