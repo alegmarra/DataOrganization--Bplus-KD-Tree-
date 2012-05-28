@@ -25,7 +25,8 @@ private:
 
 public:
 
-	FileBlocksTest(){
+	FileBlocksTest(): Test("FileBlocks")
+	{
 
 		blockSize = 4096;
 		path = "my_test_file.bin";
@@ -33,8 +34,6 @@ public:
 
 		remove(path);
 		remove(spacePath);
-		std::cout << std::endl << "FileBlocksTest BEGIN: "
-				  << std::endl << std::endl;
 	}
 
 	virtual void run(){
@@ -70,6 +69,8 @@ public:
 
 	void test_Constructor_NewFile(){
 
+        start("Constructor_NewFile");
+
 		remove(path);
 		FileAbstract* testFile = new FileBlocks(path, 4096);
 
@@ -78,23 +79,22 @@ public:
 		FILE* pFile;
 		pFile = fopen (path,"r");
 
-
-		if (!pFile){
-			std::cout << "test_Constructor_NewFile: File NOT CREATED"
-					  << std::endl;
-			assert(false);
+		if (!pFile) {
+		    fail("File NOT CREATED");
+		} else {
+    		pass();
 		}
-
-		assert(true);
-		std::cout << "test_Constructor_NewFile: OK"
-				  << std::endl;
 
 		fclose(pFile);
 		remove(path);
+        
+        stop();
 
 	}
 
-	void test_Constructor_ExistingFile(){
+	void test_Constructor_ExistingFile()
+	{
+        start("Constructor_ExistingFile");
 
 		remove(path);
 		/*
@@ -128,12 +128,9 @@ public:
 		 */
 		pFile = fopen (path,"r");
 
-		if (!pFile){
-			std::cout << "test_Constructor_ExistingFile: File NOT OPEN"
-					  << std::endl;
-			assert(false);
-		}
-		else{
+		if (!pFile) {
+		    fail("File NOT OPEN");
+		} else {
 			rewind(pFile);
 			char* output = new char [strlen(buffer)];
 
@@ -146,20 +143,23 @@ public:
 			std::string s = output;
 			delete[] output;
 
-			assert(s.compare("Hello World"));
-				std::cout << "test_Constructor_ExistingFile: OK"
-						  << std::endl;
+			if(s.compare("Hello World")) {
+				pass();
+			}
 
 		}
 
 		delete[] buffer;
 		fclose(pFile);
 		remove(path);
+		
+		stop();
 	}
 
 
-    void test_Insert_NoError(){
-
+    void test_Insert_NoError()
+    {
+        start("Insert_NoError");
 /*
  *      Opens a new file, save data and close the file.
  *      After that, check if the data was succesfully saved.
@@ -183,9 +183,7 @@ public:
         //Checks insertion
         FILE* f = fopen(path, "rb+");
         if (!f){
-			std::cout << "test_Insert_NoError: File NOT OPEN"
-					  << std::endl;
-			assert(false);
+			fail("File NOT OPEN");
         }
 
         char* buffer = new char[blockSize];
@@ -194,19 +192,22 @@ public:
 
         std::string out = buffer;
 
-        assert((out.compare("Hello World") == 0));
-
-        std::cout << "test_Insert_NoError: OK"
-				  << std::endl;
+        if((out.compare("Hello World") == 0)) {
+            pass();
+        }
 
         fclose(f);
 		remove(path);
 
 		delete[] buffer;
 
-        }
+        stop();
+    }
 
-    void test_Insert_BlockAlreadyExists_Error(){
+    void test_Insert_BlockAlreadyExists_Error()
+    {
+        start("Insert_BlockAlreadyExists_Error");
+        
         //New empty file
     	remove(path);
 
@@ -223,21 +224,21 @@ public:
 
          //Re-inserts in the same block
         result = pFile->insert(buffer, 0, size);
-        if ((result == 3)) assert(true);
+        if ((result == 3)) pass();
 
-        else assert(false);
-        std::cout << "test_Insert_BlockAlreadyExists_Error: OK"
-				  << std::endl;
+        else fail("result expected value 3");
 
         delete pFile;
  		delete[] buffer;
  		remove(path);
 
+        stop();
     }
 
 
-    void test_Find_NoError(){
-
+    void test_Find_NoError()
+    {
+        start("Find_NoError");
     	/*
     	 * Open file with data on block n,
     	 * return the block.
@@ -280,28 +281,34 @@ public:
         for (unsigned i = 0; i<s.size(); i++){
         	block = i;
             buffer = (char*)pFile->find(&block);
-            if ( !(buffer) ){
-            	std::cout << "test_Find_NoError: Block " << block << " NOT FOUND"
-            			  << std::endl;
-        		assert(false);
+            if (!(buffer) ) {
+                char msg[50];
+                sprintf(msg, "Block %d NOT FOUND", block);
+            	fail(msg);
+            } else {
+                pass();
             }
 
             out = buffer;
     		delete[] buffer;
 
             control += s[i];
-            assert((control.compare(out) == 0));
+            if((control.compare(out) == 0)) {
+                pass();
+            } else {
+                fail("Control expected to be equal to out");
+            }
 
         }
 
-        std::cout << "test_Find_NoError: OK" << std::endl;
-
 		delete pFile;
 		remove(path);
+		stop();
     }
 
-    void test_Find_NoBlock_Error_EmptyFile(){
-
+    void test_Find_NoBlock_Error_EmptyFile()
+    {
+        start("Find_NoBlock_Error_EmptyFile");
     	/*
     	 * Find on empty file, return NULL
     	 */
@@ -314,17 +321,21 @@ public:
 
         char* buffer = (char*)pFile->find(&block);
 
-        assert (buffer == NULL);
-        std::cout << "test_Find_NoBlock_Error_EmptyFile: OK" << std::endl;
+        if(buffer == NULL) {
+            pass();
+        } else {
+            fail("File is not empty");
+        }
 
         delete[] buffer;
         delete pFile;
         remove(path);
-
+        stop();
     }
 
-    void test_Find_NoBlock_Error_LoadedFile(){
-
+    void test_Find_NoBlock_Error_LoadedFile()
+    {
+        start("Find_NoBlock_Error_LoadedFile");
     	/*
     	 * Open file with no data on block n+1,
     	 * return NULL
@@ -362,19 +373,23 @@ public:
 
         buffer = (char*)pFile->find(&block);
 
-        assert (buffer == NULL);
+        if (buffer == NULL) {
+            pass();
+        } else {
+            fail("Block not empty");
+        }
 
         delete[] buffer;
         delete pFile;
         remove(path);
-        std::cout << "test_Find_NoBlock_Error_LoadedFile: OK" << std::endl;
-
+        stop();
 
     }
 
 
-    void test_Update_NoError(){
-
+    void test_Update_NoError()
+    {
+        start("Update_NoError");
     	//New empty file
     	remove(path);
 
@@ -402,10 +417,18 @@ public:
     	char* outBuffer = makeBuffer("GoodBye World", size);
 
     	size_t result = pFile->update(outBuffer, 1, size);
-        if (result != 1) assert (false);
+        if (result != 1) {
+            fail("Update failed");
+        } else {
+            pass();
+        }
 
     	result = pFile->update(outBuffer, 3, size);
-    	if (result != 1) assert (false);
+    	if (result != 1) {
+    	    fail("Update failed");
+	    } else {
+	        pass();
+	    }
 
     	delete[] outBuffer;
     	delete pFile;
@@ -421,29 +444,48 @@ public:
 
 	    	out = outBuffer;
 
-	    	switch (i){
-	    	case 0:	assert((out.compare("Hello World") == 0));
-	    		break;
-	    	case 1: assert((out.compare("GoodBye World") == 0));
-	    		break;
-	    	case 2: assert((out.compare("Hello World") == 0));
-	    		break;
-	    	case 3:	assert((out.compare("GoodBye World") == 0));
-	    		break;
+	    	switch (i) {
+	        	case 0:	
+	        	    if((out.compare("Hello World") == 0)) {
+	        	        pass();
+	        	    } else {
+	        	        fail("Expected \"Hello World\"");
+	        	    }
+	        		break;
+	        	case 1: 
+	        	    if((out.compare("GoodBye World") == 0)) {
+	        	        pass();
+	        	    } else {
+	        	        fail("Expected \"GoodBye World\"");
+	        	    }
+	        		break;
+	        	case 2: 
+	        	    if((out.compare("Hello World") == 0)) {
+	        	        pass();
+	        	    } else {
+	        	        fail("Expected \"Hello World\"");
+	        	    }
+	        		break;
+	        	case 3:	
+	        	    if((out.compare("GoodBye World") == 0)) {
+	        	        pass();
+	        	    } else {
+	        	        fail("Expected \"GoodBye World\"");
+	        	    }
+	        		break;
 	    	}
 		}
 		fclose(f);
-
 		delete[] outBuffer;
 
 		remove(path);
 
-        std::cout << "test_Update_NoError: OK" << std::endl;
-
+        stop();
     }
 
-    void test_Update_NoBlock_Error(){
-
+    void test_Update_NoBlock_Error()
+    {
+        start("Update_NoBlock_Error");
     	//New empty file
     	remove(path);
 
@@ -466,28 +508,32 @@ public:
 
     	int result = pFile->update(buffer, 5, size);
     	if (result != 0){
-        	std::cout << "test_Update_NoBlock_Error: Updates Non-Existent Block"
-        			  << std::endl;
-    		assert(false);
-    	}
-
-    	assert(true);
+        	fail("Updates Non-Existent Block");
+    	} else {
+    	    pass();
+	    }
 
     	delete pFile;
 		delete[] buffer;
 		remove(path);
 
-        std::cout << "test_Update_NoBlock_Error: OK" << std::endl;
+        stop();
     }
 
     void test_GetFreeBlock_WhenNoFreeBlocks(){
 
+        start("GetFreeBlock_WhenNoFreeBlocks");
     	//New empty file
     	remove(path);
 
     	FileBlocks* pFile = new FileBlocks(path, blockSize);
 
-    	assert ((pFile->getFreeBlock()) == 0);
+    	if ((pFile->getFreeBlock()) == 0) {
+    	    pass();
+	    } else {
+    	    fail("Expected Block 0");
+    	}
+    	
     	delete pFile;
 
 
@@ -505,18 +551,21 @@ public:
     	pFile = new FileBlocks(path, blockSize);
     	unsigned bn = pFile->getFreeBlock();
     	//First free (new block) after existing blocks
-    	assert (bn == 4);
-
-        std::cout << "test_GetFreeBlock_WhenNoFreeBlocks: OK" << std::endl;
+    	if (bn == 4) {
+    	    pass();
+    	} else {
+    	    fail("Expected Block 4");
+    	}
 
     	delete pFile;
     	delete[] buffer;
     	remove (path);
-
+        stop();
     }
 
-    void test_Remove_And_GetFree_NoError(){
-
+    void test_Remove_And_GetFree_NoError()
+    {
+        start("Remove_And_GetFree_NoError");
     	//New empty file
     	remove(path);
 
@@ -535,37 +584,40 @@ public:
     	pFile->remove(&bn);
 
     	//Should return free block instead of new block (# 4)
-    	assert ((pFile->getFreeBlock()) == 2);
-
-        std::cout << "test_Remove_And_GetFree_NoError: OK" << std::endl;
+    	if ((pFile->getFreeBlock()) == 2) {
+    	    pass();
+    	} else {
+    	  fail("Expected Block 4");  
+    	}
 
     	delete pFile;
     	delete[] buffer;
     	remove (path);
+        stop();
     }
 
-    void test_Remove_NoBlock_Error(){
-
+    void test_Remove_NoBlock_Error()
+    {
+        start("Remove_NoBlock_Error");
     	remove(path);
 
     	FileBlocks* pFile = new FileBlocks(path, blockSize);
     	unsigned bn = 4;
 
     	if ((pFile->remove(&bn)) != 0){
-        	std::cout << "test_Remove_NoBlock_Error: Removes Non-Existent Block"
-        			  << std::endl;
-    		assert(false);
-    	}
-    	assert(true);
-        std::cout << "test_Remove_NoBlock_Error: OK" << std::endl;
+        	fail("Removes Non-Existent Block");
+    	} else {
+    	    pass();
+	    }
 
     	delete pFile;
     	remove (path);
-
+        stop();
     }
 
-    void test_serialize(){
-
+    void test_serialize()
+    {
+        start("serialize");
     	remove(path);
     	remove(spacePath);
 
@@ -599,17 +651,17 @@ public:
         unsigned size = 1;
 
         for (it = v.begin(); it<v.end(); it++){
-        	assert (size == *it);
+        	if (size == *it) {
+        	    pass();
+        	} else {
+        	    fail("Wrong Size");
+        	}
+        	
         	size++;
         }
 
         delete pFile;
         remove(path);
+        stop();
     }
-
-    virtual ~FileBlocksTest(){
-
-		std::cout << "-------FileBlocksTest END-------"
-				  << std::endl;
-	}
 };

@@ -10,11 +10,7 @@ class KeyTest: public Test {
 
 public:
 
-	KeyTest(){
-
-		std::cout << std::endl << "KeyTest BEGIN: "
-				  << std::endl << std::endl;
-	}
+	KeyTest(): Test("Key") { }
 
 	virtual void run(){
         test_StringKey_CompareTo();
@@ -196,9 +192,5 @@ public:
         }
     }
 
-	virtual ~KeyTest(){
 
-		std::cout << "-------KeyTest END-------"
-				  << std::endl;
-	}
 };

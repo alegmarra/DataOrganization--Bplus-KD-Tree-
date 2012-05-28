@@ -3,25 +3,20 @@
 #include "UnitTests/FileBlocksTest.cpp"
 #include "UnitTests/SerializersTest.cpp"
 
-
 int main()
 {
 	Test* test;
-
 	test = new KeyTest();
 	test->run();
 	delete test;
 
-   /* test = new QueryTest();
+    test = new QueryTest();
     test->run();
-
 	delete test;
-    */
 
 	test = new FileBlocksTest();
 	test->run();
 	delete test;
-
 
     test = new SerializersTest();
     test->run();
