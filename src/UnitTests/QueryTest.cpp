@@ -93,6 +93,22 @@ public:
         else fail("30 out of range [10,20]");
       
         delete q;
+
+        // 14 == k == 14
+        q = new Query();
+        q->addCondition(1, new QueryCondition(new IntKey(14, 2), new IntKey(14, 2)));
+        
+        if(q->eval(1, k1) == Query::LOWER) pass();
+        else fail("4 is not equal to 14");
+        
+        if(q->eval(1, k2) == Query::EQUAL) pass();
+        else fail("14 should be equal to 14");
+        
+        if(q->eval(1, k3) == Query::HIGHER) pass();
+        else fail("30 is not equal to 14");
+      
+        delete q;
+
         
         stop();
     }
