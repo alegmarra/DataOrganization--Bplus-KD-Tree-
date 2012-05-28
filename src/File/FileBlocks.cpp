@@ -113,14 +113,14 @@ int FileBlocks::insert(void* object, unsigned blockNumber){
 
 
     if (inputSize < (blockSize-1)){
-        
+
         buffer = new char[blockSize];
-        
+
         for (unsigned i = 0; i< inputSize; i++){
             buffer[i] = ((char*)object)[i];
         }
         buffer [inputSize] ='\0';
-        
+
         for (unsigned i = (inputSize+1); i< blockSize; i++){
             buffer[i] = '#';
         }
@@ -133,10 +133,10 @@ int FileBlocks::insert(void* object, unsigned blockNumber){
     if (result != (blockSize -1)) return result;
 
     updateSpace(blockNumber, inputSize);
-    
+
     delete[] buffer;
     fflush ( pFile );
-   
+
     //Operation completed with no error
 
 
@@ -223,7 +223,7 @@ void* FileBlocks::find(void* object){
     // seek blocks begining
 	unsigned blockNumber = *((unsigned*)object);
     unsigned offset = (blockNumber * (blockSize-1));
-    
+
     size_t result = fseek(pFile, offset, SEEK_SET);
     if (result != 0){
     	delete[] buffer;
@@ -236,7 +236,7 @@ void* FileBlocks::find(void* object){
     	delete[] buffer;
     	return NULL;
     }
-    
+
     /* the whole block is now loaded in the memory buffer.*/
     return buffer;
 }
@@ -291,13 +291,13 @@ void FileBlocks::deserialize(){
 
 void FileBlocks::deleteData() {
 	if (pFile){
-	    pFile = freopen(filename, "wb+", pFile);
+	    freopen(filename, "wb+", pFile);
 		std::string s = filename;
 		std::string listPath = s.substr(0, (s.size() -4));
 
 		listPath += "_space.bin";
 
-		f_space= freopen(listPath.c_str(), "wb+", pFile);
+		freopen(listPath.c_str(), "wb+", f_space);
 
 		freeBlocksList.clear();
 		spaceInBlocks.clear();

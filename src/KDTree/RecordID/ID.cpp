@@ -45,7 +45,6 @@ ID::~ID() {
 }
 
 int ID::serialize(char* buffer) {
-	std::vector<Key* >::iterator it;
 	int bytes = 0;
 	for (unsigned i = 0; i < size; ++i)
         bytes += keys[i]->serialize(buffer + bytes);
@@ -56,7 +55,6 @@ int ID::serialize(char* buffer) {
 int ID::deserialize(const char* buffer) {
     keys.empty();
 
-	std::vector<Key* >::iterator it;
 	int bytes = 0;
 	for (unsigned i = 0; i < size; ++i) {
 	    keys[i] = KeyFactory::getKey(i);
@@ -70,7 +68,7 @@ bool ID::equalsTo(ID* id) {
     bool iguales = size == id->size;
     unsigned i = 0;
     while (iguales && i < size) {
-        iguales = keys[i]->compareTo(id->keys[i]);
+        iguales = !keys[i]->compareTo(id->keys[i]);
         ++i;
     }
 

@@ -17,9 +17,7 @@ unsigned NodeSerializer::serializeNode(Node* node, int nodeNumber) {
         throw FileNotSetException();
 
     char* buffer = new char[blockSize];
-    int bytes;
-
-    bytes = node->serialize(buffer);
+    int bytes = node->serialize(buffer);
 
     unsigned blockNumber;
     if (nodeNumber == NEW_NODE) {
@@ -64,8 +62,6 @@ void NodeSerializer::setFile(const char* filename, unsigned _blockSize) {
 }
 
 void NodeSerializer::newFile(const char* filename, unsigned _blockSize) {
-    remove(filename);
-
     setFile(filename, _blockSize);
     file->deleteData();
 }

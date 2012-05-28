@@ -11,7 +11,7 @@ int LeafNode::insert(Record* record) {
 
 }
 
-/** @todo int LeafNode::split() */
+/** @todo Node* LeafNode::split() */
 Node* LeafNode::split() {
 
 }
@@ -32,7 +32,6 @@ int LeafNode::deserialize(const char* buffer) {
     numElements = buffer[1];
     elements.resize(numElements);
     int bytes = 2;
-    Record aux;
 
     for (unsigned i = 0; i < numElements; ++i) {
         Record* aux = new Record;

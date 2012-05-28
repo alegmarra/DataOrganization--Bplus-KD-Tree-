@@ -1,8 +1,10 @@
 #include "IntKey.h"
 #include "../../Exceptions/InvalidIntSizeException.h"
 
+#define MAX_BYTES 8
+
 IntKey::IntKey(unsigned _size) {
-    if (_size > 8 || _size < 1 )
+    if (_size > MAX_BYTES || _size < 1 )
         throw InvalidIntSizeException(size);
 
     size = _size;
@@ -10,7 +12,7 @@ IntKey::IntKey(unsigned _size) {
 }
 
 IntKey::IntKey(int_least64_t _value, unsigned _size) {
-    if (_size > 8 || _size < 1 )
+    if (_size > MAX_BYTES || _size < 1 )
         throw InvalidIntSizeException(size);
 
     size = _size;
@@ -27,14 +29,19 @@ int IntKey::compareTo(Key* k) {
 
 int IntKey::serialize(char* buffer) {
     for (unsigned i = 0; i < size; ++i)
-        buffer[i] = uint_least64_t(value) >> i*8;
+        buffer[i] = value >> i*8;
 
     return size;
 }
 
 int IntKey::deserialize(const char* buffer) {
     for (unsigned i = 0; i < size; ++i)
-        value = value | int_least64_t(buffer[i]) << i*8;
+        value = value | int_least64_t((unsigned char)buffer[i]) << i*8;
+
+    // extensión del signo
+    if (buffer[size-1] < 0)
+        for (unsigned i = size; i < MAX_BYTES; ++i)
+            value = value | int_least64_t(0xFF) << i*8;
 
     return size;
 }

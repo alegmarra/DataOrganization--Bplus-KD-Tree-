@@ -39,7 +39,6 @@ class NodeSerializer {
     private:
         static FileBlocks* file;
         static unsigned blockSize;
-
 };
 
 #endif  // NODE_SERIALIZER_H
