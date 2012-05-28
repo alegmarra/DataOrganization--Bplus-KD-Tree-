@@ -15,11 +15,7 @@
 
 class SerializersTest : public Test {
     public:
-        SerializersTest() {
-            std::cout << std::endl << "SerializersTest BEGIN: "
-                      << std::endl << std::endl;
-
-        }
+        SerializersTest(): Test("Serializers") { }
 
         void run() {
             test_serializeDeserializeRecord();
@@ -32,8 +28,6 @@ class SerializersTest : public Test {
         }
 
         ~SerializersTest() {
-            std::cout << "-------SerializersTest END-------"
-                      << std::endl;
             NodeSerializer::freeStaticMem();
         }
 
