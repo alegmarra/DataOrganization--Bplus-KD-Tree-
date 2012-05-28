@@ -25,8 +25,8 @@ protected:
 public:
 
 
-	virtual int insert(void* object, unsigned number) =0;
-	virtual int update(void* object, unsigned number) =0;
+	virtual int insert(void* object, unsigned number, unsigned size) =0;
+	virtual int update(void* object, unsigned number, unsigned size) =0;
 	virtual int remove(void* object) =0;
 	virtual void * find(void* object) =0;
 

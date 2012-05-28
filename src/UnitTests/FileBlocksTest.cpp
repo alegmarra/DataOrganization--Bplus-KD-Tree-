@@ -11,9 +11,10 @@ private:
 	const char * path;
 	const char * spacePath;
 
-	char* makeBuffer(const char* s){
+	char* makeBuffer( const char* s,int & size){
 
-        char* buffer = new char[strlen(s)+1];
+		size = strlen(s);
+		char* buffer = new char[strlen(s)+1];
 
         for (unsigned i = 0; i< strlen(s); i++)
         	buffer[i] = s[i];
@@ -30,6 +31,8 @@ public:
 		path = "my_test_file.bin";
 		spacePath = "my_test_file_space.bin";
 
+		remove(path);
+		remove(spacePath);
 		std::cout << std::endl << "FileBlocksTest BEGIN: "
 				  << std::endl << std::endl;
 	}
@@ -106,8 +109,10 @@ public:
 		pFile = fopen (path,"wb+");
 		rewind(pFile);
 
-		char* buffer = makeBuffer("Hello World");
-		fwrite( buffer, 1,(strlen(buffer)-1), pFile);
+
+		int size;
+		char* buffer = makeBuffer("Hello World", size);
+		fwrite( buffer, 1,(size-1), pFile);
 		fclose(pFile);
 
 		/*
@@ -165,10 +170,11 @@ public:
         FileBlocks* pFile = new FileBlocks(path, blockSize);
 
        //Generate Buffers for in - out;
-        char* message = makeBuffer("Hello World");
+        int size;
+        char* message = makeBuffer("Hello World", size);
 
         // Begins insertion
-        int result = pFile->insert(message, 0);
+        int result = pFile->insert(message, 0, size);
         if ((result == 3) || (result == 0))	assert(false);
 
         delete pFile;
@@ -207,14 +213,16 @@ public:
         FileBlocks* pFile = new FileBlocks(path, blockSize);
 
         //Generate Buffers for in - out;
-        char* buffer = makeBuffer("Hello World");
+
+        int size;
+        char* buffer = makeBuffer("Hello World", size);
 
          // Begins insertion
-        int result = pFile->insert(buffer, 0);
+        int result = pFile->insert(buffer, 0, size);
         if ((result == 3) || (result == 0))	assert(false);
 
          //Re-inserts in the same block
-        result = pFile->insert(buffer, 0);
+        result = pFile->insert(buffer, 0, size);
         if ((result == 3)) assert(true);
 
         else assert(false);
@@ -374,12 +382,13 @@ public:
     	FileBlocks* preFile = new FileBlocks(path, blockSize);
 
     	//Generate data in File
-        char* message = makeBuffer("Hello World");
+    	int size ;
+    	char* message = makeBuffer("Hello World", size);
 
-        preFile->insert(message, preFile->getFreeBlock());
-        preFile->insert(message, preFile->getFreeBlock());
-        preFile->insert(message, preFile->getFreeBlock());
-        preFile->insert(message, preFile->getFreeBlock());
+        preFile->insert(message, preFile->getFreeBlock(), size);
+        preFile->insert(message, preFile->getFreeBlock(), size);
+        preFile->insert(message, preFile->getFreeBlock(), size);
+        preFile->insert(message, preFile->getFreeBlock(), size);
 
     	delete preFile;
     	delete[] message;
@@ -389,12 +398,13 @@ public:
     	FileBlocks* pFile = new FileBlocks(path, blockSize);
 
 
-    	char* outBuffer = makeBuffer("GoodBye World");
 
-    	size_t result = pFile->update(outBuffer, 1);
+    	char* outBuffer = makeBuffer("GoodBye World", size);
+
+    	size_t result = pFile->update(outBuffer, 1, size);
         if (result != 1) assert (false);
 
-    	result = pFile->update(outBuffer, 3);
+    	result = pFile->update(outBuffer, 3, size);
     	if (result != 1) assert (false);
 
     	delete[] outBuffer;
@@ -438,7 +448,8 @@ public:
     	remove(path);
 
     	//Generate data in File
-        char* buffer = makeBuffer("Hello World");
+    	int size;
+    	char* buffer = makeBuffer("Hello World", size);
 
     	FILE* f = fopen (path,"wb+");
 		for (int i = 0; i<4; i++){
@@ -451,9 +462,9 @@ public:
 		//Updates file
     	FileBlocks* pFile = new FileBlocks(path, blockSize);
 
-    	buffer = makeBuffer("GoodBye World");
+    	buffer = makeBuffer("GoodBye World", size);
 
-    	int result = pFile->update(buffer, 5);
+    	int result = pFile->update(buffer, 5, size);
     	if (result != 0){
         	std::cout << "test_Update_NoBlock_Error: Updates Non-Existent Block"
         			  << std::endl;
@@ -481,7 +492,8 @@ public:
 
 
     	//Generate data in File
-        char* buffer = makeBuffer("Hello World");
+    	int size;
+    	char* buffer = makeBuffer("Hello World", size);
 
     	FILE* f = fopen (path,"wb+");
 		for (int i = 0; i<4; i++){
@@ -512,10 +524,11 @@ public:
     	FileBlocks* pFile = new FileBlocks(path, blockSize);
 
     	//Generate data in File
-        char* buffer = makeBuffer("Hello World");
+        int size;
+        char* buffer = makeBuffer("Hello World", size);
 
 		for (int i = 0; i<4; i++)
-			pFile->insert(buffer, i);
+			pFile->insert(buffer, i, size);
 
 		//remove block #2
     	unsigned bn = 2;
@@ -554,6 +567,7 @@ public:
     void test_serialize(){
 
     	remove(path);
+    	remove(spacePath);
 
         FileBlocks* pFile = new FileBlocks(path, blockSize);
 
@@ -567,10 +581,9 @@ public:
 
         	unsigned bNumber = pFile->getFreeBlock();
 
-            pFile->insert(buffer, bNumber);
+            pFile->insert(buffer, bNumber, (i+1));
         	//first (#0) block has '0', second (#1) has '01', etc
         }
-
 
         delete[] buffer;
         delete pFile;
@@ -583,7 +596,7 @@ public:
         pFile = new FileBlocks(path, blockSize);
         std::vector<unsigned> v = pFile->space();
         std::vector<unsigned>::iterator it;
-        int size = 1;
+        unsigned size = 1;
 
         for (it = v.begin(); it<v.end(); it++){
         	assert (size == *it);

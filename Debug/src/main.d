@@ -5,10 +5,10 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
  ../src/UnitTests/../KDTree/RecordID/../Serializers/Serializable.h \
  ../src/UnitTests/../KDTree/RecordID/IntKey.h ../src/UnitTests/Test.cpp \
  ../src/UnitTests/QueryTest.cpp ../src/UnitTests/../KDTree/Query.h \
- /home/saasbook/tpDatos/src/KDTree/Query/Condition.h \
- /home/saasbook/tpDatos/src/KDTree/RecordID/Key.h \
- /home/saasbook/tpDatos/src/KDTree/RecordID/Infinity.h \
- /home/saasbook/tpDatos/src/KDTree/RecordID/Key.h \
+ ../src/UnitTests/../KDTree/Query/Condition.h \
+ ../src/UnitTests/../KDTree/Query/../RecordID/Key.h \
+ ../src/UnitTests/../KDTree/Query/../RecordID/Infinity.h \
+ ../src/UnitTests/../KDTree/Query/../RecordID/Key.h \
  ../src/UnitTests/../KDTree/RecordID/Key.h \
  ../src/UnitTests/../KDTree/Query/Condition.h \
  ../src/UnitTests/FileBlocksTest.cpp \
@@ -50,13 +50,13 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
 
 ../src/UnitTests/../KDTree/Query.h:
 
-/home/saasbook/tpDatos/src/KDTree/Query/Condition.h:
+../src/UnitTests/../KDTree/Query/Condition.h:
 
-/home/saasbook/tpDatos/src/KDTree/RecordID/Key.h:
+../src/UnitTests/../KDTree/Query/../RecordID/Key.h:
 
-/home/saasbook/tpDatos/src/KDTree/RecordID/Infinity.h:
+../src/UnitTests/../KDTree/Query/../RecordID/Infinity.h:
 
-/home/saasbook/tpDatos/src/KDTree/RecordID/Key.h:
+../src/UnitTests/../KDTree/Query/../RecordID/Key.h:
 
 ../src/UnitTests/../KDTree/RecordID/Key.h:
 

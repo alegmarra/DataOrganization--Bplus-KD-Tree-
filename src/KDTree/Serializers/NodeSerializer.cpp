@@ -22,12 +22,12 @@ unsigned NodeSerializer::serializeNode(Node* node, int nodeNumber) {
     unsigned blockNumber;
     if (nodeNumber == NEW_NODE) {
         blockNumber = file->getFreeBlock();
-        if (!file->insert(buffer, blockNumber))
+        if (!file->insert(buffer, blockNumber, bytes))
             throw FileErrorException();
     }
     else {
         blockNumber = nodeNumber;
-        if (!file->update(buffer, blockNumber))
+        if (!file->update(buffer, blockNumber, bytes))
             throw FileErrorException();
     }
 
