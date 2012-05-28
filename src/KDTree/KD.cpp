@@ -17,20 +17,41 @@ KDtree::KDtree(FileAbstract* myFile){
 
 void KDtree::setRoot(){
 
+/*
+ * 	NodeSerializer::setFile(treeFile);
+ */
+	try{
 
+		root = NodeSerializer::deserializeNode(0);
 
+	}catch(FileErrorException*){
+
+	}
 }
 
-void KDtree::insert(Record* record){
+int KDtree::insert(Record* record){
 
-	this->insert(root, record);
+	int result = root->insert(record);
+
+	switch (result){
+	//No update on root
+	case 0: break;
+	//root Updated
+	case 1: NodeSerializer::serializeNode(root, 0);
+		break;
+	//root Overflow
+	case 2:
+		root->grow();
+		NodeSerializer::serializeNode(root, 0);
+		break;
+	//Duplicated record
+	case 3: return 3;
+		break;
+	};
+
+	return 1;
 }
 
-int KDtree::insert(Node* node, Record* record){
-
-	return 0;
-
-}
 
 
 KDtree::~KDtree() {

@@ -10,7 +10,8 @@
 #include<iostream>
 #include<fstream>
 #include "Node.h"
-#include "Serializers/KDtreeSerializer.cpp"
+#include "KDTree/Query.h"
+//#include "Serializers/NodeSerializer.cpp"
 
 class Record;
 class ID;
@@ -26,19 +27,19 @@ public:
 
 	//Inserta el record en el arbol, chequeando que no sea
 	//una entrada duplicada
-	void insert(Record* record);
+	int insert(Record* record);
 
 	//Si se encuentra, borra la entrada del arbol
 	void remove(Record* record);
 
 	//Busqueda punual de un record particular
-	Record search(ID* id);
+	Record* search(Query* query);
 
 	/*
 	 * Búsqueda parcial puntual.
 	 * post: Devuelve todos los records que cumplan con el pedido parcial
 	 */
-	std::vector<Record> searchAll(std::vector<Key*> key);
+	std::vector<Record> searchAll(Query* query);
 
 	/*
 	 * Busqueda por rangos.
@@ -55,13 +56,13 @@ public:
 
 private:
 
-	//Pide el primer nodo del archivo y lo almacena como raiz.
+	//Recovers first Node in File.
 	void setRoot();
 
-	int insert(Node* root, Record* record);
+//	int insert(Node* root, Record* record);
 
-	unsigned numberOfNodes;
-	std::vector<unsigned> freeNodes;
+//  unsigned numberOfNodes;
+//	std::vector<unsigned> freeNodes;
 
 	FileAbstract* treeFile;
 	Node* root;
