@@ -25,10 +25,12 @@ public:
     /**
      * Evaluates the key against the conditions set for de dimension.
      * Return values:
-     *     < 0: Key is below range, search to the left
-     *     0: Key is in range, or no condition is set for the dimension, search
-     *     both sides
-     *     > 0: Key is above range, search to the right
+     *     LOWER: Key is below range, follow the left subtree
+     *     HIGHER: Key is above range, move to the right keys
+     *     MATCH: Key is in range, or no condition is set for the dimension, 
+     *     follow both left and right subtrees
+     *     EQUAL: Key matches exactly to the condition. Search follow the right 
+     *     subtree
      *
      * @var unsigned dimension Dimension on which to evaluate the key
      * @var Key * k The key being evaluated
