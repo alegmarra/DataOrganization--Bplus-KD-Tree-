@@ -28,7 +28,7 @@ QueryCondition::QueryCondition(Key * low, Key * hi)
 
 void QueryCondition::init()
 {
-    low_key = new KeyInfinity();
+    low_key = new KeyInfinity(false);
     hi_key = new KeyInfinity(true);
 }
 
@@ -67,14 +67,11 @@ bool QueryCondition::inRange(Key * k)
 
 int QueryCondition::eval(Key * k)
 {
-    int comp_low = low_key->compareTo(k);
-    int comp_high = hi_key->compareTo(k);
-    
-    if (comp_low > 0) { // Lower end is higher than key
+    if (low_key->compareTo(k) > 0) { // Lower end is higher than key
         return Query::LOWER;
-    } else if (comp_high < 0) { // Higher end is lower than key
+    } else if (hi_key->compareTo(k) < 0) { // Higher end is lower than key
         return Query::HIGHER;
-    } else if(comp_low == comp_high && comp_low == 0) { // Key matches exactly both ends
+    } else if(low_key->compareTo(hi_key) == 0 && low_key->compareTo(k) == 0) { // Key matches exactly both ends
         return Query::EQUAL;    
     } else {
         return Query::MATCH;

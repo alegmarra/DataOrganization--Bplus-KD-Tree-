@@ -1,7 +1,10 @@
 #include "Test.cpp"
 
 #include "../KDTree/Query/Condition.h"
+#include "../KDTree/Query.h"
 #include "../KDTree/RecordID/IntKey.h"
+
+#include "../KDTree/RecordID/Infinity.h"
 
 
 class ConditionTest: public Test 
@@ -145,9 +148,9 @@ private:
             start("InRange");
             
             QueryCondition c = QueryCondition(new IntKey(10, 2), new IntKey(20, 2));
-            IntKey k1 = IntKey(5, 2);
-            IntKey k2 = IntKey(15, 2);
-            IntKey k3 = IntKey(25, 2);
+            IntKey k1(5, 2);
+            IntKey k2(15, 2);
+            IntKey k3(25, 2);
             
             if (c.inRange(&k1)) fail("5 is not in range [10,20]");
             else pass();
@@ -164,7 +167,64 @@ private:
         void test_Eval()
         {
             start("Eval");
-            fail("Not implemented yet!");
+
+            IntKey k1(5, 2);
+            IntKey k2(15, 2);
+            IntKey k3(25, 2);
+            
+            QueryCondition * c;
+            
+            c = new QueryCondition();
+
+            if (c->eval(&k1) == Query::MATCH) pass();
+            else {
+                switch (c->eval(&k1))
+                {
+                    case Query::LOWER:
+                    fail("Any key should match an infinite range condition. Got LOWER"); 
+                    break;
+                    
+                    case Query::HIGHER:
+                    fail("Any key should match an infinite range condition. Got HIGHER"); 
+                    break;
+                    
+                    case Query::EQUAL:
+                    fail("Any key should match an infinite range condition. Got EQUAL"); 
+                    break;
+                
+                    default:        
+                    fail("Any key should match an infinite range condition"); 
+                    break;
+                }
+            }
+            delete c;
+            
+            c = new QueryCondition(new IntKey(15, 2));
+            
+            if (c->eval(&k1) == Query::LOWER) pass();
+            else fail("5 is LOWER than 15"); 
+
+            if (c->eval(&k2) == Query::EQUAL) pass();
+            else fail("15 is EQUAL to 15");
+            
+            if (c->eval(&k3) == Query::HIGHER) pass();
+            else fail("25 is HIGHER than 15");
+                                    
+            delete c;
+            
+            c = new QueryCondition(new IntKey(10, 2), new IntKey(20, 2));
+
+            if (c->eval(&k1) == Query::LOWER) pass();
+            else fail("5 is below range [10,20]"); 
+
+            if (c->eval(&k2) == Query::MATCH) pass();
+            else fail("15 is contained in range [10,20]");
+            
+            if (c->eval(&k3) == Query::HIGHER) pass();
+            else fail("25 is above range [10,20]");
+
+            delete c;
+
             stop();
         }
 };
