@@ -3,15 +3,16 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
  ../src/UnitTests/../KDTree/RecordID/Key.h \
  ../src/UnitTests/../KDTree/RecordID/../../Exceptions/InvalidKeyException.cpp \
  ../src/UnitTests/../KDTree/RecordID/../Serializers/Serializable.h \
- ../src/UnitTests/../KDTree/RecordID/IntKey.h ../src/UnitTests/Test.cpp \
- ../src/UnitTests/QueryTest.cpp ../src/UnitTests/../KDTree/Query/Query.h \
+ ../src/UnitTests/../KDTree/RecordID/IntKey.h \
+ ../src/UnitTests/../KDTree/RecordID/Infinity.h ../src/UnitTests/Test.cpp \
+ ../src/UnitTests/ConditionTest.cpp \
+ ../src/UnitTests/../Exceptions/InvalidConditionRangeException.h \
  ../src/UnitTests/../KDTree/Query/Condition.h \
  ../src/UnitTests/../KDTree/Query/../RecordID/Key.h \
  ../src/UnitTests/../KDTree/Query/../RecordID/Infinity.h \
- ../src/UnitTests/../KDTree/Query/../RecordID/Key.h \
- ../src/UnitTests/../KDTree/RecordID/Infinity.h \
+ ../src/UnitTests/../KDTree/Query/Query.h \
  ../src/UnitTests/../KDTree/Query/Condition.h \
- ../src/UnitTests/FileBlocksTest.cpp \
+ ../src/UnitTests/QueryTest.cpp ../src/UnitTests/FileBlocksTest.cpp \
  ../src/UnitTests/../File/FileBlocks.h \
  ../src/UnitTests/../File/Abstract.h \
  ../src/UnitTests/../File/../Exceptions/InvalidOperationException.cpp \
@@ -54,11 +55,13 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
 
 ../src/UnitTests/../KDTree/RecordID/IntKey.h:
 
+../src/UnitTests/../KDTree/RecordID/Infinity.h:
+
 ../src/UnitTests/Test.cpp:
 
-../src/UnitTests/QueryTest.cpp:
+../src/UnitTests/ConditionTest.cpp:
 
-../src/UnitTests/../KDTree/Query/Query.h:
+../src/UnitTests/../Exceptions/InvalidConditionRangeException.h:
 
 ../src/UnitTests/../KDTree/Query/Condition.h:
 
@@ -66,11 +69,11 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
 
 ../src/UnitTests/../KDTree/Query/../RecordID/Infinity.h:
 
-../src/UnitTests/../KDTree/Query/../RecordID/Key.h:
-
-../src/UnitTests/../KDTree/RecordID/Infinity.h:
+../src/UnitTests/../KDTree/Query/Query.h:
 
 ../src/UnitTests/../KDTree/Query/Condition.h:
+
+../src/UnitTests/QueryTest.cpp:
 
 ../src/UnitTests/FileBlocksTest.cpp:
 

@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/UnitTests/ConditionTest.cpp \
 ../src/UnitTests/FileBlocksTest.cpp \
 ../src/UnitTests/KeyTest.cpp \
 ../src/UnitTests/NodeTest.cpp \
@@ -12,6 +13,7 @@ CPP_SRCS += \
 ../src/UnitTests/Test.cpp 
 
 OBJS += \
+./src/UnitTests/ConditionTest.o \
 ./src/UnitTests/FileBlocksTest.o \
 ./src/UnitTests/KeyTest.o \
 ./src/UnitTests/NodeTest.o \
@@ -20,6 +22,7 @@ OBJS += \
 ./src/UnitTests/Test.o 
 
 CPP_DEPS += \
+./src/UnitTests/ConditionTest.d \
 ./src/UnitTests/FileBlocksTest.d \
 ./src/UnitTests/KeyTest.d \
 ./src/UnitTests/NodeTest.d \

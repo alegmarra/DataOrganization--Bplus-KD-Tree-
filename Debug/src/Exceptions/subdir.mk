@@ -6,6 +6,7 @@
 CPP_SRCS += \
 ../src/Exceptions/FileErrorException.cpp \
 ../src/Exceptions/FileNotSetException.cpp \
+../src/Exceptions/InvalidConditionRangeException.cpp \
 ../src/Exceptions/InvalidIntSizeException.cpp \
 ../src/Exceptions/InvalidKeyException.cpp \
 ../src/Exceptions/InvalidOperationException.cpp \
@@ -15,6 +16,7 @@ CPP_SRCS += \
 OBJS += \
 ./src/Exceptions/FileErrorException.o \
 ./src/Exceptions/FileNotSetException.o \
+./src/Exceptions/InvalidConditionRangeException.o \
 ./src/Exceptions/InvalidIntSizeException.o \
 ./src/Exceptions/InvalidKeyException.o \
 ./src/Exceptions/InvalidOperationException.o \
@@ -24,6 +26,7 @@ OBJS += \
 CPP_DEPS += \
 ./src/Exceptions/FileErrorException.d \
 ./src/Exceptions/FileNotSetException.d \
+./src/Exceptions/InvalidConditionRangeException.d \
 ./src/Exceptions/InvalidIntSizeException.d \
 ./src/Exceptions/InvalidKeyException.d \
 ./src/Exceptions/InvalidOperationException.d \
