@@ -46,6 +46,7 @@ class NodeSerializer {
          */
         static void newFile(const char* filename, unsigned _blockSize);
         static void freeStaticMem();
+
     private:
         static FileBlocks* file;
         static unsigned blockSize;

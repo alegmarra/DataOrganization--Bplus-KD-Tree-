@@ -15,7 +15,7 @@ public:
         LeafNode(unsigned _level);
 
     	virtual int insert(Record* record);
-    	virtual Record* find(Query* query);
+    	virtual std::vector<Record*> find(Query* query);
 
     	virtual Key* split(Node* newNode);
     	virtual Node* grow();
@@ -29,7 +29,10 @@ public:
 
         /** fea idea, pero es por falta de tiempo */
 private:
+
+    	virtual std::vector<Record*> find(Record* record);
         std::vector<Record* > elements;
+
 
 #ifdef TESTING
         friend class SerializersTest;

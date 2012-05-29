@@ -81,7 +81,7 @@ private:
                 c = new QueryCondition(new IntKey(10, 2), new KeyInfinity(true));
                 delete c;
                 pass();
-            } catch (InvalidConditionRangeException e) {
+            } catch (InvalidConditionRangeException & e) {
                 fail("Failed to create a range finishing in +Infinity");
             } catch (...) {
                 fail("otro error");

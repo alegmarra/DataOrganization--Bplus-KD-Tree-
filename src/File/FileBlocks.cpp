@@ -260,7 +260,7 @@ void* FileBlocks::serialize(){
 		j++;
 	}
 
-	for (j; j<(blockSize / 4); j++)
+	for (; j<(blockSize / 4); j++)
 		buffer[j] = 99999;
 
 	return buffer;

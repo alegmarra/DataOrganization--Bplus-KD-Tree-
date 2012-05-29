@@ -13,9 +13,14 @@ class PairKeyNode;
 
 
 class Node : public Serializable {
+
 public:
     Node();
 	Node(unsigned _level);
+
+	//Node overflow when exceeds 75% of fullSize
+	static void setFullSize(unsigned size);
+
 
 	virtual unsigned getLevel();
 	virtual unsigned getNumElements();
@@ -24,7 +29,8 @@ public:
 
 	virtual Node* grow()=0;
 
-	virtual Record* find(Query* query)=0;
+	virtual std::vector<Record*> find(Query* query)=0;
+
 	//virtual Record* find(Query* query) = 0;
 
 	virtual ~Node();
@@ -37,7 +43,9 @@ public:
 protected:
 	unsigned level;
 	unsigned numElements;
-	unsigned freeSpace;
+	unsigned occupiedSpace;
+    static unsigned maxSize;
+
 };
 
 

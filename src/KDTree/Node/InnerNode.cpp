@@ -38,7 +38,7 @@ void InnerNode::addPair(PairKeyNode* pair){
 
 }
 
-Record* InnerNode::find(Query* query){
+std::vector<Record*> InnerNode::find(Query* query){
 
 }
 

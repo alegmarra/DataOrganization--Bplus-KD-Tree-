@@ -47,30 +47,32 @@ class SerializersTest : public Test {
         }
 
         void test_serializeDeserializeRecord() {
-            std::string info = "test_serializeDeserializeRecord: ";
+            start("serializeDeserializeRecord");
+
+
             Record* rec = initRecord("Sarmiento", 123456789, "Sin frenos",
                                      "Chocó con tu hermana", 1234);
             char buffer[256];
             int bytes = rec->serialize(buffer);
             Record* recHidratado = new Record();
 
-            std::cout << info;
+
             if (bytes == recHidratado->deserialize(buffer))
-                std::cout << "bytes usados OK";
+                pass();
             else
-                std::cout << "bytes usados NO OK";
+                fail("bytes usados NO OK");
 
-            std::cout << std::endl << info;
+
             if (rec->getID()->equalsTo(recHidratado->getID()))
-                std::cout << "ID OK";
+                pass();
             else
-                std::cout << "ID NO OK";
-            std::cout << std::endl;
+                fail("ID NO OK");
 
+            stop();
         }
 
         void test_NodeSerializer_serializeNode_throws_FileNotSet() {
-            std::cout << "test_NodeSerializer_serializeNode_throws_FileNotSet: ";
+            start("NodeSerializer_serializeNode_throws_FileNotSet");
 
             NodeSerializer::freeStaticMem();
             LeafNode* n = new LeafNode();
@@ -79,71 +81,92 @@ class SerializersTest : public Test {
             }
             catch(const FileNotSetException& e) {
                 delete n;
-                std::cout << "OK" << std::endl;
+                pass();
                 return;
             }
 
-            std::cout << "NO OK" << std::endl;
+            fail("NO OK ");
+
+            stop();
         }
 
         void test_NodeSerializer_deserializeNode_throws_FileNotSet() {
-            std::cout << "test_NodeSerializer_deserializeNode_throws_FileNotSet: ";
+            start("NodeSerializer_deserializeNode_throws_FileNotSet");
 
             NodeSerializer::freeStaticMem();
             try {
                 NodeSerializer::deserializeNode(10);
             }
             catch(const FileNotSetException& e) {
-                std::cout << "OK" << std::endl;
+            	pass();
                 return;
             }
 
-            std::cout << "NO OK" << std::endl;
+            fail("NO OK ");
+
+
+            stop();
         }
 
         void checkNewNodeAssignment(Node* n, unsigned expected) {
-            std::cout << "test_NodeSerializer_serializeNode_assigns_nodeNumber: ";
-            unsigned nodeNumber = NodeSerializer::serializeNode(n, NEW_NODE);
+
+        	unsigned nodeNumber = NodeSerializer::serializeNode(n, NEW_NODE);
             if (nodeNumber == expected)
-                std::cout << "OK, asignado " << nodeNumber;
-            else
-                std::cout << "NO OK, asginado " << nodeNumber
-                          << ", debió ser " << expected;
-                std::cout << std::endl;
+            	pass();
+            else{
+                std::string s = "NO OK, asginado ";
+                		    s += nodeNumber;
+                		    s += ", debió ser ";
+                		    s += expected;
+                fail(s);
+            }
             delete n;
         }
 
         void test_NodeSerializer_serializeNode_assigns_nodeNumber() {
-            NodeSerializer::newFile(FILENAME, BLOCKSIZE);
+            start("NodeSerializer_serializeNode_assigns_nodeNumber");
+
+        	NodeSerializer::newFile(FILENAME, BLOCKSIZE);
             LeafNode* root = new LeafNode();
             InnerNode* inLeft = new InnerNode();
             InnerNode* inRight = new InnerNode();
             checkNewNodeAssignment(root, 0);
             checkNewNodeAssignment(inLeft, 1);
             checkNewNodeAssignment(inRight, 2);
+
+            stop();
         }
 
         void test_NodeSerializer_serializeNode_existing_nodeNumber() {
-            NodeSerializer::newFile(FILENAME, BLOCKSIZE);
+
+        	start("NodeSerializer_serializeNode_existing_nodeNumber");
+
+
+        	NodeSerializer::newFile(FILENAME, BLOCKSIZE);
             Node* nodes[3];
             unsigned nodeNumber, expected;
             for (unsigned i = 0; i < 3; ++i) {
-                std::cout << "test_NodeSerializer_serializeNode_existing_nodeNumber: ";
                 nodes[i] = new LeafNode();
                 nodeNumber = NodeSerializer::serializeNode(nodes[i], NEW_NODE);
                 expected = NodeSerializer::serializeNode(nodes[i], nodeNumber);
                 if (nodeNumber == expected)
-                    std::cout << "OK, actualizado bloque " << nodeNumber;
-                else
-                    std::cout << "NO OK, escrito en " << nodeNumber
-                              << " y debió ser en " << expected;
-                std::cout << std::endl;
+                	pass();
+                else{
+                    std::string s = "NO OK, escrito en "; s+=nodeNumber;
+                              	s +=" y debió ser en "; s += expected;
+                    fail(s);
+                }
                 delete nodes[i];
             }
+
+            stop();
         }
 
         void test_NodeSerializer_serializeDeserializeNode_Leaf() {
+            start("NodeSerializer_serializeDeserializeNode_Leaf");
+
             // ini
+
             std::string info = "test_NodeSerializer_serializeDeserializeNode_Leaf: ";
             NodeSerializer::newFile(FILENAME, BLOCKSIZE);
             int level = 4;
@@ -167,50 +190,50 @@ class SerializersTest : public Test {
             unsigned nodeNumber = NodeSerializer::serializeNode(lf, NEW_NODE);
             Node* nHidratado = NodeSerializer::deserializeNode(nodeNumber);
 
-            std::cout << info;
             LeafNode* lfHidratado = dynamic_cast<LeafNode* >(nHidratado);
             if (lfHidratado)
-                std::cout << "serialización-deserialización LeafNode OK" << std::endl;
+            	pass();
             else {
-                std::cout << "serialización-deserialización LeafNode NO OK" << std::endl;
+                fail("serialización-deserialización LeafNode NO OK");
                 delete lf;
                 delete lfHidratado;
                 return;
             }
 
-            std::cout << info;
             if (lfHidratado->level == lf->level)
-                std::cout << "level OK";
+            	pass();
             else
-                std::cout << "level NO OK";
+                fail("level NO OK");
 
-            std::cout << std::endl << info;
             if (lfHidratado->numElements == lf->numElements)
-                std::cout << "numElements OK";
+            	pass();
             else
-                std::cout << "numElements NO OK";
+                fail("numElements NO OK");
 
             ID* idOriginal;
             ID* idHidratado;
             for (unsigned i = 0; i < cant; ++i) {
-                std::cout << std::endl << info;
                 idOriginal = lf->elements[i]->getID();
                 idHidratado = lfHidratado->elements[i]->getID();
                 if (idOriginal->equalsTo(idHidratado))
-                    std::cout << "registro " << i << " OK";
-                else
-                    std::cout << "registro " << i << " NO OK";
+                	pass();
+                else{
+                    std::string s="registro "; s+= i; s+=" NO OK";
+                    fail(s);
+                }
             }
-
-            std::cout << std::endl;
 
             delete lf;
             delete lfHidratado;
+
+            stop();
         }
 
         void test_NodeSerializer_serializeDeserializeNode_Inner() {
-            // ini
-            std::cout << "test_NodeSerializer_serializeDeserializeNode_Inner: 5 inner nodes, 5 keys\n";
+
+        	start("NodeSerializer_serializeDeserializeNode_Inner");
+
+        	// ini
             NodeSerializer::newFile(FILENAME, BLOCKSIZE);
             const unsigned cant = 5;
             std::string lineas[cant] = { "Sarmiento", "Mitre", "Roca", "San Martín", "Tigre" };
@@ -251,60 +274,63 @@ class SerializersTest : public Test {
             // testing
             InnerNode* in;
             for (unsigned i = 0; i < cant; ++i) {
-                std::cout << "\t testing node " << i << std::endl;
                 in = dynamic_cast<InnerNode* >(nodesHidratados[i]);
                 if (in)
-                    std::cout << "\t\t creación InnerNode \tOK";
+                	pass();
                 else {
-                    std::cout << "\t\t creción InnerNode \tNO OK";
+                    fail("\t\t creción InnerNode \tNO OK");
                     delete nodesHidratados[i];
                     continue;
                 }
 
-                std::cout << std::endl << "\t\t level \t\t\t";
                 if (in->level == inNodes[i]->level)
-                    std::cout << "OK";
+                	pass();
                 else
-                    std::cout << "NO OK";
+                    fail("NO OK");
 
-                std::cout << std::endl << "\t\t numElements \t\t";
+
                 if (in->numElements == inNodes[i]->numElements)
-                    std::cout << "OK";
+                	pass();
                 else
-                    std::cout << "NO OK";
+                    fail("NO OK");
 
-                std::cout << std::endl << "\t\t firstLeft \t\t";
+
                 if (in->firstLeft == inNodes[i]->firstLeft)
-                    std::cout << "OK";
+                	pass();
                 else
-                    std::cout << "NO OK";
+                    fail("NO OK");
 
                 PairKeyNode pOriginal;
                 PairKeyNode pHidratado;
                 for (unsigned j = 0; j < cant; ++j) {
-                    std::cout << std::endl << "\t\t pair " << j+1 << " \tkeys\t";
+
                     pOriginal = *(inNodes[i]->elements[j]);
                     pHidratado = *(in->elements[j]);
                     if (!pHidratado.getKey()->compareTo(pOriginal.getKey()))
-                        std::cout << "OK";
+                    	pass();
                     else
-                        std::cout << "NO OK";
+                        fail("NO OK");
 
-                    std::cout << "\tnextChild ";
+
                     if (pHidratado.getNode() == pOriginal.getNode())
-                        std::cout << "OK";
+                    	pass();
                     else
-                        std::cout << "NO OK";
-                    std::cout << std::endl;
+                        fail("NO OK");
                 }
-                std::cout << std::endl;
+
                 delete in;
+
             }
+
             // fin testing
 
             for (unsigned i = 0; i < cant; ++i)
                 delete inNodes[i];
+
+            stop();
         }
+
+
 
 };
 

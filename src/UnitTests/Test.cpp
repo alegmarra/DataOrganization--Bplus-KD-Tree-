@@ -65,7 +65,7 @@ public:
 	    
 	        std::cout << std::endl << "Errors found:" << std::endl << std::endl;
 	        
-	        for (int i = 0; i< errors.size(); i++) {
+	        for (unsigned i = 0; i< errors.size(); i++) {
 	            std::cout << "  *  " << errors[i] << std::endl;
 	        }
 	        

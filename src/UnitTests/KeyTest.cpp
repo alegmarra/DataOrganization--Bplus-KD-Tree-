@@ -23,7 +23,8 @@ public:
 	}
 
     void test_StringKey_CompareTo() {
-        std::cout << "test_StringKey_CompareTo: ";
+
+        start("StringKey_CompareTo");
 
         std::string testStringIgual = "Hey you! Out there in the cold";
         std::string testStringMenor = "AAAA";
@@ -32,31 +33,31 @@ public:
         StringKey skIgual(testStringIgual);
 
         if (sk.compareTo(&skIgual) == 0)
-            std::cout << "iguales OK";
+            pass();
         else
-            std::cout << "iguales NO OK";
-        std::cout << std::endl
-                  << "test_StringKey_CompareTo: ";
+            fail("iguales NO OK");
+
+
+
 
         StringKey skMenor(testStringMenor);
         if (sk.compareTo(&skMenor) > 0)
-            std::cout << "menor OK";
+            pass();
         else
-            std::cout << "menor NO OK";
-        std::cout << std::endl
-                  << "test_StringKey_CompareTo: ";
+            fail("menor NO OK");
 
         StringKey skMayor(testStringMayor);
         if (sk.compareTo(&skMayor) < 0)
-            std::cout << "mayor OK";
+            pass();
         else
-            std::cout << "mayor NO OK";
-        std::cout << std::endl;
+            fail("mayor NO OK");
+
+        stop();
 
     }
 
     void test_StringKey_Serialize() {
-        std::cout << "test_StringKey_Serialize: ";
+        start("StringKey_Serialize");
 
         std::string testString = "Getting lonely, getting cold";
         StringKey sk(testString);
@@ -70,15 +71,18 @@ public:
                 ++bytesOk;
 
         if (bytes == bytesOk)
-            std::cout << "OK";
-        else
-            std::cout << bytesOk << "bytes de " << testString.size();
+            pass();
+        else{
+        	std::string s = bytesOk + "bytes de " + testString.size();
+        	fail(s);
+        }
 
-        std::cout << std::endl;
+        stop();
     }
 
     void test_StringKey_Deserialize() {
-        std::cout << "test_StringKey_Deserialize: ";
+        start("StringKey_Deserialize");
+
         char buffer[80] = "Can you feel me?";
         StringKey skSerializada;
         StringKey skComparadora(buffer);
@@ -86,41 +90,41 @@ public:
 
         if (bytes == (strlen(buffer)+1) &&
             !skComparadora.compareTo(&skSerializada))
-            std::cout << "OK";
+            pass();
         else if (bytes != strlen(buffer)+1)
-                std::cout << "cantidad de bytes usados mal";
+                fail("cantidad de bytes usados mal");
             else
-                std::cout << "mal deserializada";
+                fail("mal deserializada");
 
-        std::cout << std::endl;
+        stop();
     }
 
     void test_IntKey_CompareTo() {
-        std::cout << "test_IntKey_CompareTo: ";
+        start("IntKey_CompareTo");
+
         IntKey ik(1234567890, 8);
         IntKey ikIgual(1234567890, 8);
 
         if (ik.compareTo(&ikIgual) == 0)
-            std::cout << "iguales OK";
+            pass();
         else
-            std::cout << "iguales NO OK";
-        std::cout << std::endl
-                  << "test_IntKey_CompareTo: ";
+            fail("iguales NO OK");
+
 
         IntKey ikMenor(12345, 8);
         if (ik.compareTo(&ikMenor) > 0)
-            std::cout << "menor OK";
+            pass();
         else
-            std::cout << "menor NO OK";
-        std::cout << std::endl
-                  << "test_IntKey_CompareTo: ";
+            fail("menor NO OK");
+
 
         IntKey ikMayor(1334567890, 8);
         if (ik.compareTo(&ikMayor) < 0)
-            std::cout << "mayor OK";
+            pass();
         else
-            std::cout << "mayor NO OK";
-        std::cout << std::endl;
+            fail("mayor NO OK");
+
+        stop();
     }
     
     /**
@@ -131,7 +135,10 @@ public:
      * 16 primeras, dado que el compareTo está testeado
      */
     void test_IntKey_SerializeDeserialize() {
-        // ini
+
+    	start("IntKey_SerializeDeserialize");
+
+    	// ini
         std::string info = "test_IntKey_SerializeDeserialize: ";
         std::string size = "size ";
         std::string pos = ", positivo ";
@@ -166,24 +173,21 @@ public:
             bytesLeidos += intKeysTestNegativosHidratados[i]->deserialize(buffer + bytesLeidos);
         }
 
-        std::cout << info;
         if (bytesUsados == bytesLeidos)
-            std::cout << "bytes usados y leídos OK" << std::endl;
+            pass();
         else
-            std::cout << "bytes usados y leídos NO OK" << std::endl;
+            fail("bytes usados y leídos NO OK");
 
         for (unsigned i = 0; i < 8; ++i) {
-            std::cout << info << size << i+1 << pos;
             if (!intKeysTestPositivosHidratados[i]->compareTo(intKeysTestPositivos[i]))
-                std::cout << "OK" << std::endl;
+            	pass();
             else
-                std::cout << "NO OK" << std::endl;
+            	fail("NO OK");
 
-            std::cout << info << size << i+1 << neg;
             if (!intKeysTestNegativosHidratados[i]->compareTo(intKeysTestNegativos[i]))
-                std::cout << "OK" << std::endl;
+            	pass();
             else
-                std::cout << "NO OK" << std::endl;
+            	fail("NO OK");
         }
 
         for (unsigned i = 0; i < 8; ++i) {
@@ -192,6 +196,8 @@ public:
             delete intKeysTestPositivosHidratados[i];
             delete intKeysTestNegativosHidratados[i];
         }
+
+        stop();
     }
 
     void test_KeyInfinity_CompareTo() 

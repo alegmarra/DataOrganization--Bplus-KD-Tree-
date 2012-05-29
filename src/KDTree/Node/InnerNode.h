@@ -11,11 +11,12 @@ class InnerNode: public Node{
         InnerNode(unsigned _level);
 
     	virtual int insert(Record* record);
-    	virtual Record* find(Query* query);
+    	virtual std::vector<Record*> find(Query* query);
 
     	void addPair(PairKeyNode* pair);
     	virtual Node* grow();
         virtual void setLeft(unsigned child);
+
 
 //        virtual Node* getLeftChild();
 //        virtual Node* getRightChild();
