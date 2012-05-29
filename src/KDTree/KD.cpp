@@ -58,7 +58,6 @@ int KDtree::insert(Record* record){
 
 
 KDtree::~KDtree() {
-
-
-
+	delete treeFile;
+	delete root;
 }

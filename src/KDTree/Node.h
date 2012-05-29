@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "Serializers/Serializable.h"
-//#include "Serializers/NodeSerializer.h"
+#include "Query.h"
 
 #define LEVEL_MASK 0x7F
 
@@ -20,11 +20,13 @@ public:
 	virtual unsigned getLevel();
 	virtual unsigned getNumElements();
 
-	virtual Node* split() = 0;
-
 	virtual int insert(Record* record)=0;
 
-	virtual Node* grow() =0;
+
+	virtual Node* grow()=0;
+
+	virtual Record* find(Query* query)=0;
+	//virtual Record* find(Query* query) = 0;
 
 	virtual ~Node();
 

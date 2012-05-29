@@ -29,8 +29,8 @@ public:
 	{
 
 		blockSize = 4096;
-		path = "my_test_file.bin";
-		spacePath = "my_test_file_space.bin";
+		path = "my_FileBlocks_test_file.bin";
+		spacePath = "myFileBlocks_test_file_space.bin";
 
 		remove(path);
 		remove(spacePath);

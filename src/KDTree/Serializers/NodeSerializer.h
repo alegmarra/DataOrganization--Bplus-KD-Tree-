@@ -30,8 +30,15 @@ class NodeSerializer {
 
         /**
          * @brief asocia un nuevo archivo al serializador
+         *
+         * DEPRECATED
          */
         static void setFile(const char* filename, unsigned _blockSize);
+
+        /**
+         * @brief asocia un archivo al serializador
+         */
+        static void setFile(FileBlocks* treeFile);
 
         /**
          * @brief asocia un nuevo archivo vacío al serializador. Borra

@@ -2,6 +2,7 @@
 #include <iostream>
 #include "RecordID/KeyFactory.h"
 #include "RecordID/Key.h"
+#include "Exceptions/InvalidOperationException.cpp"
 
 InnerNode::InnerNode() : Node() {}
 
@@ -10,15 +11,12 @@ InnerNode::InnerNode(unsigned _level) : Node(_level) {}
 /** @todo int InnerNode::insert(Record* ) */
 int InnerNode::insert(Record* record) {
 
-}
-
-
-/** @todo Node* InnerNode::split() */
-Node* InnerNode::split() {
-
+	return 1;
 }
 
 Node* InnerNode::grow() {
+
+	throw InvalidOperationException("Called Grow for InnerNode");
 
 }
 
@@ -37,6 +35,10 @@ void InnerNode::addPair(PairKeyNode* pair){
 	}
 	if (!added)
 		elements.push_back(pair);
+
+}
+
+Record* InnerNode::find(Query* query){
 
 }
 
@@ -78,25 +80,4 @@ int InnerNode::deserialize(const char* buffer) {
 }
 
 InnerNode::~InnerNode() {}
-
-
-PairKeyNode::PairKeyNode() {
-    key = NULL;
-    next = 0;
-}
-
-PairKeyNode::PairKeyNode(Key* _key, unsigned nextNodeNumber) {
-    key = _key;
-    next = nextNodeNumber;
-}
-
-Key* PairKeyNode::getKey() {
-    return key;
-}
-
-unsigned PairKeyNode::getNode() {
-    return next;
-}
-
-PairKeyNode::~PairKeyNode(){}
 

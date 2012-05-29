@@ -67,12 +67,16 @@ unsigned FileBlocks::getFreeBlock(){
 	return blockNumber;
 }
 
+unsigned FileBlocks::getBlockSize(){
+	return blockSize;
+}
+
 void FileBlocks::updateSpace(unsigned blockNumber,unsigned occupied){
 
 	int freeSpace = (blockSize-1) - occupied;
 
 	if(freeSpace < 0)
-		throw InvalidOperationException();
+		throw InvalidOperationException("Overflow in a file Block ");
 
 	unsigned int size = spaceInBlocks.size();
 	if (size == blockNumber)

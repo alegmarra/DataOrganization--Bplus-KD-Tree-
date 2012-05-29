@@ -55,7 +55,7 @@ Node* NodeSerializer::deserializeNode(unsigned node) {
     else
         newNode = new InnerNode();
 
-    int bytes = newNode->deserialize(buffer);
+    newNode->deserialize(buffer);
 
     delete[] buffer;
     return newNode;
@@ -65,6 +65,12 @@ void NodeSerializer::setFile(const char* filename, unsigned _blockSize) {
     delete file;
     file = new FileBlocks(filename, _blockSize);
     blockSize = _blockSize;
+}
+
+void NodeSerializer::setFile(FileBlocks* treeFile) {
+    delete file;
+    file = treeFile;
+    blockSize = treeFile->getBlockSize();
 }
 
 void NodeSerializer::newFile(const char* filename, unsigned _blockSize) {

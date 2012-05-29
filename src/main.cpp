@@ -2,6 +2,7 @@
 #include "UnitTests/QueryTest.cpp"
 #include "UnitTests/FileBlocksTest.cpp"
 #include "UnitTests/SerializersTest.cpp"
+#include "UnitTests/NodeTest.cpp"
 
 int main()
 {
@@ -20,6 +21,10 @@ int main()
 	delete test;
 
     test = new SerializersTest();
+    test->run();
+    delete test;
+
+    test = new NodeTest();
     test->run();
     delete test;
 

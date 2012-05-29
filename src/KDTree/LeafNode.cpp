@@ -56,6 +56,11 @@ Node* LeafNode::split() {
 	//TODO
 }
 
+Record* LeafNode::find(Query* query){
+
+}
+
+
 int LeafNode::serialize(char* buffer) {
     buffer[0] = IS_LEAF | level;
     buffer[1] = numElements;

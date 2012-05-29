@@ -11,12 +11,13 @@
 #include<fstream>
 #include "KDTree/Serializers/NodeSerializer.h"
 #include "KDTree/Query.h"
-//#include "Serializers/NodeSerializer.cpp"
+#include "../File/FileBlocks.h"
+
 
 class Record;
 class ID;
 class Key;
-class FileAbstract;
+
 
 class KDtree {
 public:

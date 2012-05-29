@@ -8,6 +8,7 @@ CPP_SRCS += \
 ../src/KDTree/KD.cpp \
 ../src/KDTree/LeafNode.cpp \
 ../src/KDTree/Node.cpp \
+../src/KDTree/Pair.cpp \
 ../src/KDTree/Query.cpp \
 ../src/KDTree/Record.cpp 
 
@@ -16,6 +17,7 @@ OBJS += \
 ./src/KDTree/KD.o \
 ./src/KDTree/LeafNode.o \
 ./src/KDTree/Node.o \
+./src/KDTree/Pair.o \
 ./src/KDTree/Query.o \
 ./src/KDTree/Record.o 
 
@@ -24,6 +26,7 @@ CPP_DEPS += \
 ./src/KDTree/KD.d \
 ./src/KDTree/LeafNode.d \
 ./src/KDTree/Node.d \
+./src/KDTree/Pair.d \
 ./src/KDTree/Query.d \
 ./src/KDTree/Record.d 
 

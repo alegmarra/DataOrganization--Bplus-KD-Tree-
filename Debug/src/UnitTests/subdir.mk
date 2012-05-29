@@ -6,6 +6,7 @@
 CPP_SRCS += \
 ../src/UnitTests/FileBlocksTest.cpp \
 ../src/UnitTests/KeyTest.cpp \
+../src/UnitTests/NodeTest.cpp \
 ../src/UnitTests/QueryTest.cpp \
 ../src/UnitTests/SerializersTest.cpp \
 ../src/UnitTests/Test.cpp 
@@ -13,6 +14,7 @@ CPP_SRCS += \
 OBJS += \
 ./src/UnitTests/FileBlocksTest.o \
 ./src/UnitTests/KeyTest.o \
+./src/UnitTests/NodeTest.o \
 ./src/UnitTests/QueryTest.o \
 ./src/UnitTests/SerializersTest.o \
 ./src/UnitTests/Test.o 
@@ -20,6 +22,7 @@ OBJS += \
 CPP_DEPS += \
 ./src/UnitTests/FileBlocksTest.d \
 ./src/UnitTests/KeyTest.d \
+./src/UnitTests/NodeTest.d \
 ./src/UnitTests/QueryTest.d \
 ./src/UnitTests/SerializersTest.d \
 ./src/UnitTests/Test.d 

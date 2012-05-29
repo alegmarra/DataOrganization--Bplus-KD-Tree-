@@ -47,7 +47,6 @@ int Query::eval(unsigned dimension, Key * k)
             return it->second[i]->eval(k);
         }
     }
-    
 
     return 0;
 }
@@ -62,5 +61,4 @@ Query::~Query()
         }
     }
 }
-
 #endif

@@ -27,6 +27,8 @@ public:
 	 */
 	unsigned getFreeBlock();
 
+	unsigned getBlockSize();
+
 	virtual ~FileBlocks();
 
 	// DO NOT USE THIS METHOD
