@@ -26,6 +26,27 @@ QueryCondition::QueryCondition(Key * low, Key * hi)
     setHi(hi);
 };
 
+QueryCondition::QueryCondition(KeyInfinity * low, Key * hi)
+{
+    init();
+    setLow(low);
+    setHi(hi);
+};
+
+QueryCondition::QueryCondition(Key * low, KeyInfinity * hi)
+{
+    init();
+    setLow(low);
+    setHi(hi);
+};
+
+QueryCondition::QueryCondition(KeyInfinity * low, KeyInfinity * hi)
+{
+    init();
+    setLow(low);
+    setHi(hi);
+};
+
 void QueryCondition::init()
 {
     low_key = new KeyInfinity(false);

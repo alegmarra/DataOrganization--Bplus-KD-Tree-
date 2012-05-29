@@ -33,6 +33,9 @@ public:
      * @throws InvalidConditionRangeException if low > hi
      */
     QueryCondition(Key * low, Key * hi);
+    QueryCondition(KeyInfinity * low, Key * hi);
+    QueryCondition(Key * low, KeyInfinity * hi);
+    QueryCondition(KeyInfinity * low, KeyInfinity * hi);
 
     /**
      * Replaces the lower key.

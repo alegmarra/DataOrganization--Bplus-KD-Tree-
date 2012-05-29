@@ -53,7 +53,7 @@ public:
         // k <= 10
         // .:. -Inf < k <= 10
         q = new Query;
-        q->addCondition(1, new QueryCondition(new KeyInfinity(), new IntKey(10, 2)));
+        q->addCondition(1, new QueryCondition(new KeyInfinity(false), new IntKey(10, 2)));
         
         if(q->eval(1, k1) == Query::MATCH) pass();
         else fail("4 out of range [-inf,10]");
