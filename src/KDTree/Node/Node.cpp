@@ -30,3 +30,4 @@ unsigned Node::getLevel() {
 unsigned Node::getNumElements() {
     return numElements;
 }
+

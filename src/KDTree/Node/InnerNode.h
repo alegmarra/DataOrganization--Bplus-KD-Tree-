@@ -31,8 +31,13 @@ class InnerNode: public Node{
         friend class SerializersTest;
 #endif
     private:
+
+    	virtual std::vector<Record*> find(Record* record);
+
         unsigned firstLeft;
         std::vector<PairKeyNode*> elements;
+        std::vector<Record*> findInRange(Query* query,
+        					 std::vector<PairKeyNode*>::iterator it);
 };
 
 

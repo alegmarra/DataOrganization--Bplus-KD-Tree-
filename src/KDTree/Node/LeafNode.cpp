@@ -106,6 +106,7 @@ int LeafNode::insert(Record* record) {
 /*
  * Private
  */
+
 std::vector<Record*> LeafNode::find(Record* record){
 
 	//Generates an exact query, wich has
@@ -117,8 +118,6 @@ std::vector<Record*> LeafNode::find(Record* record){
 
 	return find(exactQ);
 }
-
-//TODO vector de records en find
 
 /**
  *

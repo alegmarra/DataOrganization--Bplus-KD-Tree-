@@ -4,10 +4,9 @@
 #include <vector>
 #include "../Serializers/Serializable.h"
 #include "../Query/Query.h"
-
+#include "../Record.h"
 #define LEVEL_MASK 0x7F
 
-class Record;
 class Key;
 class PairKeyNode;
 
@@ -31,8 +30,6 @@ public:
 
 	virtual std::vector<Record*> find(Query* query)=0;
 
-	//virtual Record* find(Query* query) = 0;
-
 	virtual ~Node();
 
     /** fea idea, pero es por falta de tiempo */
@@ -45,6 +42,8 @@ protected:
 	unsigned numElements;
 	unsigned occupiedSpace;
     static unsigned maxSize;
+
+
 
 };
 
