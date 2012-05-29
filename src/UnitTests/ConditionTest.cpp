@@ -98,6 +98,21 @@ private:
 
             delete c;
 
+            // =================================================================
+
+            c = new QueryCondition(new IntKey(10, 2));
+
+            try {
+                c->setHi(new KeyInfinity(true));
+                pass();
+            } catch (...) {
+                fail("Could not change Hi Key to +Infinity");
+            }
+
+            delete c;
+
+            // =================================================================
+
             c = new QueryCondition(new IntKey(10, 2));
 
             try {

@@ -32,6 +32,20 @@ void QueryCondition::init()
     hi_key = new KeyInfinity(true);
 }
 
+QueryCondition * const QueryCondition::setLow(KeyInfinity * k)
+{
+    if (k->is_positive) {
+        throw InvalidConditionRangeException();
+    } 
+
+    if (low_key != hi_key) {    
+        delete low_key;
+    }
+    
+    low_key = k;
+    return this;
+}
+
 QueryCondition * const QueryCondition::setLow(Key * k)
 {
     if (hi_key->compareTo(k) < 0) {
@@ -45,6 +59,21 @@ QueryCondition * const QueryCondition::setLow(Key * k)
     low_key = k;
     return this;
 }
+
+QueryCondition * const QueryCondition::setHi(KeyInfinity * k)
+{
+    if (!k->is_positive) {
+        throw InvalidConditionRangeException();
+    } 
+
+    if (low_key != hi_key) {    
+        delete hi_key;
+    }
+    
+    hi_key = k;
+    return this;
+}
+
 
 QueryCondition * const QueryCondition::setHi(Key * k)
 {

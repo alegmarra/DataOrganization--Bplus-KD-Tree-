@@ -6,10 +6,9 @@
 class KeyInfinity: public Key
 {
 
-private:
-    bool is_positive;
-
 public:
+    bool is_positive;
+    
     KeyInfinity();
     KeyInfinity(bool positive);
 

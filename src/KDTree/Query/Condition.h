@@ -41,6 +41,7 @@ public:
      * @return QueryCondition
      * @throws InvalidConditionRangeException if k > hi_key
      */
+    QueryCondition * const setLow(KeyInfinity * k);
     QueryCondition * const setLow(Key * k);
 
     /**
@@ -50,6 +51,7 @@ public:
      * @return QueryCondition
      * @throws InvalidConditionRangeException if k < low_key
      */
+    QueryCondition * const setHi(KeyInfinity * k);
     QueryCondition * const setHi(Key * k);
 
     /**
