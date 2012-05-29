@@ -1,7 +1,7 @@
 #ifndef KD_TREE_QUERY_CPP
 #define KD_TREE_QUERY_CPP
 
-#include "KDTree/Query.h"
+#include "KDTree/Query/Query.h"
 #include <stdlib.h>
 #include <vector>
 

@@ -3,8 +3,8 @@
 
 #include "Node.h"
 #include "InnerNode.h"
-#include "Serializers/NodeSerializer.h"
-#include "Record.h"
+#include "../Serializers/NodeSerializer.h"
+#include "../Record.h"
 
 #define IS_LEAF 0x80
 

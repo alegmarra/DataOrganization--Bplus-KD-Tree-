@@ -2,7 +2,7 @@
 #define KD_TREE_QUERY_CONDITION_CPP
 
 #include "../RecordID/Key.h"
-#include "../Query.h"
+#include "../Query/Query.h"
 #include "../Query/Condition.h"
 
 

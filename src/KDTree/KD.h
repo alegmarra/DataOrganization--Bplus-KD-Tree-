@@ -10,7 +10,7 @@
 #include<iostream>
 #include<fstream>
 #include "KDTree/Serializers/NodeSerializer.h"
-#include "KDTree/Query.h"
+#include "KDTree/Query/Query.h"
 #include "../File/FileBlocks.h"
 
 

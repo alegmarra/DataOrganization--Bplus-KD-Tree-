@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 #include "Test.cpp"
-#include "../KDTree/InnerNode.h"
-#include "../KDTree/LeafNode.h"
+#include "../KDTree/Node/InnerNode.h"
+#include "../KDTree/Node/LeafNode.h"
 #include "../KDTree/Serializers/NodeSerializer.h"
 #include "../File/FileBlocks.h"
 

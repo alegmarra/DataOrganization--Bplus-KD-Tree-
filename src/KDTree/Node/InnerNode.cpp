@@ -1,7 +1,7 @@
 #include "InnerNode.h"
 #include <iostream>
-#include "RecordID/KeyFactory.h"
-#include "RecordID/Key.h"
+#include "../RecordID/KeyFactory.h"
+#include "../RecordID/Key.h"
 #include "Exceptions/InvalidOperationException.cpp"
 
 InnerNode::InnerNode() : Node() {}

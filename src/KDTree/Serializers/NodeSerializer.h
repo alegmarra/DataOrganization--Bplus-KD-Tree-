@@ -3,7 +3,7 @@
 
 #define NEW_NODE -1
 
-#include "KDTree/Node.h"
+#include "KDTree/Node/Node.h"
 
 class FileBlocks;
 

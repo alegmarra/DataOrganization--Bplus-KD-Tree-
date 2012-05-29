@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "Test.cpp"
 
-#include "../KDTree/Query.h"
+#include "../KDTree/Query/Query.h"
 #include "../KDTree/RecordID/IntKey.h"
 #include "../KDTree/RecordID/Infinity.h"
 #include "../KDTree/Query/Condition.h"

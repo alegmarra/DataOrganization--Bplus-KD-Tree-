@@ -2,8 +2,8 @@
 #define NODE_H_
 
 #include <vector>
-#include "Serializers/Serializable.h"
-#include "Query.h"
+#include "../Serializers/Serializable.h"
+#include "../Query/Query.h"
 
 #define LEVEL_MASK 0x7F
 

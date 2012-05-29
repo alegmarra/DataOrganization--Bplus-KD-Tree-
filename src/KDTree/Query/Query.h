@@ -1,7 +1,7 @@
 #ifndef KD_TREE_QUERY_H
 #define KD_TREE_QUERY_H
 
-#include "Query/Condition.h"
+#include "Condition.h"
 #include<map>
 #include<vector>
 

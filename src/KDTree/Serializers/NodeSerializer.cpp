@@ -1,6 +1,6 @@
 #include "NodeSerializer.h"
-#include "../InnerNode.h"
-#include "../LeafNode.h"
+#include "../Node/InnerNode.h"
+#include "../Node/LeafNode.h"
 #include "../../File/FileBlocks.h"
 #include "../../Exceptions/FileNotSetException.h"
 #include "../../Exceptions/FileErrorException.h"
