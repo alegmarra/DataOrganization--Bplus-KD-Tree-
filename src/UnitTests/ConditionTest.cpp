@@ -14,13 +14,13 @@ public:
     
     virtual void run() 
     {
-//        test_EmptyConstructor();
-//        test_OneKeyConstructor();
-//        test_SetHi();
-//        test_SetLow();
+        test_EmptyConstructor();
+        test_OneKeyConstructor();
+        test_SetHi();
+        test_SetLow();
         test_RangeConstructor(); // Depends on setHi & setLow
-//        test_InRange();
-//        test_Eval();
+        test_InRange();
+        test_Eval();
     }
     
 private:
@@ -60,7 +60,6 @@ private:
             start("RangeConstructor");
             
             QueryCondition * c;
-            /*
             try {
                 c = new QueryCondition(new IntKey(1, 2), new IntKey(10, 2));
                 delete c;
@@ -68,25 +67,7 @@ private:
             } catch (...) {
                 fail("Invalid range in range constructor");
             }
-*/
-            try {
-                c = new QueryCondition(new KeyInfinity(false), new IntKey(10, 2));
-                delete c;
-                pass();
-            } catch (...) {
-                fail("Failed to create a range starting in -Infinity");
-            }
             
-            try {
-                c = new QueryCondition(new IntKey(10, 2), new KeyInfinity(true));
-                delete c;
-                pass();
-            } catch (InvalidConditionRangeException e) {
-                fail("Failed to create a range finishing in +Infinity");
-            } catch (...) {
-                fail("otro error");
-            }
- /*           
             try {
                 c = new QueryCondition(new IntKey(10, 2), new IntKey(1, 2));
                 fail("Range constructor accepted an invalid range");
@@ -94,7 +75,7 @@ private:
             } catch (...) {
                 pass();
             }
-*/            
+            
             stop();
         }
         
@@ -120,7 +101,7 @@ private:
             c = new QueryCondition(new IntKey(10, 2));
 
             try {
-                c->setHi(new KeyInfinity(true));
+                c->setInfinityHi();
                 pass();
             } catch (...) {
                 fail("Could not change Hi Key to +Infinity");
@@ -166,7 +147,7 @@ private:
             c = new QueryCondition(new IntKey(10, 2));
 
             try {
-                c->setLow(new KeyInfinity(false));
+                c->setInfinityLow();
                 pass();
             } catch (...) {
                 fail("Could not change Low Key to -Infinity");
