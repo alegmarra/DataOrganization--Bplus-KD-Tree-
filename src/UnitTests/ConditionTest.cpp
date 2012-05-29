@@ -2,7 +2,7 @@
 
 #include "../Exceptions/InvalidConditionRangeException.h"
 #include "../KDTree/Query/Condition.h"
-#include "../KDTree/Query.h"
+#include "../KDTree/Query/Query.h"
 #include "../KDTree/RecordID/IntKey.h"
 #include "../KDTree/RecordID/Infinity.h"
 

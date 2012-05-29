@@ -3,7 +3,7 @@
 
 #include "../RecordID/Key.h"
 #include "../RecordID/Infinity.h"
-#include "../Query.h"
+#include "../Query/Query.h"
 #include "../Query/Condition.h"
 #include "../../Exceptions/InvalidConditionRangeException.h"
 
