@@ -22,7 +22,6 @@ public:
 
 	virtual int insert(Record* record)=0;
 
-
 	virtual Node* grow()=0;
 
 	virtual Record* find(Query* query)=0;
@@ -38,6 +37,7 @@ public:
 protected:
 	unsigned level;
 	unsigned numElements;
+	unsigned freeSpace;
 };
 
 

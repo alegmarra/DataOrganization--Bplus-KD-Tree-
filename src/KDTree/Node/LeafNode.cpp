@@ -8,6 +8,22 @@ LeafNode::LeafNode(unsigned _level) : Node(_level) {}
 LeafNode::~LeafNode() {}
 
 
+
+/*
+ * Elements must be pre-ordered
+ * Record that caused the overflow already
+ * in Elements
+ *
+ * Instantiates new Leaf, passes to it the upper
+ * half of its elements, and its level.
+ * Instantiates new Inner, inserts in it the middle key
+ * and left and right childs
+ *
+ * Saves Leaf nodes on disk
+ *
+ * return Inner node
+ *
+ * */
 Node* LeafNode::grow() {
 
 	/*
@@ -22,14 +38,11 @@ Node* LeafNode::grow() {
 
 	InnerNode* newInner = new InnerNode(level);
 
-	//La hoja tiene sus records ordenados por key[level]
-	//Size no deberia ser nunca 0, pues hay overflow
-	Key* parentKey = elements.at((elements.size()/2) +1)->getID()->getKey(level);
-
 	//New Leafs in next level
 	//Half the elements in each
 	this->level++;
-	Node* newLeaf = this->split();
+	Node* newLeaf;
+	Key* parentKey = this->split( newLeaf);
 
 	//Assigns new number on serialization
 	unsigned parentLeft = NodeSerializer::serializeNode(this);
@@ -46,14 +59,46 @@ Node* LeafNode::grow() {
 /** @todo int LeafNode::insert(Record* ) */
 int LeafNode::insert(Record* record) {
 
-	//TODO
+
 	return 1;
 }
 
-/** @todo Node* LeafNode::split() */
-Node* LeafNode::split() {
+/*
+ * Elements must be pre-ordered
+ * Record that caused the overflow already
+ * in Elements
+ *
+ * Instantiates a new leaf, passes to it the upper
+ * half of its elements, and its level.
+ *
+ * returns new leaf in @newNode param
+ *
+ * returns middle key in return
+ *
+ * */
+Key* LeafNode::split(Node* newNode) {
 
-	//TODO
+	newNode = new LeafNode(level);
+
+	//Leaf has its records ordered by Key[level]
+	Key* parentKey = elements.at((elements.size()/2) +1)->getID()->getKey(level);
+
+	std::vector<Record*>::iterator it = elements.begin();
+	int limit = (elements.size()/2);
+	for (int i = 0; i<limit; i++)
+		it++;
+
+	for(; it<elements.end(); it++){
+		//Pases element to new
+		newNode->insert(*it);
+		//removes element from this list
+		elements.erase(it);
+	}
+
+	//Updates data
+	numElements = limit;
+
+	return parentKey;
 }
 
 Record* LeafNode::find(Query* query){

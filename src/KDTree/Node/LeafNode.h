@@ -17,7 +17,7 @@ public:
     	virtual int insert(Record* record);
     	virtual Record* find(Query* query);
 
-    	virtual Node* split();
+    	virtual Key* split(Node* newNode);
     	virtual Node* grow();
 
     //	virtual Node* nextLeaf();
