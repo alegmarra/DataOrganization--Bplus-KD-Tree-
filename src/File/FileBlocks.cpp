@@ -67,12 +67,16 @@ unsigned FileBlocks::getFreeBlock(){
 	return blockNumber;
 }
 
+unsigned FileBlocks::getBlockSize(){
+	return blockSize;
+}
+
 void FileBlocks::updateSpace(unsigned blockNumber,unsigned occupied){
 
 	int freeSpace = (blockSize-1) - occupied;
 
 	if(freeSpace < 0)
-		throw InvalidOperationException();
+		throw InvalidOperationException("Overflow in a file Block ");
 
 	unsigned int size = spaceInBlocks.size();
 	if (size == blockNumber)
@@ -86,7 +90,7 @@ void FileBlocks::updateSpace(unsigned blockNumber,unsigned occupied){
 /*
  * Only for insertion of new blocks in file
  */
-int FileBlocks::insert(void* object, unsigned blockNumber){
+int FileBlocks::insert(void* object, unsigned blockNumber, unsigned insertionSize){
 
 //	if (blockNumber == 0) throw InvalidOperationException();
 
@@ -103,8 +107,6 @@ int FileBlocks::insert(void* object, unsigned blockNumber){
 
 
     size_t result;
-    unsigned inputSize = strlen((char*)object);
-
 	reset();
 
 	//seeks EOF
@@ -112,16 +114,16 @@ int FileBlocks::insert(void* object, unsigned blockNumber){
 	if (result != 0) return 0;
 
 
-    if (inputSize < (blockSize-1)){
+    if (insertionSize < (blockSize-1)){
 
         buffer = new char[blockSize];
 
-        for (unsigned i = 0; i< inputSize; i++){
+        for (unsigned i = 0; i< insertionSize; i++){
             buffer[i] = ((char*)object)[i];
         }
-        buffer [inputSize] ='\0';
+        buffer [insertionSize] ='\0';
 
-        for (unsigned i = (inputSize+1); i< blockSize; i++){
+        for (unsigned i = (insertionSize+1); i< blockSize; i++){
             buffer[i] = '#';
         }
 
@@ -132,7 +134,7 @@ int FileBlocks::insert(void* object, unsigned blockNumber){
 	result = fwrite ( buffer ,1, (blockSize -1), pFile );
     if (result != (blockSize -1)) return result;
 
-    updateSpace(blockNumber, inputSize);
+    updateSpace(blockNumber, insertionSize);
 
     delete[] buffer;
     fflush ( pFile );
@@ -148,7 +150,7 @@ int FileBlocks::insert(void* object, unsigned blockNumber){
  * Updates existing block, no matter if is a free block
  * or an ocuppied block.
  */
-int FileBlocks::update(void* object, unsigned blockNumber){
+int FileBlocks::update(void* object, unsigned blockNumber, unsigned updateSize){
 
 //	if (blockNumber == 0) throw InvalidOperationException();
 
@@ -160,7 +162,6 @@ int FileBlocks::update(void* object, unsigned blockNumber){
 
 	size_t result;
 	unsigned offset = (blockNumber * (blockSize - 1));
-	unsigned inputSize = strlen((char*) (object));
 
 	reset();
 	//Seeks blocks beginning
@@ -168,15 +169,15 @@ int FileBlocks::update(void* object, unsigned blockNumber){
 	if (result != 0)
 		return 0;
 
-	if (inputSize < (blockSize)) {
-		buffer = new char[blockSize];
-		for (unsigned i = 0; i < inputSize; i++) {
-			buffer[i] = ((char*) (object))[i];
-		}
-		buffer[inputSize] = '\0';
-		for (unsigned i = (inputSize + 1); i < blockSize; i++) {
-			buffer[i] = '#';
-		}
+	if (updateSize < (blockSize)) {
+			buffer = new char[blockSize];
+			for (unsigned i = 0; i < updateSize; i++) {
+				buffer[i] = ((char*) (object))[i];
+			}
+			buffer[updateSize] = '\0';
+			for (unsigned i = (updateSize + 1); i < blockSize; i++) {
+				buffer[i] = '#';
+			}
 	} else
 		buffer = (char*) (object);
 
@@ -185,7 +186,7 @@ int FileBlocks::update(void* object, unsigned blockNumber){
 	if (result != (blockSize - 1))
 		return 0;
 
-	updateSpace(blockNumber, inputSize);
+	updateSpace(blockNumber, updateSize);
 
     delete[] buffer;
 
@@ -265,6 +266,7 @@ void* FileBlocks::serialize(){
 	return buffer;
 }
 
+
 void FileBlocks::deserialize(){
 
 	unsigned* buffer = new unsigned[(blockSize / 4)];
@@ -274,17 +276,14 @@ void FileBlocks::deserialize(){
 	unsigned i = 0;
 	unsigned block = 0;
 
-	try{
-		while (buffer[i] != 99999){
-			updateSpace(block,buffer[i]);
-			if(buffer[i] == 4095)
-				setFree(block);
-			block++;
-			i++;
-		}
-	}catch(...){
-		std::cout << i << "   " << buffer[i] <<std::endl;
+	while (buffer[i] <= blockSize){
+		updateSpace(block,buffer[i]);
+		if(buffer[i] == 4095)
+			setFree(block);
+		block++;
+		i++;
 	}
+
 	delete[] buffer;
 	rewind(f_space);
 }

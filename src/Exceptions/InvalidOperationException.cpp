@@ -2,10 +2,17 @@
 
 class InvalidOperationException: public std::exception
 {
+private:
+	const char * message;
 public:
-  virtual const char* what() const throw()
+
+	InvalidOperationException(const char * msj){
+		message = msj;
+	}
+
+	virtual const char* what() const throw()
   {
-    return "";
+    return message;
   }
 
 };

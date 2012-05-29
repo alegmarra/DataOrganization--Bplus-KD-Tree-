@@ -1,6 +1,6 @@
 #include "NodeSerializer.h"
-#include "../InnerNode.h"
-#include "../LeafNode.h"
+#include "../Node/InnerNode.h"
+#include "../Node/LeafNode.h"
 #include "../../File/FileBlocks.h"
 #include "../../Exceptions/FileNotSetException.h"
 #include "../../Exceptions/FileErrorException.h"
@@ -12,6 +12,12 @@
 FileBlocks* NodeSerializer::file = NULL;
 unsigned NodeSerializer::blockSize = BLOCKSIZE;
 
+unsigned NodeSerializer::serializeNode(Node* node) {
+
+	serializeNode(node, NEW_NODE);
+}
+
+
 unsigned NodeSerializer::serializeNode(Node* node, int nodeNumber) {
     if (!file)
         throw FileNotSetException();
@@ -22,12 +28,12 @@ unsigned NodeSerializer::serializeNode(Node* node, int nodeNumber) {
     unsigned blockNumber;
     if (nodeNumber == NEW_NODE) {
         blockNumber = file->getFreeBlock();
-        if (!file->insert(buffer, blockNumber))
+        if (!file->insert(buffer, blockNumber, bytes))
             throw FileErrorException();
     }
     else {
         blockNumber = nodeNumber;
-        if (!file->update(buffer, blockNumber))
+        if (!file->update(buffer, blockNumber, bytes))
             throw FileErrorException();
     }
 
@@ -49,7 +55,7 @@ Node* NodeSerializer::deserializeNode(unsigned node) {
     else
         newNode = new InnerNode();
 
-    int bytes = newNode->deserialize(buffer);
+    newNode->deserialize(buffer);
 
     delete[] buffer;
     return newNode;
@@ -59,6 +65,12 @@ void NodeSerializer::setFile(const char* filename, unsigned _blockSize) {
     delete file;
     file = new FileBlocks(filename, _blockSize);
     blockSize = _blockSize;
+}
+
+void NodeSerializer::setFile(FileBlocks* treeFile) {
+    delete file;
+    file = treeFile;
+    blockSize = treeFile->getBlockSize();
 }
 
 void NodeSerializer::newFile(const char* filename, unsigned _blockSize) {

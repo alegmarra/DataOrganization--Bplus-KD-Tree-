@@ -9,8 +9,7 @@
 #define RECORD_H_
 
 #include "Serializers/Serializable.h"
-
-class ID;
+#include "RecordID/ID.h"
 
 class Record : public Serializable {
 

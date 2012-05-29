@@ -15,8 +15,8 @@ class FileBlocks: public FileAbstract {
 public:
 	FileBlocks(const char * path, unsigned blockSize);
 
-	virtual int insert(void* object, unsigned blockNumber);
-	virtual int update(void* object, unsigned blockNumber);
+	virtual int insert(void* object, unsigned blockNumber, unsigned insertionSize);
+	virtual int update(void* object, unsigned blockNumber, unsigned updateSize);
 	virtual int remove (void* object);
 	virtual void * find(void* object);
 	void deleteData();
@@ -26,6 +26,8 @@ public:
 	 * 	Else, returns next number to be inserted
 	 */
 	unsigned getFreeBlock();
+
+	unsigned getBlockSize();
 
 	virtual ~FileBlocks();
 
