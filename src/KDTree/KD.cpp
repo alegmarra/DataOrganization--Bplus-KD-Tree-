@@ -38,6 +38,7 @@ void KDtree::load(std::vector<Record*> records){
 
 	for(it= records.begin(); it < records.end(); it++){
 		status = root->insert(*it);
+		
 		if(status == 2)
 			root = root->grow();
 	}

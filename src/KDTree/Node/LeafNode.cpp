@@ -71,8 +71,13 @@ Node* LeafNode::grow() {
  */
 int LeafNode::insert(Record* record) {
 
-	if (find(record).size() != 0)
+    std::vector< Record * > result = find(record);
+
+	if (result.size() != 0) {
+	
 		return 3;
+		
+	}
 
 	//Key in level in inserted record ID
 	Key* inRecordKey = record->getID()->getKey(level);
@@ -124,7 +129,9 @@ std::vector<Record*> LeafNode::find(Record* record){
 		exactQ->addCondition(i, new QueryCondition(record->getID()->getKey(i)));
     }
     
-	return find(exactQ);
+	std::vector< Record * > result = find(exactQ);
+	delete exactQ;
+	return result;
 }
 
 /**
@@ -143,18 +150,23 @@ std::vector<Record*> LeafNode::find(Query* query){
 	std::vector<Record*>  matchingRecords;
 	unsigned passed = 0;
 	std::vector<Record*>::iterator it;
+    int queryResult;
 
 	//For every element in Node
-	for (it = elements.begin(); it < elements.end(); it++){
+	for (it = elements.begin(); it < elements.end(); it++) {
+	    passed = 0;
+	
 		//For each Key that element has
 		for(unsigned i = 0; i < (*it)->getID()->getDimensions(); i++){
 
 			Key* key = (*it)->getID()->getKey(i);
 			//If the Key passes the condition
-			if ((query->eval(i,key) == Query::EQUAL) || (query->eval(i,key) == Query::MATCH)) {
+			queryResult = query->eval(i,key);
+			if ((queryResult == Query::EQUAL) || (queryResult == Query::MATCH)) {
 				passed++;
 			}
 		}
+		
 		//If every condition in the query passed
 		if(passed == (*it)->getID()->getDimensions())
 			matchingRecords.push_back(*it);
