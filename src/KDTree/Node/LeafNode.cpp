@@ -73,12 +73,9 @@ int LeafNode::insert(Record* record) {
 
     std::vector< Record * > result = find(record);
 
-	if (result.size() != 0) {
-	
+	if (result.size() != 0)
 		return 3;
 		
-	}
-
 	//Key in level in inserted record ID
 	Key* inRecordKey = record->getID()->getKey(level);
 
@@ -205,6 +202,7 @@ std::vector<Record*> LeafNode::sortBy(unsigned level) {
 	std::vector<Record*>::iterator parentIt;
 	std::vector<Record*> parentKeySorted;
 	for (; it < elements.end(); it++) {
+
 		Key* key = (*it)->getID()->getKey(level - 1);
 		for (parentIt = parentKeySorted.begin();
 				parentIt < parentKeySorted.end(); parentIt++) {
