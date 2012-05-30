@@ -35,26 +35,7 @@ public:
 	void remove(Record* record);
 
 	//TODO Busqueda punual de un record particular
-	Record* find(Query* query);
-
-	/*
-	 * TODO
-	 * Búsqueda parcial puntual.
-	 * post: Devuelve todos los records que cumplan con el pedido parcial
-	 */
-	std::vector<Record> findAll(Query* query);
-
-	/*
-	 * TODO
-	 * Busqueda por rangos.
-	 *
-	 * pre: Se pasa un vector con las Keys cuyo rango se desea verificar,
-	 * en la forma (min - max).
-	 * Las Keys no especificadas tienen rango 'infinito'
-	 *
-	 * post: devuelve todas los records con Keys dentro del rango.
-	 */
-	std::vector<Record> findInRange(std::vector<std::vector<Key*> > keys);
+	std::vector<Record*> find(Query* query);
 
 	virtual ~KDtree();
 

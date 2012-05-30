@@ -25,8 +25,8 @@ public:
 	virtual unsigned getNumElements();
 
 	virtual int insert(Record* record)=0;
+	virtual int remove(ID* id)=0;
 
-	//TODO preguntar sobre que les parece manejar esto asi
 	virtual Node* grow()=0;
 	virtual Key* split(Node* newNode)=0;
 

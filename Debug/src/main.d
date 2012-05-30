@@ -42,7 +42,11 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
  ../src/UnitTests/../KDTree/RecordID/Falla.h \
  ../src/UnitTests/../KDTree/RecordID/Accidente.h \
  ../src/UnitTests/../KDTree/RecordID/Formacion.h \
- ../src/UnitTests/NodeTest.cpp
+ ../src/UnitTests/NodeTest.cpp ../src/File/FileBlocks.h \
+ ../src/KDTree/KD.h \
+ /home/alemarra/tpDatos/src/KDTree/Serializers/NodeSerializer.h \
+ /home/alemarra/tpDatos/src/KDTree/Query/Query.h \
+ ../src/KDTree/../File/FileBlocks.h
 
 ../src/UnitTests/KeyTest.cpp:
 
@@ -137,3 +141,13 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
 ../src/UnitTests/../KDTree/RecordID/Formacion.h:
 
 ../src/UnitTests/NodeTest.cpp:
+
+../src/File/FileBlocks.h:
+
+../src/KDTree/KD.h:
+
+/home/alemarra/tpDatos/src/KDTree/Serializers/NodeSerializer.h:
+
+/home/alemarra/tpDatos/src/KDTree/Query/Query.h:
+
+../src/KDTree/../File/FileBlocks.h:
