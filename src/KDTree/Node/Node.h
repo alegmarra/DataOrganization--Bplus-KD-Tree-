@@ -48,7 +48,7 @@ protected:
     static unsigned maxSize;
 
 
-    unsigned getKeyByLevel(ID * id, unsigned level);
+    Key* getKeyByLevel(ID * id, unsigned level);
 
 };
 
