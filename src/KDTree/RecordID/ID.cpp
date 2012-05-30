@@ -74,3 +74,5 @@ bool ID::equalsTo(ID* id) {
 
     return iguales;
 }
+
+unsigned ID::getDimensions(){};

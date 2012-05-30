@@ -15,7 +15,12 @@ src/KDTree/KD.d: ../src/KDTree/KD.cpp ../src/KDTree/KD.h \
  /home/alemarra/tpDatos/src/KDTree/Node/../RecordID/Key.h \
  /home/alemarra/tpDatos/src/KDTree/Query/Query.h \
  ../src/KDTree/../File/FileBlocks.h ../src/KDTree/../File/Abstract.h \
- ../src/KDTree/../File/../Exceptions/InvalidOperationException.cpp
+ ../src/KDTree/../File/../Exceptions/InvalidOperationException.cpp \
+ ../src/KDTree/../Exceptions/FileErrorException.h \
+ ../src/KDTree/Node/LeafNode.h ../src/KDTree/Node/Node.h \
+ ../src/KDTree/Node/InnerNode.h ../src/KDTree/Node/Pair.h \
+ ../src/KDTree/Node/../Serializers/NodeSerializer.h \
+ ../src/KDTree/Node/../Record.h
 
 ../src/KDTree/KD.h:
 
@@ -54,3 +59,17 @@ src/KDTree/KD.d: ../src/KDTree/KD.cpp ../src/KDTree/KD.h \
 ../src/KDTree/../File/Abstract.h:
 
 ../src/KDTree/../File/../Exceptions/InvalidOperationException.cpp:
+
+../src/KDTree/../Exceptions/FileErrorException.h:
+
+../src/KDTree/Node/LeafNode.h:
+
+../src/KDTree/Node/Node.h:
+
+../src/KDTree/Node/InnerNode.h:
+
+../src/KDTree/Node/Pair.h:
+
+../src/KDTree/Node/../Serializers/NodeSerializer.h:
+
+../src/KDTree/Node/../Record.h:

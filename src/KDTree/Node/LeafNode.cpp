@@ -156,6 +156,28 @@ std::vector<Record*> LeafNode::find(Query* query){
 }
 
 
+
+/*
+ * @brief	Remove the Record with @id
+ *
+ * @return	0 if removed
+ * 			1 if not found
+ */
+int LeafNode::remove(ID* id){
+
+	std::vector<Record*>::iterator it;
+
+	for(it = elements.begin(); it < elements.end(); it++)
+		if( id->equalsTo((*it)->getID())){
+			elements.erase(it);
+			return 0;
+	}
+
+	return 1;
+}
+
+
+
 std::vector<Record*> LeafNode::sortBy(unsigned level) {
 
 	std::vector<Record*>::iterator it = elements.begin();
@@ -222,10 +244,6 @@ int LeafNode::serialize(char* buffer) {
 
     for (unsigned i = 0; i < numElements; ++i)
         bytes += elements[i]->serialize(buffer + bytes);
-
-
-    // TOOD me hace ruido, mepa que esta mal
-    occupiedSpace = bytes;
 
     return bytes;
 }
