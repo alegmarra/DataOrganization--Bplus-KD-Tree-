@@ -19,6 +19,9 @@ class PairKeyNode{
         Key* getKey();
         unsigned getNode();
 
+        /** size en bytes */
+        unsigned getSize();
+
         ~PairKeyNode();
 };
 

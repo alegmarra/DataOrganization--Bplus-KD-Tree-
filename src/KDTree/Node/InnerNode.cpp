@@ -2,7 +2,7 @@
 #include <iostream>
 #include "../RecordID/KeyFactory.h"
 #include "../RecordID/Key.h"
-#include "Exceptions/InvalidOperationException.cpp"
+#include "../../Exceptions/InvalidOperationException.cpp"
 #include "../Serializers/NodeSerializer.h"
 
 InnerNode::InnerNode() : Node() {}
@@ -12,8 +12,9 @@ InnerNode::InnerNode(unsigned _level) : Node(_level) {}
 int InnerNode::insert(Record* record) {
 
 	std::vector<PairKeyNode*>::iterator it = elements.begin();
+	ID* id = record->getID();
 
-	Key* inRecordKey = record->getID()->getKey(level);
+	Key* inRecordKey = id->getKey(level % id->getDimensions());
 
 	int result = inRecordKey->compareTo((*it)->getKey());
 
@@ -130,6 +131,10 @@ std::vector<Record*> InnerNode::find(Record* record){
 		exactQ->addCondition(i, new QueryCondition(record->getID()->getKey(i)));
 
 	return find(exactQ);
+}
+
+int InnerNode::remove(ID* id) {
+
 }
 
 std::vector<Record*> InnerNode::find(Query* query){

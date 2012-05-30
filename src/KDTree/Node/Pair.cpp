@@ -1,5 +1,5 @@
 #include "Pair.h"
-
+#include "../RecordID/Key.h"
 
 
 PairKeyNode::PairKeyNode() {
@@ -22,3 +22,6 @@ unsigned PairKeyNode::getNode() {
 
 PairKeyNode::~PairKeyNode(){}
 
+unsigned PairKeyNode::getSize() {
+    return key->getSize() + 1;
+}
