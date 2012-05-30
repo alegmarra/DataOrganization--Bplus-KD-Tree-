@@ -19,7 +19,7 @@ class InnerNode: public Node{
 
     	//TODO ambos tiran exception
     	virtual Node* grow();
-    	virtual Key* split(Node* newNode);
+    	virtual Key* split(Node*& newNode);
 
 
 
