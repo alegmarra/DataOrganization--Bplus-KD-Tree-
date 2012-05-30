@@ -41,8 +41,6 @@ public:
 	int serialize(char* buffer);
 	int deserialize(const char* buffer);
 
-	unsigned getDimensions();
-
 	virtual ~ID();
 
 private:

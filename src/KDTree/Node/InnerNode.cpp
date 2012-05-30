@@ -142,9 +142,6 @@ std::vector<Record*> InnerNode::find(Record* record){
 	return find(exactQ);
 }
 
-int InnerNode::remove(ID* id) {
-
-}
 
 std::vector<Record*> InnerNode::find(Query* query){
 
