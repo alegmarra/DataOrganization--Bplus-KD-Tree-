@@ -9,6 +9,7 @@ unsigned Node::maxSize = MAX_SIZE;
 Node::Node() {
     level = 0;
     numElements = 0;
+    occupiedSpace = 0;
 }
 
 Node::Node(unsigned _level) {
