@@ -49,3 +49,7 @@ int IntKey::deserialize(const char* buffer) {
 unsigned IntKey::getSize() {
     return size;
 }
+
+int_least64_t IntKey::getValue() {
+    return value;
+}
