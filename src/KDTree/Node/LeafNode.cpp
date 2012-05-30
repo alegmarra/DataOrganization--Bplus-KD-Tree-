@@ -106,6 +106,9 @@ int LeafNode::insert(Record* record) {
 /*
  * Private
  */
+ 
+#include <iostream>
+ 
 std::vector<Record*> LeafNode::find(Record* record){
 
 	//Generates an exact query, wich has
@@ -125,7 +128,7 @@ std::vector<Record*> LeafNode::find(Record* record){
  *
  * @param query
  *
- * @return FIRST record that MATCHES
+ * @return ALL records that matches every condition in query
  *
  * @throw FileNotSetException, FileErrorException,
  * 		  InvalidOperationException
@@ -139,16 +142,16 @@ std::vector<Record*> LeafNode::find(Query* query){
 	//For every element in Node
 	for (it = elements.begin(); it < elements.end(); it++){
 		//For each Key that element has
-		for(unsigned i= 0; i < query->size(); i++){
+		for(unsigned i = 0; i < (*it)->getID()->getDimensions(); i++){
 
 			Key* key = (*it)->getID()->getKey(i);
 			//If the Key passes the condition
-			if ((query->eval(i,key) == Query::EQUAL) ||
-				(query->eval(i,key) == Query::MATCH))
+			if ((query->eval(i,key) == Query::EQUAL) || (query->eval(i,key) == Query::MATCH)) {
 				passed++;
+			}
 		}
 		//If every condition in the query passed
-		if(passed == query->size())
+		if(passed == (*it)->getID()->getDimensions())
 			matchingRecords.push_back(*it);
 	}
 
