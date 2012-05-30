@@ -69,12 +69,12 @@ private:
             {4,  13, 20},
             {11, 14, 12},
             {20, 18, 18},
-{8,  18, 13},
+            {8,  18, 13},
             {15, 16, 5},
             {13, 3,  11},
             {20, 7,  1},
             {7,  12, 13},
-{5,  9,  18},
+            {5,  9,  18},
             {4,  17, 17},
             {6,  2,  7},
             {8,  13, 6},
@@ -107,7 +107,7 @@ private:
         ID * id;
   
         loadTree(tree);      
-return;
+
         q = new Query();
         q->addCondition(X, new QueryCondition(new IntKey(1, 8)));
   
@@ -119,6 +119,7 @@ return;
             fail(error);
         }
 
+        /*
         IntKey * x;  
         IntKey * y;
         IntKey * z;
@@ -134,7 +135,7 @@ return;
             }
         
         }
-  
+        */
         delete q;
 
         q = new Query();
