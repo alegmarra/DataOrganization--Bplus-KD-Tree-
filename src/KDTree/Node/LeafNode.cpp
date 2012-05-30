@@ -69,6 +69,7 @@ Node* LeafNode::grow() {
  * @throw FileNotSetException, FileErrorException,
  * 		  InvalidOperationException
  */
+ 
 int LeafNode::insert(Record* record) {
 
     std::vector< Record * > result = find(record);

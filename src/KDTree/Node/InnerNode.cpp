@@ -16,11 +16,13 @@ int InnerNode::insert(Record* record) {
 	std::vector<PairKeyNode*>::iterator it = elements.begin();
 	ID* id = record->getID();
 
-	Key* inRecordKey = id->getKey(level % id->getDimensions());
+	Key* inRecordKey = getKeyByLevel(id, level);
 
-	int result = inRecordKey->compareTo((*it)->getKey());
+    int result;
 
 	while(it < elements.end()){
+
+	    result = inRecordKey->compareTo((*it)->getKey());
 
 		if (result < 0){
 			Node* next= NodeSerializer::deserializeNode(firstLeft);
@@ -30,14 +32,16 @@ int InnerNode::insert(Record* record) {
 
 			else return result;
 		}
-		else
-		if(result == 0){
+		else if(result == 0){
 			Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 			result = next->insert(record);
 			if (result == 2)
 				return manageOverflow((*it)->getNode(), next, ++it);
 
 			else return result;
+		}
+		else { 
+		    // Handled below
 		}
 		it++;
 	}
@@ -94,9 +98,12 @@ void InnerNode::addPair(PairKeyNode* pair){
 
 	std::vector<PairKeyNode*>::iterator it = elements.begin();
 	bool added = false;
+	int result;
 
-	int result =  pair->getKey()->compareTo((*it)->getKey());
 	while((it < elements.end()) && (!added)){
+
+	    result = pair->getKey()->compareTo((*it)->getKey());
+
 		if( result >0)
 			it++;
 		else
@@ -107,6 +114,7 @@ void InnerNode::addPair(PairKeyNode* pair){
 			added = true;
 		}
 	}
+
 	if (!added)
 		elements.push_back(pair);
 
