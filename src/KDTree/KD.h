@@ -23,16 +23,14 @@ class KDtree {
 public:
 	KDtree(FileAbstract* myFile);
 
-	// TODO Carga los records de la lista
 	void load(std::vector<Record*> records);
 
 	//Inserta el record en el arbol, chequeando que no sea
 	//una entrada duplicada
 	int insert(Record* record);
 
-	//TODO Si se encuentra, borra la entrada del arbol
-	//Record* o ID* ¿?¿?
-	void remove(Record* record);
+
+	int remove(ID* id);
 
 	//TODO Busqueda punual de un record particular
 	std::vector<Record*> find(Query* query);

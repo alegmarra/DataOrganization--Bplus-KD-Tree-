@@ -169,9 +169,10 @@ int LeafNode::remove(ID* id){
 
 	for(it = elements.begin(); it < elements.end(); it++)
 		if( id->equalsTo((*it)->getID())){
+			occupiedSpace -= (*it)->size();
 			elements.erase(it);
 			return 0;
-	}
+		}
 
 	return 1;
 }

@@ -71,7 +71,10 @@ int KDtree::insert(Record* record){
 	return 1;
 }
 
+int KDtree::remove(ID* id){
 
+	return root->remove(id);
+}
 
 KDtree::~KDtree() {
 	delete treeFile;
