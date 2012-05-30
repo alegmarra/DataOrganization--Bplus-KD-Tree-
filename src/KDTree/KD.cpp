@@ -17,9 +17,11 @@ KDtree::KDtree(unsigned nDimensions, FileAbstract* myFile)
     setRoot();
 }
 
-void KDtree::setRoot(){
+void KDtree::setRoot() {
 
-  	NodeSerializer::setFile((FileBlocks*)treeFile);
+  	NodeSerializer::setFile((FileBlocks *)treeFile);
+
+    Node::setFullSize(((FileBlocks *)treeFile)->getBlockSize());
 
 	try{
 		root = NodeSerializer::deserializeNode(0);
@@ -38,7 +40,7 @@ void KDtree::load(std::vector<Record*> records){
 
 	for(it= records.begin(); it < records.end(); it++){
 		status = root->insert(*it);
-		
+
 		if(status == 2)
 			root = root->grow();
 	}
