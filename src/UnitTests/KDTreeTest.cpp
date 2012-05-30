@@ -24,7 +24,8 @@ public:
 
     KDTreeTest(): Test("KDTree")
     {
-        blockSize = 1000;
+
+        blockSize = 4096;
         path = "/tmp/test_FindByQuery.bin";
 		spacePath = "/tmp/test_FindByQuery_space.bin";
         k = 3;
@@ -107,7 +108,7 @@ private:
         ID * id;
   
         loadTree(tree);      
-  
+
         q = new Query();
         q->addCondition(X, new QueryCondition(new IntKey(1, 8)));
   
@@ -119,6 +120,7 @@ private:
             fail(error);
         }
 
+        /*
         IntKey * x;  
         IntKey * y;
         IntKey * z;
@@ -134,7 +136,7 @@ private:
             }
         
         }
-  
+        */
         delete q;
 
         q = new Query();
