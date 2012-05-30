@@ -6,7 +6,6 @@
 #include "../Query/Condition.h"
 #include "../../Exceptions/InvalidConditionRangeException.h"
 
-
 QueryCondition::QueryCondition()
 {
     init();

@@ -22,7 +22,7 @@ IntKey::IntKey(int_least64_t _value, unsigned _size) {
 int IntKey::compareTo(Key* k) {
     IntKey* ik = dynamic_cast<IntKey* >(k);
     if (!ik)
-        throw InvalidKeyException();
+        throw InvalidKeyException("Invalid Type");
 
     return value - ik->value;
 }
@@ -43,5 +43,9 @@ int IntKey::deserialize(const char* buffer) {
         for (unsigned i = size; i < MAX_BYTES; ++i)
             value = value | int_least64_t(0xFF) << i*8;
 
+    return size;
+}
+
+unsigned IntKey::getSize() {
     return size;
 }

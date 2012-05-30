@@ -14,7 +14,7 @@ unsigned NodeSerializer::blockSize = BLOCKSIZE;
 
 unsigned NodeSerializer::serializeNode(Node* node) {
 
-	serializeNode(node, NEW_NODE);
+	return serializeNode(node, NEW_NODE);
 }
 
 
@@ -55,7 +55,7 @@ Node* NodeSerializer::deserializeNode(unsigned node) {
     else
         newNode = new InnerNode();
 
-    newNode->deserialize(buffer);
+    int bytes = newNode->deserialize(buffer);
 
     delete[] buffer;
     return newNode;

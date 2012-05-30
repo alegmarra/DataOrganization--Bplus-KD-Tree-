@@ -13,13 +13,18 @@
 
 class FileBlocks: public FileAbstract {
 public:
+
+	//TODO correctas descripciones en los comentarios
+
 	FileBlocks(const char * path, unsigned blockSize);
 
 	virtual int insert(void* object, unsigned blockNumber, unsigned insertionSize);
 	virtual int update(void* object, unsigned blockNumber, unsigned updateSize);
 	virtual int remove (void* object);
 	virtual void * find(void* object);
-	void deleteData();
+	virtual void deleteData();
+
+
 	/*
 	 * 	If there is free blocks, pop's the first in queue
 	 *

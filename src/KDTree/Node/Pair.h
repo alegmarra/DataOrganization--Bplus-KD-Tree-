@@ -13,13 +13,14 @@ class PairKeyNode{
         unsigned next;
 
     public:
-
         PairKeyNode();
-
         PairKeyNode(Key* _key, unsigned nextNodeNumber);
 
         Key* getKey();
         unsigned getNode();
+
+        /** size en bytes */
+        unsigned getSize();
 
         ~PairKeyNode();
 };

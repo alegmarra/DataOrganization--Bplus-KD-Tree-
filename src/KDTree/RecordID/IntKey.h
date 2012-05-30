@@ -18,6 +18,9 @@ class IntKey : public Key {
         /* Serializable */
         int serialize(char* buffer);
         int deserialize(const char* buffer);
+
+        unsigned getSize();
+        int_least64_t getValue();
     private:
         int_least64_t value;
         unsigned size;

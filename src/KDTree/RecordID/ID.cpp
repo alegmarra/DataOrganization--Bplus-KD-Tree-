@@ -9,11 +9,11 @@
 #include "KeyFactory.h"
 #include "../../Exceptions/NonExistingDimensionException.h"
 
-ID::ID(unsigned _size) : keys(_size), size(_size) {}
+ID::ID(unsigned _dimensions) : keys(_dimensions), dimensions(_dimensions) {}
 
 void ID::addKey(unsigned dimension, Key* key){
-    if (dimension >= size)
-        throw NonExistingDimensionException(dimension, size);
+    if (dimension >= dimensions)
+        throw NonExistingDimensionException(dimension, dimensions);
 
 	keys[dimension] = key;
 }
@@ -23,8 +23,8 @@ void ID::addKey(t_Key type, Key* key){
 }
 
 Key* ID::getKey(unsigned dimension){
-    if (dimension >= size)
-        throw NonExistingDimensionException(dimension, size);
+    if (dimension >= dimensions)
+        throw NonExistingDimensionException(dimension, dimensions);
 
 	return keys[dimension];
 }
@@ -34,7 +34,13 @@ Key* ID::getKey(t_Key type){
 }
 
 unsigned ID::getSize(){
-	return size;
+    int size = 0;
+	for (unsigned i = 0; i < dimensions; ++i)
+        size += keys[i]->getSize();
+}
+
+unsigned ID::getDimensions(){
+	return dimensions;
 }
 
 
@@ -46,7 +52,7 @@ ID::~ID() {
 
 int ID::serialize(char* buffer) {
 	int bytes = 0;
-	for (unsigned i = 0; i < size; ++i)
+	for (unsigned i = 0; i < dimensions; ++i)
         bytes += keys[i]->serialize(buffer + bytes);
 
     return bytes;
@@ -56,7 +62,7 @@ int ID::deserialize(const char* buffer) {
     keys.empty();
 
 	int bytes = 0;
-	for (unsigned i = 0; i < size; ++i) {
+	for (unsigned i = 0; i < dimensions; ++i) {
 	    keys[i] = KeyFactory::getKey(i);
         bytes += keys[i]->deserialize(buffer + bytes);
 	}
@@ -65,9 +71,9 @@ int ID::deserialize(const char* buffer) {
 }
 
 bool ID::equalsTo(ID* id) {
-    bool iguales = size == id->size;
+    bool iguales = dimensions == id->dimensions;
     unsigned i = 0;
-    while (iguales && i < size) {
+    while (iguales && i < dimensions) {
         iguales = !keys[i]->compareTo(id->keys[i]);
         ++i;
     }

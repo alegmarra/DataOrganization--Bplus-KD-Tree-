@@ -69,6 +69,7 @@ private:
             }
             
             try {
+
                 c = new QueryCondition(new IntKey(10, 2), new IntKey(1, 2));
                 fail("Range constructor accepted an invalid range");
                 delete c;            

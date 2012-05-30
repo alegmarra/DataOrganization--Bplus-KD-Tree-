@@ -3,7 +3,7 @@
 
 #define NEW_NODE -1
 
-#include "KDTree/Node/Node.h"
+#include "../Node/Node.h"
 
 class FileBlocks;
 
@@ -46,6 +46,7 @@ class NodeSerializer {
          */
         static void newFile(const char* filename, unsigned _blockSize);
         static void freeStaticMem();
+
     private:
         static FileBlocks* file;
         static unsigned blockSize;

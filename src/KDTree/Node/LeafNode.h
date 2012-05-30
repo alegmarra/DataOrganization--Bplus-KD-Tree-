@@ -11,28 +11,30 @@
 class LeafNode: public Node{
 
 public:
-        LeafNode();
-        LeafNode(unsigned _level);
+    LeafNode();
+    LeafNode(unsigned _level);
 
-    	virtual int insert(Record* record);
-    	virtual Record* find(Query* query);
+    virtual int insert(Record* record);
+    virtual std::vector<Record*> find(Query* query);
+    virtual int remove(ID* id);
 
-    	virtual Node* split();
-    	virtual Node* grow();
+    virtual Key* split(Node* newNode);
+    virtual Node* grow();
 
-    //	virtual Node* nextLeaf();
+	int serialize(char* buffer);
+	int deserialize(const char* buffer);
 
-        int serialize(char* buffer);
-        int deserialize(const char* buffer);
+	~LeafNode();
 
-        ~LeafNode();
-
-        /** fea idea, pero es por falta de tiempo */
 private:
-        std::vector<Record* > elements;
 
 #ifdef TESTING
         friend class SerializersTest;
 #endif
+
+	virtual std::vector<Record*> find(Record* record);
+	std::vector<Record*> sortBy(unsigned level);
+
+	std::vector<Record*> elements;
 };
 #endif

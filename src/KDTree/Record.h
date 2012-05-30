@@ -18,6 +18,8 @@ class Record : public Serializable {
         Record(ID* id);
 
         ID* getID();
+
+        unsigned size();
     //	Data* getData();
 
         int serialize(char* buffer);
@@ -27,7 +29,7 @@ class Record : public Serializable {
 
 private:
 	ID* myID;
-       // Data* data;
+ // Data* data;
 
 
 };

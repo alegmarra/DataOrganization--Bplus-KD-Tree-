@@ -69,6 +69,7 @@ public:
 
 	void test_Constructor_NewFile(){
 
+
         start("Constructor_NewFile");
 
 		remove(path);

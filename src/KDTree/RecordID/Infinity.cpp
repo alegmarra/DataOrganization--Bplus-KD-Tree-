@@ -1,7 +1,7 @@
 #ifndef KDTREE_KEY_INFINITY_CPP
 #define KDTREE_KEY_INFINITY_CPP
 
-#include "KDTree/RecordID/Infinity.h"
+#include "Infinity.h"
 
 KeyInfinity::KeyInfinity()
 {
@@ -41,6 +41,9 @@ int KeyInfinity::deserialize(const char* buffer){
 	return 0;
 }
 
+unsigned KeyInfinity::getSize() {
+    return 0;
+}
 
 #endif
 

@@ -5,6 +5,9 @@
 #include "UnitTests/SerializersTest.cpp"
 #include "UnitTests/NodeTest.cpp"
 
+#include "File/FileBlocks.h"
+#include "KDTree/KD.h"
+
 int main()
 {
 
@@ -16,7 +19,7 @@ int main()
     test = new ConditionTest();
     test->run();
     delete test;
-    
+
     test = new QueryTest();
     test->run();
 	delete test;
@@ -32,6 +35,7 @@ int main()
     test = new NodeTest();
     test->run();
     delete test;
+
 
     return 0;
 }
