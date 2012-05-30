@@ -14,30 +14,36 @@ class InnerNode: public Node{
     	virtual std::vector<Record*> find(Query* query);
 
     	void addPair(PairKeyNode* pair);
+
+    	//TODO ambos tiran exception
     	virtual Node* grow();
+    	virtual Key* split(Node* newNode);
+
         virtual void setLeft(unsigned child);
-
-
-//        virtual Node* getLeftChild();
-//        virtual Node* getRightChild();
-//        virtual void setRight(Node* child);
 
         int serialize(char* buffer);
         int deserialize(const char* buffer);
 
         ~InnerNode();
-        /** fea idea, pero es por falta de tiempo */
-#ifdef TESTING
-        friend class SerializersTest;
-#endif
+
     private:
+
+	#ifdef TESTING
+			friend class SerializersTest;
+	#endif
 
     	virtual std::vector<Record*> find(Record* record);
 
+    	std::vector<Record*> findInRange(Query* query,
+        					 std::vector<PairKeyNode*>::iterator it);
+
+    	int manageOverflow(unsigned oldLeafNumber, Node* oldLeaf,
+	 	 	 	  std::vector<PairKeyNode*>::iterator position);
+
         unsigned firstLeft;
         std::vector<PairKeyNode*> elements;
-        std::vector<Record*> findInRange(Query* query,
-        					 std::vector<PairKeyNode*>::iterator it);
+
+
 };
 
 

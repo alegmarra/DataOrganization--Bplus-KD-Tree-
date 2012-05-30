@@ -6,6 +6,7 @@
 CPP_SRCS += \
 ../src/UnitTests/ConditionTest.cpp \
 ../src/UnitTests/FileBlocksTest.cpp \
+../src/UnitTests/KDtreeTest.cpp \
 ../src/UnitTests/KeyTest.cpp \
 ../src/UnitTests/NodeTest.cpp \
 ../src/UnitTests/QueryTest.cpp \
@@ -15,6 +16,7 @@ CPP_SRCS += \
 OBJS += \
 ./src/UnitTests/ConditionTest.o \
 ./src/UnitTests/FileBlocksTest.o \
+./src/UnitTests/KDtreeTest.o \
 ./src/UnitTests/KeyTest.o \
 ./src/UnitTests/NodeTest.o \
 ./src/UnitTests/QueryTest.o \
@@ -24,6 +26,7 @@ OBJS += \
 CPP_DEPS += \
 ./src/UnitTests/ConditionTest.d \
 ./src/UnitTests/FileBlocksTest.d \
+./src/UnitTests/KDtreeTest.d \
 ./src/UnitTests/KeyTest.d \
 ./src/UnitTests/NodeTest.d \
 ./src/UnitTests/QueryTest.d \

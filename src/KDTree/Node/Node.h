@@ -26,7 +26,9 @@ public:
 
 	virtual int insert(Record* record)=0;
 
+	//TODO preguntar sobre que les parece manejar esto asi
 	virtual Node* grow()=0;
+	virtual Key* split(Node* newNode)=0;
 
 	virtual std::vector<Record*> find(Query* query)=0;
 

@@ -20,7 +20,7 @@ LeafNode::~LeafNode() {}
  * and left and right childs
  *
  * Saves Leaf nodes on disk
- *
+ *td::vector<Record*
  * return Inner node
  *
  * */
@@ -156,6 +156,25 @@ std::vector<Record*> LeafNode::find(Query* query){
 }
 
 
+std::vector<Record*> LeafNode::sortBy(unsigned level) {
+
+	std::vector<Record*>::iterator it = elements.begin();
+	std::vector<Record*>::iterator parentIt;
+	std::vector<Record*> parentKeySorted;
+	for (; it < elements.end(); it++) {
+		Key* key = (*it)->getID()->getKey(level - 1);
+		for (parentIt = parentKeySorted.begin();
+				parentIt < parentKeySorted.end(); parentIt++) {
+			if (((*parentIt)->getID()->getKey(level - 1))->compareTo(key))
+				parentKeySorted.insert(parentIt, *it);
+		}
+		if (parentIt == parentKeySorted.end())
+			parentKeySorted.push_back(*it);
+	}
+
+	return parentKeySorted;
+}
+
 /*
  * Elements must be pre-ordered
  * Record that caused the overflow already
@@ -174,10 +193,11 @@ Key* LeafNode::split(Node* newNode) {
 	newNode = new LeafNode(level);
 
 	//Leaf has its records ordered by Key[level]
-	Key* parentKey = elements.at((elements.size()/2) +1)->getID()->getKey(level);
+	Key* parentKey = sortBy(level-1).at((elements.size()/2) +1)->getID()->getKey(level-1);
 
 	std::vector<Record*>::iterator it = elements.begin();
 	int limit = (elements.size()/2);
+
 	for (int i = 0; i<limit; i++)
 		it++;
 
@@ -194,13 +214,7 @@ Key* LeafNode::split(Node* newNode) {
 	return parentKey;
 }
 
-/*
- *
- *
- * TODO agregar tamaño de cada registro previo a su lectura
- *
- *
- */
+
 int LeafNode::serialize(char* buffer) {
     buffer[0] = IS_LEAF | level;
     buffer[1] = numElements;
@@ -209,19 +223,15 @@ int LeafNode::serialize(char* buffer) {
     for (unsigned i = 0; i < numElements; ++i)
         bytes += elements[i]->serialize(buffer + bytes);
 
+
+    // TOOD me hace ruido, mepa que esta mal
     occupiedSpace = bytes;
 
     return bytes;
 }
 
 
-/*
- *
- *
- * TODO leer tamaño de cada registro previo a su deserializacion
- *
- *
- */
+
 int LeafNode::deserialize(const char* buffer) {
     level = LEVEL_MASK & buffer[0];
     numElements = buffer[1];

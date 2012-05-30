@@ -9,26 +9,73 @@ InnerNode::InnerNode() : Node() {}
 
 InnerNode::InnerNode(unsigned _level) : Node(_level) {}
 
-/** @todo int InnerNode::insert(Record* ) */
 int InnerNode::insert(Record* record) {
-
-	if (find(record).size() != 0)
-			return 3;
 
 	std::vector<PairKeyNode*>::iterator it = elements.begin();
 
 	Key* inRecordKey = record->getID()->getKey(level);
 
+	int result = inRecordKey->compareTo((*it)->getKey());
 
+	while(it < elements.end()){
 
+		if (result < 0){
+			Node* next= NodeSerializer::deserializeNode(firstLeft);
+			result = next->insert(record);
+			if (result == 2)
+				return manageOverflow(firstLeft, next, ++it);
 
-	return 1;
+			else return result;
+		}
+		else
+		if(result == 0){
+			Node* next = NodeSerializer::deserializeNode((*it)->getNode());
+			result = next->insert(record);
+			if (result == 2)
+				return manageOverflow((*it)->getNode(), next, ++it);
+
+			else return result;
+		}
+		it++;
+	}
+
+	//Key > all elements
+	Node* next = NodeSerializer::deserializeNode((*it)->getNode());
+	result = next->insert(record);
+	if (result == 2)
+		return manageOverflow((*it)->getNode(), next, ++it);
+
+	else return result;
+}
+
+int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
+			 	 	 	 	  std::vector<PairKeyNode*>::iterator position){
+
+	if (occupiedSpace < maxSize){
+		Node* newLeaf = NULL;
+
+		Key* newKey = oldLeaf->split(newLeaf);
+		NodeSerializer::serializeNode(oldLeaf, oldNumber);
+
+		unsigned next;
+		next = NodeSerializer::serializeNode(newLeaf);
+
+		elements.insert(position, new PairKeyNode(newKey, next));
+		return 1;
+	}
+	else
+		NodeSerializer::serializeNode(oldLeaf->grow(), oldNumber);
+	//No update in node
+	return 0;
+
 }
 
 Node* InnerNode::grow() {
-
 	throw InvalidOperationException("Called Grow for InnerNode");
+}
 
+Key* InnerNode::split(Node* n) {
+	throw InvalidOperationException("Called Split for InnerNode");
 }
 
 void InnerNode::addPair(PairKeyNode* pair){
@@ -36,9 +83,13 @@ void InnerNode::addPair(PairKeyNode* pair){
 	std::vector<PairKeyNode*>::iterator it = elements.begin();
 	bool added = false;
 
+	int result =  pair->getKey()->compareTo((*it)->getKey());
 	while((it < elements.end()) && (!added)){
-		if( pair > *it )
+		if( result >0)
 			it++;
+		else
+		if( result == 0)
+			throw InvalidKeyException("Duplicated Key in Node");
 		else{
 			elements.insert(it, pair);
 			added = true;
@@ -48,6 +99,8 @@ void InnerNode::addPair(PairKeyNode* pair){
 		elements.push_back(pair);
 
 }
+
+
 
 std::vector<Record*> InnerNode::findInRange(Query* query,
 					std::vector<PairKeyNode*>::iterator it) {

@@ -19,7 +19,6 @@ class Record : public Serializable {
 
         ID* getID();
 
-        //TODO
         unsigned size();
     //	Data* getData();
 

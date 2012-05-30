@@ -23,26 +23,29 @@ class KDtree {
 public:
 	KDtree(FileAbstract* myFile);
 
-	//Carga los records de la lista, sin chequear unicidad
+	// TODO Carga los records de la lista
 	void load(std::vector<Record*> records);
 
 	//Inserta el record en el arbol, chequeando que no sea
 	//una entrada duplicada
 	int insert(Record* record);
 
-	//Si se encuentra, borra la entrada del arbol
+	//TODO Si se encuentra, borra la entrada del arbol
+	//Record* o ID* ¿?¿?
 	void remove(Record* record);
 
-	//Busqueda punual de un record particular
-	Record* search(Query* query);
+	//TODO Busqueda punual de un record particular
+	Record* find(Query* query);
 
 	/*
+	 * TODO
 	 * Búsqueda parcial puntual.
 	 * post: Devuelve todos los records que cumplan con el pedido parcial
 	 */
-	std::vector<Record> searchAll(Query* query);
+	std::vector<Record> findAll(Query* query);
 
 	/*
+	 * TODO
 	 * Busqueda por rangos.
 	 *
 	 * pre: Se pasa un vector con las Keys cuyo rango se desea verificar,
@@ -51,7 +54,7 @@ public:
 	 *
 	 * post: devuelve todas los records con Keys dentro del rango.
 	 */
-	std::vector<Record> searchInRange(std::vector<std::vector<Key*> > keys);
+	std::vector<Record> findInRange(std::vector<std::vector<Key*> > keys);
 
 	virtual ~KDtree();
 
@@ -59,11 +62,6 @@ private:
 
 	//Recovers first Node in File.
 	void setRoot();
-
-//	int insert(Node* root, Record* record);
-
-//  unsigned numberOfNodes;
-//	std::vector<unsigned> freeNodes;
 
 	FileAbstract* treeFile;
 	Node* root;

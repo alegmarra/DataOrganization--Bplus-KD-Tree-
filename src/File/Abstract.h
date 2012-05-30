@@ -30,10 +30,7 @@ public:
 	virtual int remove(void* object) =0;
 	virtual void * find(void* object) =0;
 
-	/**
-	 * @brief borra todo el contenido
-     */
-    void deleteData();
+    virtual void deleteData()=0;
 
 public:
 

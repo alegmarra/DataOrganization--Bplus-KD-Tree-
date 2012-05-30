@@ -14,7 +14,7 @@ StringKey::StringKey(const std::string& s) {
 int StringKey::compareTo(Key* k) {
     StringKey* sk = dynamic_cast<StringKey* >(k);
     if (!sk)
-        throw InvalidKeyException();
+        throw InvalidKeyException("Invalid Type");
 
     return value.compare(sk->value);
 }

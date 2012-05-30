@@ -13,9 +13,7 @@ class PairKeyNode{
         unsigned next;
 
     public:
-
         PairKeyNode();
-
         PairKeyNode(Key* _key, unsigned nextNodeNumber);
 
         Key* getKey();

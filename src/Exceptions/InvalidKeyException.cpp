@@ -2,10 +2,17 @@
 
 class InvalidKeyException: public std::exception
 {
+private:
+	const char * eMessage;
 public:
-  virtual const char* what() const throw()
+
+	InvalidKeyException(const char * message){
+		eMessage = message;
+	}
+
+	virtual const char* what() const throw()
   {
-    return "Invalid value for a Key";
+    return eMessage;
   }
 
 };

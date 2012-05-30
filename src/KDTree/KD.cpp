@@ -16,19 +16,32 @@ KDtree::KDtree(FileAbstract* myFile){
 }
 
 void KDtree::setRoot(){
-
 /*
- * 	NodeSerializer::setFile(treeFile);
+  	NodeSerializer::setFile((FileBlocks*)treeFile);
 
 	try{
-
 		root = NodeSerializer::deserializeNode(0);
-
-	}catch(FileErrorException*){
-
+	}
+	catch(FileErrorException& e){
+		std::cout<<e.what()<<std::endl;
+		exit(1);
 	}
 */
 }
+
+void KDtree::load(std::vector<Record*> records){
+	std::vector<Record*>::iterator it;
+	int status;
+
+	for(it= records.begin(); it < records.end(); it++){
+		status = root->insert(*it);
+		if(status == 2)
+			root = root->grow();
+	}
+
+	NodeSerializer::serializeNode(root, 0);
+}
+
 
 int KDtree::insert(Record* record){
 
