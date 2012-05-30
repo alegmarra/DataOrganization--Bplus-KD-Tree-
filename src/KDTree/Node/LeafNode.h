@@ -18,7 +18,7 @@ public:
     virtual std::vector<Record*> find(Query* query);
     virtual int remove(ID* id);
 
-    virtual Key* split(Node* newNode);
+    virtual Key* split(Node*& newNode);
     virtual Node* grow();
 
 	int serialize(char* buffer);

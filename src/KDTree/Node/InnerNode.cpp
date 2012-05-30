@@ -8,7 +8,7 @@
 InnerNode::InnerNode() : Node() {}
 
 InnerNode::InnerNode(unsigned _level) : Node(_level) {
-    occupiedSpace = 3;
+    occupiedSpace = 2;
 }
 
 int InnerNode::insert(Record* record) {
@@ -86,7 +86,7 @@ Node* InnerNode::grow() {
 	throw InvalidOperationException("Called Grow for InnerNode");
 }
 
-Key* InnerNode::split(Node* n) {
+Key* InnerNode::split(Node*& n) {
 	throw InvalidOperationException("Called Split for InnerNode");
 }
 

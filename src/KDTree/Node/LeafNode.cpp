@@ -215,7 +215,7 @@ std::vector<Record*> LeafNode::sortBy(unsigned level) {
  * returns middle key in return
  *
  * */
-Key* LeafNode::split(Node* newNode) {
+Key* LeafNode::split(Node*& newNode) {
 
 	newNode = new LeafNode(level);
 
