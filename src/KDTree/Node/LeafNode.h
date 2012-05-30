@@ -16,6 +16,7 @@ public:
 
     virtual int insert(Record* record);
     virtual std::vector<Record*> find(Query* query);
+    virtual int remove(ID* id);
 
     virtual Key* split(Node* newNode);
     virtual Node* grow();

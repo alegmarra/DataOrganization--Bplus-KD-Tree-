@@ -25,6 +25,8 @@ class Key : public Serializable {
          */
         virtual int compareTo(Key * k) = 0;
         virtual ~Key(){};
+
+        virtual unsigned getSize() = 0;
 };
 
 #endif /* KEY_H_ */

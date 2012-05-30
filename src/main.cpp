@@ -6,6 +6,9 @@
 #include "UnitTests/NodeTest.cpp"
 #include "UnitTests/KDTreeTest.cpp"
 
+#include "File/FileBlocks.h"
+#include "KDTree/KD.h"
+
 int main()
 {
 

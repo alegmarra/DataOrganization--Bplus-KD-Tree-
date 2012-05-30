@@ -13,11 +13,15 @@ class InnerNode: public Node{
     	virtual int insert(Record* record);
     	virtual std::vector<Record*> find(Query* query);
 
+    	virtual int remove(ID* id);
+
     	void addPair(PairKeyNode* pair);
 
     	//TODO ambos tiran exception
     	virtual Node* grow();
     	virtual Key* split(Node* newNode);
+
+
 
         virtual void setLeft(unsigned child);
 
@@ -34,7 +38,7 @@ class InnerNode: public Node{
 
     	virtual std::vector<Record*> find(Record* record);
 
-    	std::vector<Record*> findInRange(Query* query,
+    	std::vector<Record*> findInRange(unsigned prevNode, Query* query,
         					 std::vector<PairKeyNode*>::iterator it);
 
     	int manageOverflow(unsigned oldLeafNumber, Node* oldLeaf,

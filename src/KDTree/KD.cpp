@@ -6,8 +6,8 @@
  */
 
 #include "KD.h"
-#include "Node/LeafNode.h"
 #include "../Exceptions/FileErrorException.h"
+#include "Node/LeafNode.h"
 
 
 KDtree::KDtree(unsigned nDimensions, FileAbstract* myFile)
@@ -33,6 +33,7 @@ void KDtree::setRoot(){
 
 void KDtree::load(std::vector<Record*> records){
 	std::vector<Record*>::iterator it;
+
 	int status;
 
 	for(it= records.begin(); it < records.end(); it++){

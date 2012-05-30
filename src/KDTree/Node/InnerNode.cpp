@@ -2,7 +2,7 @@
 #include <iostream>
 #include "../RecordID/KeyFactory.h"
 #include "../RecordID/Key.h"
-#include "Exceptions/InvalidOperationException.cpp"
+#include "../../Exceptions/InvalidOperationException.cpp"
 #include "../Serializers/NodeSerializer.h"
 
 InnerNode::InnerNode() : Node() {}
@@ -12,8 +12,9 @@ InnerNode::InnerNode(unsigned _level) : Node(_level) {}
 int InnerNode::insert(Record* record) {
 
 	std::vector<PairKeyNode*>::iterator it = elements.begin();
+	ID* id = record->getID();
 
-	Key* inRecordKey = record->getID()->getKey(level);
+	Key* inRecordKey = id->getKey(level % id->getDimensions());
 
 	int result = inRecordKey->compareTo((*it)->getKey());
 
@@ -46,6 +47,8 @@ int InnerNode::insert(Record* record) {
 		return manageOverflow((*it)->getNode(), next, ++it);
 
 	else return result;
+
+
 }
 
 int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
@@ -60,7 +63,14 @@ int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
 		unsigned next;
 		next = NodeSerializer::serializeNode(newLeaf);
 
-		elements.insert(position, new PairKeyNode(newKey, next));
+		PairKeyNode* pair = new PairKeyNode(newKey, next);
+
+		elements.insert(position, pair);
+
+	//	TODO occupiedSpace += pair->size();
+
+		delete pair;
+
 		return 1;
 	}
 	else
@@ -102,11 +112,11 @@ void InnerNode::addPair(PairKeyNode* pair){
 
 
 
-std::vector<Record*> InnerNode::findInRange(Query* query,
+std::vector<Record*> InnerNode::findInRange(unsigned prevNode, Query* query,
 					std::vector<PairKeyNode*>::iterator it) {
 
 	std::vector<Record*> found;
-	found = NodeSerializer::deserializeNode(firstLeft)->find(query);
+	found = NodeSerializer::deserializeNode(prevNode)->find(query);
 
 	while ((query->eval(level, (*it)->getKey()) == Query::MATCH)
 			&& (it < elements.end())) {
@@ -132,6 +142,7 @@ std::vector<Record*> InnerNode::find(Record* record){
 	return find(exactQ);
 }
 
+
 std::vector<Record*> InnerNode::find(Query* query){
 
 	std::vector<Record*>  found;
@@ -144,8 +155,19 @@ std::vector<Record*> InnerNode::find(Query* query){
 		case (Query::LOWER):
 			return NodeSerializer::deserializeNode(firstLeft)->find(query);
 
-		case (Query::EQUAL):
-			return NodeSerializer::deserializeNode((*it)->getNode())->find(query);
+		case (Query::EQUAL):{
+
+			std::vector<Record*> partial;
+
+			while((query->eval(level, (*it)->getKey()) == Query::EQUAL)
+					 && (it < elements.end())){
+
+				partial = NodeSerializer::deserializeNode((*it)->getNode())->find(query);
+				found.insert(found.end(), partial.begin(), partial.end());
+				it++;
+			}
+			return found;
+		}
 
 		case (Query::HIGHER):{
 			unsigned prev ;
@@ -157,7 +179,7 @@ std::vector<Record*> InnerNode::find(Query* query){
 			}
 			if (it != elements.end())
 				if(query->eval(level, (*it)->getKey()) == Query::MATCH)
-					return findInRange(query, it);
+					return findInRange(prev, query, it);
 				else
 					return NodeSerializer::deserializeNode(prev)->find(query);
 			else
@@ -165,12 +187,38 @@ std::vector<Record*> InnerNode::find(Query* query){
 		}
 
 		case (Query::MATCH):
-			return findInRange(query, it);
+			return findInRange(firstLeft, query, it);
 	}
 
 	return found; //Empty vector, nothing found
 }
 
+
+/*
+ * @brief	Remove the Record with @id
+ *
+ * @return	0 if removed
+ * 			1 if not found
+ */
+int InnerNode::remove(ID* id){
+
+	std::vector<PairKeyNode*>::iterator it = elements.begin();
+
+	unsigned dimension = id->getDimensions();
+
+	while(it < elements.end()){
+		if ((*it)->getKey()->compareTo(id->getKey(level%dimension)) == 0 ){
+
+			int status = NodeSerializer::deserializeNode((*it)->getNode())->remove(id);
+
+			if( status == 0 )
+				return 0;
+		}
+	}
+
+	return  1;
+
+}
 
 void InnerNode::setLeft(unsigned child){
 	firstLeft = child;

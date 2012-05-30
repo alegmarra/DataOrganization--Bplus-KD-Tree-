@@ -15,6 +15,9 @@ class StringKey : public Key {
         /* Serializable */
         int serialize(char* buffer);
         int deserialize(const char* buffer);
+
+        unsigned getSize();
+        std::string getValue();
     private:
         std::string value;
 };
