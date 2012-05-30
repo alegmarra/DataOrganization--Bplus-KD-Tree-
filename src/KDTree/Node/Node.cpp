@@ -32,3 +32,8 @@ unsigned Node::getNumElements() {
     return numElements;
 }
 
+
+unsigned getKeyByLevel(ID * id, unsigned level)
+{
+    return id->getKey(level % id->getDimensions());
+}
