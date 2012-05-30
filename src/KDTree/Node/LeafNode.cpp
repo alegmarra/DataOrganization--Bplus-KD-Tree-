@@ -241,7 +241,7 @@ Key* LeafNode::split(Node*& newNode) {
 	elements = sortBy(level-1);
 
 
-	int lowLimit = (elements.size()/2)+1;
+	int lowLimit = (elements.size()/2);
 	int highLimit = (elements.size());
 
 	for(int i = lowLimit; i< highLimit; i++)
