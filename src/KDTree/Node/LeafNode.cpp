@@ -194,21 +194,26 @@ int LeafNode::remove(ID* id){
 
 
 
-std::vector<Record*> LeafNode::sortBy(unsigned level) {
-
-	std::vector<Record*>::iterator it = elements.begin();
+std::vector<Record*> LeafNode::sortBy(unsigned level) 
+{
+    std::vector<Record*>::iterator it;
 	std::vector<Record*>::iterator parentIt;
 	std::vector<Record*> parentKeySorted;
-	for (; it < elements.end(); it++) {
+	
+	for (it = elements.begin(); it < elements.end(); it++) {
 
-		Key* key = (*it)->getID()->getKey(level);
-		for (parentIt = parentKeySorted.begin();
-				parentIt < parentKeySorted.end(); parentIt++) {
-			if (getKeyByLevel((*parentIt)->getID(), level)->compareTo(key) < 0)
-				parentKeySorted.insert(parentIt, *it);
+		Key* key = getKeyByLevel((*it)->getID(), level);
+		
+		for (parentIt = parentKeySorted.begin(); parentIt < parentKeySorted.end(); parentIt++) {
+			if (getKeyByLevel((*parentIt)->getID(), level)->compareTo(key) < 0) {
+				parentIt = parentKeySorted.insert(parentIt, *it);
+				break;
+			}
 		}
-		if (parentIt == parentKeySorted.end())
+		
+		if (parentIt == parentKeySorted.end()) {
 			parentKeySorted.push_back(*it);
+		}
 	}
 
 	return parentKeySorted;
@@ -245,8 +250,8 @@ Key* LeafNode::split(Node*& newNode) {
 	Key * parentKey = getKeyByLevel(elements.at(lowLimit)->getID(), level-1);
 
 	for(int i = lowLimit; i< highLimit; i++){
-		occupiedSpace -= elements[i]->size();
-		elements.erase(elements.begin() + i);
+		occupiedSpace -= elements[lowLimit]->size();
+		elements.erase(elements.begin() + lowLimit);
 	}
 
 	//Updates data
