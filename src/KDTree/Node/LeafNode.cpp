@@ -114,9 +114,6 @@ int LeafNode::insert(Record* record) {
 /*
  * Private
  */
- 
-#include <iostream>
- 
 std::vector<Record*> LeafNode::find(Record* record){
 
 	//Generates an exact query, wich has
