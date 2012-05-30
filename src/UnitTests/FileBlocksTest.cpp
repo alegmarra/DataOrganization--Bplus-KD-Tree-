@@ -29,8 +29,8 @@ public:
 	{
 
 		blockSize = 4096;
-		path = "my_FileBlocks_test_file.bin";
-		spacePath = "myFileBlocks_test_file_space.bin";
+		path      = "my_FileBlocks_test_file.bin";
+		spacePath = "my_FileBlocks_test_file_space.bin";
 
 		remove(path);
 		remove(spacePath);
@@ -79,9 +79,18 @@ public:
 
 		FILE* pFile;
 		pFile = fopen (path,"r");
-
+		
 		if (!pFile) {
 		    fail("File NOT CREATED");
+		} else {
+    		pass();
+		}
+
+        FILE* pSpaceFile;
+		pSpaceFile = fopen (spacePath,"r");
+
+		if (!pSpaceFile) {
+		    fail("Space Contol File NOT CREATED");
 		} else {
     		pass();
 		}
