@@ -5,13 +5,14 @@
 
 class KeyInfinity: public Key
 {
-
 private:
-    bool is_positive;
-
-public:
+    // Infinite keys sholud only be created by QueryCondition to create infinite 
+    // ranges
     KeyInfinity();
     KeyInfinity(bool positive);
+
+public:
+    bool is_positive;
 
     virtual int compareTo(Key * k);
     virtual std::string getKey();
@@ -21,6 +22,10 @@ public:
 
     virtual ~KeyInfinity(){};
 
+    friend class QueryCondition;
+
+    // TODO: Remove KeyInfinity from tests and remove the friend test classes
+    friend class KeyTest;
 };
 
 #endif

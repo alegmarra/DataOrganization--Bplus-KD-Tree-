@@ -32,8 +32,8 @@ public:
      *     EQUAL: Key matches exactly to the condition. Search follow the right 
      *     subtree
      *
-     * @var unsigned dimension Dimension on which to evaluate the key
-     * @var Key * k The key being evaluated
+     * @param unsigned dimension Dimension on which to evaluate the key
+     * @param Key * k The key being evaluated
      * @return int 
      */
     int eval(unsigned dimension, Key * k);

@@ -5,7 +5,7 @@
 
 KeyInfinity::KeyInfinity()
 {
-    KeyInfinity(false);
+    is_positive = false;
 }
 
 KeyInfinity::KeyInfinity(bool positive)

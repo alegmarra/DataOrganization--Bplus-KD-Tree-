@@ -1,6 +1,7 @@
 #include <cstring>
 #include "../KDTree/RecordID/StringKey.h"
 #include "../KDTree/RecordID/IntKey.h"
+#include "../KDTree/RecordID/Infinity.h"
 
 #include "Test.cpp"
 
@@ -18,6 +19,7 @@ public:
         test_StringKey_Deserialize();
         test_IntKey_CompareTo();
         test_IntKey_SerializeDeserialize();
+        test_KeyInfinity_CompareTo();
 	}
 
     void test_StringKey_CompareTo() {
@@ -120,7 +122,7 @@ public:
             std::cout << "mayor NO OK";
         std::cout << std::endl;
     }
-
+    
     /**
      * @brief hidratación y deshidratación juntas, no se me ocurría otra forma
      *
@@ -192,5 +194,21 @@ public:
         }
     }
 
+    void test_KeyInfinity_CompareTo() 
+    {
+        start("KeyInfinity_CompareTo");
+        
+        IntKey ik(1234567890, 8);
+        KeyInfinity positive(true);
+        KeyInfinity negative(false);
+
+        if (positive.compareTo(&ik) > 0) pass();
+        else fail("Positive infinity should be greater than any key");
+        
+        if (negative.compareTo(&ik) < 0) pass();
+        else fail("Negative infinity should be lower than any key");
+        
+        stop();
+    }
 
 };
