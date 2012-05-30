@@ -7,7 +7,9 @@
 
 InnerNode::InnerNode() : Node() {}
 
-InnerNode::InnerNode(unsigned _level) : Node(_level) {}
+InnerNode::InnerNode(unsigned _level) : Node(_level) {
+    occupiedSpace = 3;
+}
 
 int InnerNode::insert(Record* record) {
 

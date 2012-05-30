@@ -3,7 +3,9 @@
 
 LeafNode::LeafNode() : Node() {}
 
-LeafNode::LeafNode(unsigned _level) : Node(_level) {}
+LeafNode::LeafNode(unsigned _level) : Node(_level) {
+    occupiedSpace = 2;  // level + numElements
+}
 
 LeafNode::~LeafNode() {}
 
@@ -90,10 +92,10 @@ int LeafNode::insert(Record* record) {
 		else
 			it++;
 	}
-	if(!inserted){
-		elements.push_back(record);
-		numElements++;
 
+	if(!inserted) {
+	    elements.push_back(record);
+	    numElements++;
 	}
 
 	occupiedSpace += record->size();
