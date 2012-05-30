@@ -4,6 +4,7 @@
 #include "UnitTests/FileBlocksTest.cpp"
 #include "UnitTests/SerializersTest.cpp"
 #include "UnitTests/NodeTest.cpp"
+#include "UnitTests/KDTreeTest.cpp"
 
 int main()
 {
@@ -16,11 +17,11 @@ int main()
     test = new ConditionTest();
     test->run();
     delete test;
-/*
+
     test = new QueryTest();
     test->run();
 	delete test;
-*/
+
 	test = new FileBlocksTest();
 	test->run();
 	delete test;
@@ -33,7 +34,9 @@ int main()
     test->run();
     delete test;
 
-
+    test = new KDTreeTest();;
+    test->run();
+    delete test;
 
     return 0;
 }

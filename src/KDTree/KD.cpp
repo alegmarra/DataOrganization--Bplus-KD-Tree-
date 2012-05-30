@@ -6,27 +6,29 @@
  */
 
 #include "KD.h"
+#include "Node/LeafNode.h"
+#include "../Exceptions/FileErrorException.h"
 
-KDtree::KDtree(FileAbstract* myFile){
 
- treeFile = myFile;
-
- setRoot();
-
+KDtree::KDtree(unsigned nDimensions, FileAbstract* myFile)
+{
+    k = nDimensions;
+    treeFile = myFile;
+    setRoot();
 }
 
 void KDtree::setRoot(){
-/*
+
   	NodeSerializer::setFile((FileBlocks*)treeFile);
 
 	try{
 		root = NodeSerializer::deserializeNode(0);
 	}
 	catch(FileErrorException& e){
-		std::cout<<e.what()<<std::endl;
-		exit(1);
+		root = new LeafNode();
+		NodeSerializer::serializeNode(root);
 	}
-*/
+
 }
 
 void KDtree::load(std::vector<Record*> records){
@@ -68,6 +70,10 @@ int KDtree::insert(Record* record){
 	return 1;
 }
 
+std::vector< Record * > KDtree::find(Query* query)
+{
+    return root->find(query);
+}
 
 
 KDtree::~KDtree() {
