@@ -17,7 +17,7 @@ src/UnitTests/NodeTest.d: ../src/UnitTests/NodeTest.cpp \
  ../src/UnitTests/../KDTree/Node/LeafNode.h \
  ../src/UnitTests/../KDTree/Node/InnerNode.h \
  ../src/UnitTests/../KDTree/Node/../Serializers/NodeSerializer.h \
- /home/alemarra/tpDatos/src/KDTree/Node/Node.h \
+ ../src/UnitTests/../KDTree/Node/../Serializers/../Node/Node.h \
  ../src/UnitTests/../KDTree/Serializers/NodeSerializer.h \
  ../src/UnitTests/../File/FileBlocks.h \
  ../src/UnitTests/../File/Abstract.h \
@@ -61,7 +61,7 @@ src/UnitTests/NodeTest.d: ../src/UnitTests/NodeTest.cpp \
 
 ../src/UnitTests/../KDTree/Node/../Serializers/NodeSerializer.h:
 
-/home/alemarra/tpDatos/src/KDTree/Node/Node.h:
+../src/UnitTests/../KDTree/Node/../Serializers/../Node/Node.h:
 
 ../src/UnitTests/../KDTree/Serializers/NodeSerializer.h:
 

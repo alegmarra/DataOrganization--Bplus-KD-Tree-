@@ -24,7 +24,7 @@ public:
 
     KDTreeTest(): Test("KDTree")
     {
-        blockSize = 100;
+        blockSize = 1000;
         path = "/tmp/test_FindByQuery.bin";
 		spacePath = "/tmp/test_FindByQuery_space.bin";
         k = 3;

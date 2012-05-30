@@ -13,9 +13,9 @@ src/KDTree/Node/InnerNode.d: ../src/KDTree/Node/InnerNode.cpp \
  ../src/KDTree/Node/../RecordID/ID.h ../src/KDTree/Node/../RecordID/Key.h \
  ../src/KDTree/Node/Pair.h ../src/KDTree/Node/../RecordID/KeyFactory.h \
  ../src/KDTree/Node/../RecordID/Key.h \
- /home/alemarra/tpDatos/src/Exceptions/InvalidOperationException.cpp \
+ ../src/KDTree/Node/../../Exceptions/InvalidOperationException.cpp \
  ../src/KDTree/Node/../Serializers/NodeSerializer.h \
- /home/alemarra/tpDatos/src/KDTree/Node/Node.h
+ ../src/KDTree/Node/../Serializers/../Node/Node.h
 
 ../src/KDTree/Node/InnerNode.h:
 
@@ -51,8 +51,8 @@ src/KDTree/Node/InnerNode.d: ../src/KDTree/Node/InnerNode.cpp \
 
 ../src/KDTree/Node/../RecordID/Key.h:
 
-/home/alemarra/tpDatos/src/Exceptions/InvalidOperationException.cpp:
+../src/KDTree/Node/../../Exceptions/InvalidOperationException.cpp:
 
 ../src/KDTree/Node/../Serializers/NodeSerializer.h:
 
-/home/alemarra/tpDatos/src/KDTree/Node/Node.h:
+../src/KDTree/Node/../Serializers/../Node/Node.h:
