@@ -188,6 +188,7 @@ int LeafNode::remove(ID* id){
 	for(it = elements.begin(); it < elements.end(); it++)
 		if( id->equalsTo((*it)->getID())){
 			elements.erase(it);
+			numElements--;
 			return 0;
 	}
 
