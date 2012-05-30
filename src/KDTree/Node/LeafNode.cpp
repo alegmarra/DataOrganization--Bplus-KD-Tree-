@@ -106,16 +106,16 @@ int LeafNode::insert(Record* record) {
 /*
  * Private
  */
-
 std::vector<Record*> LeafNode::find(Record* record){
 
 	//Generates an exact query, wich has
 	//an exact condition for every key in record
 	Query* exactQ = new Query();
 
-	for(unsigned i=0; i<level; i++)
+	for(unsigned i = 0; i < record->getID()->getDimensions(); i++) {
 		exactQ->addCondition(i, new QueryCondition(record->getID()->getKey(i)));
-
+    }
+    
 	return find(exactQ);
 }
 
