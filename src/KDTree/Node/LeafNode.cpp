@@ -3,7 +3,9 @@
 
 LeafNode::LeafNode() : Node() {}
 
-LeafNode::LeafNode(unsigned _level) : Node(_level) {}
+LeafNode::LeafNode(unsigned _level) : Node(_level) {
+    occupiedSpace = 2;  // level + numElements
+}
 
 LeafNode::~LeafNode() {}
 
@@ -90,7 +92,10 @@ int LeafNode::insert(Record* record) {
 		else
 			it++;
 	}
-	if(!inserted) elements.push_back(record);
+	if(!inserted) {
+	    elements.push_back(record);
+	    numElements++;
+	}
 
 	occupiedSpace += record->size();
 
@@ -113,7 +118,7 @@ std::vector<Record*> LeafNode::find(Record* record){
 	//an exact condition for every key in record
 	Query* exactQ = new Query();
 
-	for(unsigned i=0; i<level; i++)
+	for(unsigned i=0; i<record->getID()->getDimensions(); i++)
 		exactQ->addCondition(i, new QueryCondition(record->getID()->getKey(i)));
 
 	return find(exactQ);
