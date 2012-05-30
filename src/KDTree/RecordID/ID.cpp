@@ -37,6 +37,8 @@ unsigned ID::getSize(){
     int size = 0;
 	for (unsigned i = 0; i < dimensions; ++i)
         size += keys[i]->getSize();
+
+    return size;
 }
 
 unsigned ID::getDimensions(){
