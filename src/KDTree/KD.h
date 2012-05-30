@@ -9,8 +9,8 @@
 #define KD_H_
 #include<iostream>
 #include<fstream>
-#include "KDTree/Serializers/NodeSerializer.h"
-#include "KDTree/Query/Query.h"
+#include "Serializers/NodeSerializer.h"
+#include "Query/Query.h"
 #include "../File/FileBlocks.h"
 
 

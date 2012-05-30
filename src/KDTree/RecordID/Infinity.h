@@ -6,7 +6,7 @@
 class KeyInfinity: public Key
 {
 private:
-    // Infinite keys sholud only be created by QueryCondition to create infinite 
+    // Infinite keys sholud only be created by QueryCondition to create infinite
     // ranges
     KeyInfinity();
     KeyInfinity(bool positive);
@@ -19,6 +19,8 @@ public:
 
     virtual int serialize(char* buffer);
     virtual int deserialize(const char* buffer);
+
+    unsigned getSize();
 
     virtual ~KeyInfinity(){};
 

@@ -12,6 +12,7 @@ class InnerNode: public Node{
 
     	virtual int insert(Record* record);
     	virtual std::vector<Record*> find(Query* query);
+
     	virtual int remove(ID* id);
 
     	void addPair(PairKeyNode* pair);

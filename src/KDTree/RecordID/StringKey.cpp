@@ -30,3 +30,6 @@ int StringKey::serialize(char* buffer) {
     return value.size()+1;
 }
 
+unsigned StringKey::getSize() {
+    return value.size()+1;
+}

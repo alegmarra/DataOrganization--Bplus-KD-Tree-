@@ -16,7 +16,7 @@ enum t_Key{ t_Linea, t_Franja, t_Falla, t_Accidente, t_Formacion };
 
 class ID : public Serializable {
 public:
-	ID(unsigned size);
+	ID(unsigned dimensions);
 
     /**
      * @param dimension pertenece a [0; size)
@@ -32,6 +32,7 @@ public:
 	Key* getKey(unsigned dimension);
 	Key* getKey(t_Key type);
 
+	unsigned getDimensions();
 	unsigned getSize();
 
     /** iguales si son de igual dimensión e iguales todas las claves */
@@ -40,15 +41,12 @@ public:
 	int serialize(char* buffer);
 	int deserialize(const char* buffer);
 
-	unsigned getDimensions();
-
 	virtual ~ID();
 
 private:
 
 	std::vector<Key*> keys;
-	const unsigned size;
-
+	const unsigned dimensions;
 };
 
 #endif /* ID_H_ */

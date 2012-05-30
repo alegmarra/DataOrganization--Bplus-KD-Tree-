@@ -10,7 +10,7 @@
 
 int main()
 {
-/*
+
 	Test* test;
 	test = new KeyTest();
 	test->run();
@@ -35,18 +35,6 @@ int main()
     test = new NodeTest();
     test->run();
     delete test;
-*/
-
-	const char* path = "my_test_file.bin";
-
-	remove(path);
-
-
-    FileBlocks * f = new FileBlocks(path, 4096);
-    KDtree * tree = new KDtree(f);
-
-    std::vector< Record * > records_list;
-    tree->load(records_list);
 
 
     return 0;

@@ -45,3 +45,7 @@ int IntKey::deserialize(const char* buffer) {
 
     return size;
 }
+
+unsigned IntKey::getSize() {
+    return size;
+}

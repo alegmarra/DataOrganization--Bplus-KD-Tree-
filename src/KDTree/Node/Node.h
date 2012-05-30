@@ -31,7 +31,8 @@ public:
 	virtual Key* split(Node* newNode)=0;
 
 	virtual std::vector<Record*> find(Query* query)=0;
-
+//    virtual int remove(ID* id) = 0;
+//
 	virtual ~Node();
 
     /** fea idea, pero es por falta de tiempo */
