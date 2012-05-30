@@ -12,7 +12,7 @@
 int main()
 {
 	Test* test;
-
+/*
 	test = new KeyTest();
 	test->run();
 	delete test;
@@ -36,7 +36,7 @@ int main()
     test = new NodeTest();
     test->run();
     delete test;
-
+*/
     test = new KDTreeTest();;
     test->run();
     delete test;

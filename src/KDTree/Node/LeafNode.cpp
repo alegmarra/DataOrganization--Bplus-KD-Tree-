@@ -71,9 +71,11 @@ Node* LeafNode::grow() {
  */
 int LeafNode::insert(Record* record) {
 
-	if (find(record).size() != 0)
-		return 3;
+    std::vector< Record * > result = find(record);
 
+	if (result.size() != 0)
+		return 3;
+		
 	//Key in level in inserted record ID
 	Key* inRecordKey = record->getID()->getKey(level);
 
@@ -92,6 +94,7 @@ int LeafNode::insert(Record* record) {
 		else
 			it++;
 	}
+
 	if(!inserted) {
 	    elements.push_back(record);
 	    numElements++;
@@ -111,17 +114,22 @@ int LeafNode::insert(Record* record) {
 /*
  * Private
  */
-
+ 
+#include <iostream>
+ 
 std::vector<Record*> LeafNode::find(Record* record){
 
 	//Generates an exact query, wich has
 	//an exact condition for every key in record
 	Query* exactQ = new Query();
 
-	for(unsigned i=0; i<record->getID()->getDimensions(); i++)
+	for(unsigned i = 0; i < record->getID()->getDimensions(); i++) {
 		exactQ->addCondition(i, new QueryCondition(record->getID()->getKey(i)));
-
-	return find(exactQ);
+    }
+    
+	std::vector< Record * > result = find(exactQ);
+	delete exactQ;
+	return result;
 }
 
 /**
@@ -130,7 +138,7 @@ std::vector<Record*> LeafNode::find(Record* record){
  *
  * @param query
  *
- * @return FIRST record that MATCHES
+ * @return ALL records that matches every condition in query
  *
  * @throw FileNotSetException, FileErrorException,
  * 		  InvalidOperationException
@@ -140,20 +148,25 @@ std::vector<Record*> LeafNode::find(Query* query){
 	std::vector<Record*>  matchingRecords;
 	unsigned passed = 0;
 	std::vector<Record*>::iterator it;
+    int queryResult;
 
 	//For every element in Node
-	for (it = elements.begin(); it < elements.end(); it++){
+	for (it = elements.begin(); it < elements.end(); it++) {
+	    passed = 0;
+	
 		//For each Key that element has
-		for(unsigned i= 0; i < query->size(); i++){
+		for(unsigned i = 0; i < (*it)->getID()->getDimensions(); i++){
 
 			Key* key = (*it)->getID()->getKey(i);
 			//If the Key passes the condition
-			if ((query->eval(i,key) == Query::EQUAL) ||
-				(query->eval(i,key) == Query::MATCH))
+			queryResult = query->eval(i,key);
+			if ((queryResult == Query::EQUAL) || (queryResult == Query::MATCH)) {
 				passed++;
+			}
 		}
+		
 		//If every condition in the query passed
-		if(passed == query->size())
+		if(passed == (*it)->getID()->getDimensions())
 			matchingRecords.push_back(*it);
 	}
 
@@ -175,6 +188,7 @@ int LeafNode::remove(ID* id){
 	for(it = elements.begin(); it < elements.end(); it++)
 		if( id->equalsTo((*it)->getID())){
 			elements.erase(it);
+			numElements--;
 			return 0;
 	}
 
@@ -189,10 +203,11 @@ std::vector<Record*> LeafNode::sortBy(unsigned level) {
 	std::vector<Record*>::iterator parentIt;
 	std::vector<Record*> parentKeySorted;
 	for (; it < elements.end(); it++) {
-		Key* key = (*it)->getID()->getKey(level - 1);
+
+		Key* key = (*it)->getID()->getKey(level);
 		for (parentIt = parentKeySorted.begin();
 				parentIt < parentKeySorted.end(); parentIt++) {
-			if (((*parentIt)->getID()->getKey(level - 1))->compareTo(key))
+			if (getKeyByLevel((*parentIt)->getID(), level)->compareTo(key) < 0)
 				parentKeySorted.insert(parentIt, *it);
 		}
 		if (parentIt == parentKeySorted.end())
@@ -220,25 +235,28 @@ Key* LeafNode::split(Node*& newNode) {
 	newNode = new LeafNode(level);
 
 	//Leaf has its records ordered by Key[level]
-	Key* parentKey = sortBy(level-1).at((elements.size()/2) +1)->getID()->getKey(level-1);
+	elements = sortBy(level-1);
 
-	std::vector<Record*>::iterator it = elements.begin();
-	int limit = (elements.size()/2);
 
-	for (int i = 0; i<limit; i++)
-		it++;
+	int lowLimit = (elements.size()/2)+1;
+	int highLimit = (elements.size());
 
-	for(; it<elements.end(); it++){
-		//Pases element to new
-		newNode->insert(*it);
-		//removes element from this list
-		elements.erase(it);
+	for(int i = lowLimit; i< highLimit; i++)
+			newNode->insert(elements[i]);
+
+
+	Key * parentKey = getKeyByLevel(elements.at(lowLimit)->getID(), level-1);
+
+	for(int i = lowLimit; i< highLimit; i++){
+		occupiedSpace -= elements[i]->size();
+		elements.erase(elements.begin() + i);
 	}
 
 	//Updates data
-	numElements = limit;
+	numElements = lowLimit;
 
 	return parentKey;
+
 }
 
 
@@ -271,3 +289,4 @@ int LeafNode::deserialize(const char* buffer) {
 
     return bytes;
 }
+

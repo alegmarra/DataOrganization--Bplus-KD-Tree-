@@ -1,5 +1,5 @@
-src/UnitTests/SerializersTest.d: ../src/UnitTests/SerializersTest.cpp \
- ../src/UnitTests/Test.cpp \
+src/UnitTests/KDTreeTest.d: ../src/UnitTests/KDTreeTest.cpp \
+ ../src/UnitTests/../KDTree/KD.h \
  ../src/UnitTests/../KDTree/Serializers/NodeSerializer.h \
  ../src/UnitTests/../KDTree/Serializers/../Node/Node.h \
  ../src/UnitTests/../KDTree/Serializers/../Node/../Serializers/Serializable.h \
@@ -14,26 +14,15 @@ src/UnitTests/SerializersTest.d: ../src/UnitTests/SerializersTest.cpp \
  ../src/UnitTests/../KDTree/Serializers/../Node/../Serializers/Serializable.h \
  ../src/UnitTests/../KDTree/Serializers/../Node/../RecordID/ID.h \
  ../src/UnitTests/../KDTree/Serializers/../Node/../RecordID/Key.h \
- ../src/UnitTests/../KDTree/Node/LeafNode.h \
- ../src/UnitTests/../KDTree/Node/Node.h \
- ../src/UnitTests/../KDTree/Node/InnerNode.h \
- ../src/UnitTests/../KDTree/Node/Pair.h \
- ../src/UnitTests/../KDTree/Node/../Serializers/NodeSerializer.h \
- ../src/UnitTests/../KDTree/Node/../Record.h \
- ../src/UnitTests/../KDTree/Node/InnerNode.h \
- ../src/UnitTests/../Exceptions/FileNotSetException.h \
- ../src/UnitTests/../Exceptions/FileErrorException.h \
+ ../src/UnitTests/../KDTree/Query/Query.h \
+ ../src/UnitTests/../KDTree/../File/FileBlocks.h \
+ ../src/UnitTests/../KDTree/../File/Abstract.h \
+ ../src/UnitTests/../KDTree/../File/../Exceptions/InvalidOperationException.cpp \
  ../src/UnitTests/../KDTree/RecordID/ID.h \
- ../src/UnitTests/../KDTree/RecordID/Linea.h \
- ../src/UnitTests/../KDTree/RecordID/StringKey.h \
- ../src/UnitTests/../KDTree/RecordID/Key.h \
- ../src/UnitTests/../KDTree/RecordID/FranjaHoraria.h \
  ../src/UnitTests/../KDTree/RecordID/IntKey.h \
- ../src/UnitTests/../KDTree/RecordID/Falla.h \
- ../src/UnitTests/../KDTree/RecordID/Accidente.h \
- ../src/UnitTests/../KDTree/RecordID/Formacion.h
+ ../src/UnitTests/../KDTree/RecordID/Key.h ../src/UnitTests/Test.cpp
 
-../src/UnitTests/Test.cpp:
+../src/UnitTests/../KDTree/KD.h:
 
 ../src/UnitTests/../KDTree/Serializers/NodeSerializer.h:
 
@@ -63,38 +52,18 @@ src/UnitTests/SerializersTest.d: ../src/UnitTests/SerializersTest.cpp \
 
 ../src/UnitTests/../KDTree/Serializers/../Node/../RecordID/Key.h:
 
-../src/UnitTests/../KDTree/Node/LeafNode.h:
+../src/UnitTests/../KDTree/Query/Query.h:
 
-../src/UnitTests/../KDTree/Node/Node.h:
+../src/UnitTests/../KDTree/../File/FileBlocks.h:
 
-../src/UnitTests/../KDTree/Node/InnerNode.h:
+../src/UnitTests/../KDTree/../File/Abstract.h:
 
-../src/UnitTests/../KDTree/Node/Pair.h:
-
-../src/UnitTests/../KDTree/Node/../Serializers/NodeSerializer.h:
-
-../src/UnitTests/../KDTree/Node/../Record.h:
-
-../src/UnitTests/../KDTree/Node/InnerNode.h:
-
-../src/UnitTests/../Exceptions/FileNotSetException.h:
-
-../src/UnitTests/../Exceptions/FileErrorException.h:
+../src/UnitTests/../KDTree/../File/../Exceptions/InvalidOperationException.cpp:
 
 ../src/UnitTests/../KDTree/RecordID/ID.h:
 
-../src/UnitTests/../KDTree/RecordID/Linea.h:
-
-../src/UnitTests/../KDTree/RecordID/StringKey.h:
+../src/UnitTests/../KDTree/RecordID/IntKey.h:
 
 ../src/UnitTests/../KDTree/RecordID/Key.h:
 
-../src/UnitTests/../KDTree/RecordID/FranjaHoraria.h:
-
-../src/UnitTests/../KDTree/RecordID/IntKey.h:
-
-../src/UnitTests/../KDTree/RecordID/Falla.h:
-
-../src/UnitTests/../KDTree/RecordID/Accidente.h:
-
-../src/UnitTests/../KDTree/RecordID/Formacion.h:
+../src/UnitTests/Test.cpp:

@@ -31,6 +31,7 @@ public:
 	virtual Key* split(Node*& newNode)=0;
 
 	virtual std::vector<Record*> find(Query* query)=0;
+    
 //    virtual int remove(ID* id) = 0;
 //
 	virtual ~Node();
@@ -47,8 +48,10 @@ protected:
     static unsigned maxSize;
 
 
+    Key* getKeyByLevel(ID * id, unsigned level);
 
 };
 
 
 #endif /* NODO_H_ */
+

@@ -13,7 +13,7 @@ src/KDTree/Node/LeafNode.d: ../src/KDTree/Node/LeafNode.cpp \
  ../src/KDTree/Node/../RecordID/ID.h ../src/KDTree/Node/../RecordID/Key.h \
  ../src/KDTree/Node/InnerNode.h ../src/KDTree/Node/Pair.h \
  ../src/KDTree/Node/../Serializers/NodeSerializer.h \
- /home/alemarra/tpDatos/src/KDTree/Node/Node.h
+ ../src/KDTree/Node/../Serializers/../Node/Node.h
 
 ../src/KDTree/Node/LeafNode.h:
 
@@ -49,4 +49,4 @@ src/KDTree/Node/LeafNode.d: ../src/KDTree/Node/LeafNode.cpp \
 
 ../src/KDTree/Node/../Serializers/NodeSerializer.h:
 
-/home/alemarra/tpDatos/src/KDTree/Node/Node.h:
+../src/KDTree/Node/../Serializers/../Node/Node.h:
