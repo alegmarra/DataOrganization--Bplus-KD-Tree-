@@ -95,35 +95,15 @@ private:
         tree->load(records_list);
 
     }
-
-    void test_FindByQuery()
+    
+    void dumpResult(std::vector< Record * > result)
     {
-        start("FindByQuery");
-        
-        FileBlocks * f = new FileBlocks(path, blockSize);
-        KDtree * tree = new KDtree(k, f);
-        Query * q;
-        std::vector< Record * > result;
-        char error[50];
         ID * id;
-  
-        loadTree(tree);      
-
-        q = new Query();
-        q->addCondition(X, new QueryCondition(new IntKey(1, 8)));
-  
-        result = tree->find(q);
-        
-        if (result.size() == 3) pass();
-        else {
-            sprintf(error, "Exact match failed. Expected result size 3. Got %d" , (int)result.size());
-            fail(error);
-        }
-
-        /*
         IntKey * x;  
         IntKey * y;
         IntKey * z;
+  
+        std::cout << "========================" << std::endl;
   
         for (int i = 0; i < result.size(); i++) {
             id = result[i]->getID();
@@ -136,7 +116,32 @@ private:
             }
         
         }
-        */
+    }
+
+    void test_FindByQuery()
+    {
+        start("FindByQuery");
+        
+        FileBlocks * f = new FileBlocks(path, blockSize);
+        KDtree * tree = new KDtree(k, f);
+        Query * q;
+        std::vector< Record * > result;
+        char error[50];
+  
+        loadTree(tree);      
+
+        q = new Query();
+        q->addCondition(X, new QueryCondition(new IntKey(1, 8)));
+  
+        result = tree->find(q);
+        
+        if (result.size() == 3) pass();
+        else {
+            sprintf(error, "Partial match failed. Expected result size 3. Got %d" , (int)result.size());
+            fail(error);
+        }
+        
+        //dumpResult(result);
         delete q;
 
         q = new Query();
@@ -146,12 +151,41 @@ private:
         
         if (result.size() == 5) pass();
         else {
-            sprintf(error, "Exact match failed. Expected result size 5. Got %d" , (int)result.size());
+            sprintf(error, "Range match failed. Expected result size 5. Got %d" , (int)result.size());
             fail(error);
         }
   
+        //dumpResult(result);
         delete q;
-
+        
+        q = new Query();
+        q->addCondition(X, new QueryCondition(new IntKey(13, 8)));
+        q->addCondition(Y, new QueryCondition(new IntKey(3, 8)));
+        q->addCondition(Z, new QueryCondition(new IntKey(11, 8)));
+        
+        result = tree->find(q);
+        
+        if (result.size() == 1) pass();
+        else {
+            sprintf(error, "Exact match failed. Expected result size 1. Got %d" , (int)result.size());
+            fail(error);
+        }
+  
+        //dumpResult(result);
+        delete q;
+        
+        q = new Query();
+        q->addCondition(X, (new QueryCondition())->setLow(new IntKey(10, 8)));
+        result = tree->find(q);
+        
+        if (result.size() == 8) pass();
+        else {
+            sprintf(error, "Exact match failed. Expected result size 8. Got %d" , (int)result.size());
+            fail(error);
+        }
+  
+        //dumpResult(result);
+        delete q;
   
         delete tree;
 
