@@ -3,7 +3,6 @@
 
 #include "../RecordID/Key.h"
 #include "../Query/Query.h"
-#include "../RecordID/Infinity.h"
 #include "../Query/Condition.h"
 #include "../../Exceptions/InvalidConditionRangeException.h"
 
@@ -25,45 +24,10 @@ QueryCondition::QueryCondition(Key * low, Key * hi)
     setHi(hi);
 };
 
-QueryCondition::QueryCondition(KeyInfinity * low, Key * hi)
-{
-    init();
-    setLow(low);
-    setHi(hi);
-};
-
-QueryCondition::QueryCondition(Key * low, KeyInfinity * hi)
-{
-    init();
-    setLow(low);
-    setHi(hi);
-};
-
-QueryCondition::QueryCondition(KeyInfinity * low, KeyInfinity * hi)
-{
-    init();
-    setLow(low);
-    setHi(hi);
-};
-
 void QueryCondition::init()
 {
     low_key = new KeyInfinity(false);
     hi_key = new KeyInfinity(true);
-}
-
-QueryCondition * const QueryCondition::setLow(KeyInfinity * k)
-{
-    if (k->is_positive) {
-        throw InvalidConditionRangeException();
-    } 
-
-    if (low_key != hi_key) {    
-        delete low_key;
-    }
-    
-    low_key = k;
-    return this;
 }
 
 QueryCondition * const QueryCondition::setLow(Key * k)
@@ -80,18 +44,16 @@ QueryCondition * const QueryCondition::setLow(Key * k)
     return this;
 }
 
-QueryCondition * const QueryCondition::setHi(KeyInfinity * k)
+QueryCondition * const QueryCondition::setInfinityLow()
 {
-    if (!k->is_positive) {
-        throw InvalidConditionRangeException();
-    } 
-
-    if (low_key != hi_key) {    
-        delete hi_key;
+    KeyInfinity * k = new KeyInfinity(false);
+    
+    if (low_key != hi_key) {
+        delete low_key;
     }
     
-    hi_key = k;
-    return this;
+    low_key = k;
+    return this;    
 }
 
 
@@ -107,6 +69,18 @@ QueryCondition * const QueryCondition::setHi(Key * k)
     
     hi_key = k;
     return this;
+}
+
+QueryCondition * const QueryCondition::setInfinityHi()
+{
+    KeyInfinity * k = new KeyInfinity(true);
+    
+    if (low_key != hi_key) {
+        delete hi_key;
+    }
+    
+    hi_key = k;
+    return this;    
 }
 
 bool QueryCondition::inRange(Key * k)

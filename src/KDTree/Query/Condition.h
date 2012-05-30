@@ -33,9 +33,6 @@ public:
      * @throws InvalidConditionRangeException if low > hi
      */
     QueryCondition(Key * low, Key * hi);
-    QueryCondition(KeyInfinity * low, Key * hi);
-    QueryCondition(Key * low, KeyInfinity * hi);
-    QueryCondition(KeyInfinity * low, KeyInfinity * hi);
 
     /**
      * Replaces the lower key.
@@ -44,8 +41,14 @@ public:
      * @return QueryCondition
      * @throws InvalidConditionRangeException if k > hi_key
      */
-    QueryCondition * const setLow(KeyInfinity * k);
     QueryCondition * const setLow(Key * k);
+
+    /**
+     * Replaces the lower key with a value of -Infinity
+     *
+     * @return QueryCondition
+     */
+    QueryCondition * const setInfinityLow();
 
     /**
      * Replaces the higher key.
@@ -54,8 +57,14 @@ public:
      * @return QueryCondition
      * @throws InvalidConditionRangeException if k < low_key
      */
-    QueryCondition * const setHi(KeyInfinity * k);
     QueryCondition * const setHi(Key * k);
+    
+    /**
+     * Replaces the higher key with +Infinity
+     *
+     * @return QueryCondition
+     */
+    QueryCondition * const setInfinityHi();
 
     /**
      * Checks that the given key is within the condition range
