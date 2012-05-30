@@ -204,10 +204,10 @@ std::vector<Record*> LeafNode::sortBy(unsigned level) {
 	std::vector<Record*> parentKeySorted;
 	for (; it < elements.end(); it++) {
 
-		Key* key = (*it)->getID()->getKey(level - 1);
+		Key* key = (*it)->getID()->getKey(level);
 		for (parentIt = parentKeySorted.begin();
 				parentIt < parentKeySorted.end(); parentIt++) {
-			if (((*parentIt)->getID()->getKey(level - 1))->compareTo(key))
+			if (((*parentIt)->getID()->getKey(level))->compareTo(key))
 				parentKeySorted.insert(parentIt, *it);
 		}
 		if (parentIt == parentKeySorted.end())
@@ -230,18 +230,24 @@ std::vector<Record*> LeafNode::sortBy(unsigned level) {
  * returns middle key in return
  *
  * */
-Key* LeafNode::split(Node* newNode) {
+Key* LeafNode::split(Node*& newNode) {
 
 	newNode = new LeafNode(level);
 
 	//Leaf has its records ordered by Key[level]
-	Key* parentKey = sortBy(level-1).at((elements.size()/2) +1)->getID()->getKey(level-1);
+	elements = sortBy(level-1);
+
+	Key* parentKey = sortBy(level-1).at((elements.size()/2) +1)->getID()->getKey(level);
 
 	std::vector<Record*>::iterator it = elements.begin();
 	int limit = (elements.size()/2);
 
 	for (int i = 0; i<limit; i++)
 		it++;
+
+	it++;
+
+	//Cambiar el iterator
 
 	for(; it<elements.end(); it++){
 		//Pases element to new

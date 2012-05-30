@@ -86,7 +86,7 @@ Node* InnerNode::grow() {
 	throw InvalidOperationException("Called Grow for InnerNode");
 }
 
-Key* InnerNode::split(Node* n) {
+Key* InnerNode::split(Node*& n) {
 	throw InvalidOperationException("Called Split for InnerNode");
 }
 
