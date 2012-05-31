@@ -19,25 +19,42 @@ int InnerNode::insert(Record* record) {
 	Key* inRecordKey = getKeyByLevel(id, level);
     int result;
 
-	while(it != elements.end()){
+    // First check if the left node should handle the shit
+    if(inRecordKey->compareTo((*it)->getKey()) < 0) {
+        Node* next = NodeSerializer::deserializeNode(firstLeft);
+		result = next->insert(record);
+
+		if (result == 2) {
+			return manageOverflow(firstLeft, next, it);
+		} else if (result == 1) {
+	        NodeSerializer::serializeNode(next, firstLeft);
+	    }
+
+        return result;
+    }
+
+	while(it < elements.end()) {
 
 	    result = inRecordKey->compareTo((*it)->getKey());
 
+        // TODO Limpiar
 
-//std::cout << "EnInner - ID: " << x->getValue() << " " << y->getValue() << " " << z->getValue() << std::endl;
-
-		if (result < 0){
-//std::cout << "Sigo por (<0): " << firstLeft << std::endl;
-			Node* next= NodeSerializer::deserializeNode(firstLeft);
+		if (result < 0) {
+            it--;
+            unsigned nextNum = (*it)->getNode();
+			Node* next = NodeSerializer::deserializeNode(nextNum);
 			result = next->insert(record);
+            it++;
 
-			if (result == 2)
-				return manageOverflow(firstLeft, next, it);
+			if (result == 2) {
+				return manageOverflow(nextNum, next, it);
+			} else if (result == 1) {
+		        NodeSerializer::serializeNode(next, nextNum);
+		    }
 
-			else return result;
-		}
-		else if(result == 0){
-//std::cout << "Sigo por (==0): " << (*it)->getNode() << std::endl;
+	        return result;
+
+		} else if(result == 0) {
 			Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 			result = next->insert(record);
 			if (result == 2) {
@@ -46,8 +63,8 @@ int InnerNode::insert(Record* record) {
 			} else {
 			    if (result == 1) {
 			        NodeSerializer::serializeNode(next, (*it)->getNode());
+			        return result;
 		        }
-			    return result;
 		    }
 		} else {
 		    // Handled below
