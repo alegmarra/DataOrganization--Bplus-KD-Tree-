@@ -21,9 +21,15 @@ int InnerNode::insert(Record* record) {
 	Key* inRecordKey = getKeyByLevel(id, level);
     int result;
 
+    int i = 0;
 	while(it < elements.end()){
 
-	    result = inRecordKey->compareTo((*it)->getKey());
+		std::cout << "elements size " << elements.size() << std::endl;
+		std::cout << "i " << i << std::endl;
+		i++;
+
+		std::cout << dynamic_cast<IntKey*>((*it)->getKey())->getValue() << std::endl;
+		result = inRecordKey->compareTo((*it)->getKey());
 
 
 		if (result < 0){
@@ -89,6 +95,7 @@ int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
 		Node* newLeaf = NULL;
 
 		Key* newKey = oldLeaf->split(newLeaf);
+
 		NodeSerializer::serializeNode(oldLeaf, oldNumber);
 
 		unsigned next;
@@ -96,11 +103,10 @@ int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
 
 		PairKeyNode* pair = new PairKeyNode(newKey, next);
 
+
 		elements.insert(position, pair);
 
 		occupiedSpace += pair->getSize();
-
-		delete pair;
 
 		return 1;
 	}
@@ -143,6 +149,7 @@ void InnerNode::addPair(PairKeyNode* pair){
 	if (!added)
 		elements.push_back(pair);
 
+	numElements++;
 }
 
 

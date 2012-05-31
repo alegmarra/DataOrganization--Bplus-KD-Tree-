@@ -267,7 +267,10 @@ std::cout<< "SPLIT" <<std::endl;
 
 
 
+
 	Key * parentKey = getKeyByLevel(elements.at(lowLimit)->getID(), level-1);
+
+
 
 	for(int i = lowLimit; i< highLimit; i++){
 		occupiedSpace -= elements[lowLimit]->size();
@@ -276,6 +279,11 @@ std::cout<< "SPLIT" <<std::endl;
 
 	//Updates data
 	numElements = lowLimit;
+
+	std::cout<< "NumElements "<< numElements <<std::endl;
+	std::cout<< "occupiedSpace "<< occupiedSpace <<std::endl;
+	std::cout<< "END SPLIT" <<std::endl;
+
 
 	return parentKey;
 
