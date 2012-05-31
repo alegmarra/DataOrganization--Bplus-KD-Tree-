@@ -31,9 +31,10 @@ public:
 
 private:
 
-	#ifdef TESTING
-			friend class SerializersTest;
-	#endif
+#ifdef TESTING
+        friend class SerializersTest;
+        friend class NodeTest;
+#endif
 
 	virtual std::vector<Record*> find(Record* record);
 	std::vector<Record*> sortBy(unsigned level);

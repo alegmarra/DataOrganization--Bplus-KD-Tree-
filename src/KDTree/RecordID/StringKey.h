@@ -18,6 +18,7 @@ class StringKey : public Key {
 
         unsigned getSize();
         std::string getValue();
+        virtual void dump();
     private:
         std::string value;
 };

@@ -8,7 +8,7 @@
 InnerNode::InnerNode() : Node() {}
 
 InnerNode::InnerNode(unsigned _level) : Node(_level) {
-    occupiedSpace = 3;
+    occupiedSpace = 2;
 }
 
 int InnerNode::insert(Record* record) {
@@ -45,7 +45,7 @@ int InnerNode::insert(Record* record) {
 			Node* next = NodeSerializer::deserializeNode(nextNum);
 			result = next->insert(record);
             it++;
-            
+
 			if (result == 2) {
 				return manageOverflow(nextNum, next, it);
 			} else if (result == 1) {
@@ -58,6 +58,7 @@ int InnerNode::insert(Record* record) {
 			Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 			result = next->insert(record);
 			if (result == 2) {
+
 				return manageOverflow((*it)->getNode(), next, it + 1);
 			} else {
 			    if (result == 1) {
@@ -65,7 +66,7 @@ int InnerNode::insert(Record* record) {
 			        return result;
 		        }
 		    }
-		} else { 
+		} else {
 		    // Handled below
 		}
 
@@ -76,6 +77,7 @@ int InnerNode::insert(Record* record) {
 	if (it == elements.end()) {
 	    it -= 1;
 	}
+
 
 	Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 	result = next->insert(record);
@@ -114,6 +116,7 @@ int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
 
 		elements.insert(position, pair);
 
+
 		occupiedSpace += pair->getSize();
 
 		return 1;
@@ -140,9 +143,7 @@ void InnerNode::addPair(PairKeyNode* pair){
 	int result;
 
 	while((it < elements.end()) && (!added)){
-
-	    result = pair->getKey()->compareTo((*it)->getKey());
-
+        result = pair->getKey()->compareTo((*it)->getKey());
 		if( result >0)
 			it++;
 		else
@@ -369,21 +370,21 @@ int InnerNode::deserialize(const char* buffer) {
 void InnerNode::dump()
 {
     std::cout << level << "|" << firstLeft;
-    
+
     for (int i = 0; i < elements.size(); i++) {
         elements[i]->dump();
     }
-    
+
     std::cout << std::endl;
     std::cout << "Node " << firstLeft << ":";
     NodeSerializer::deserializeNode(firstLeft)->dump();
     std::cout << std::endl;
-    
+
     for (int i = 0; i < elements.size(); i++) {
-        std::cout << "Node " << elements[i]->getNode() << ":";  
+        std::cout << "Node " << elements[i]->getNode() << ":";
         NodeSerializer::deserializeNode(elements[i]->getNode())->dump();
         std::cout << std::endl;
-    }    
+    }
 }
 
 InnerNode::~InnerNode() {}

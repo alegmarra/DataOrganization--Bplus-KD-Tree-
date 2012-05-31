@@ -2,6 +2,12 @@
 #include <iostream>
 #include "KeyFactory.h"
 #include "../../Exceptions/NonExistingDimensionException.h"
+#include "Linea.h"
+#include "FranjaHoraria.h"
+#include "Falla.h"
+#include "Accidente.h"
+#include "Formacion.h"
+
 
 ID::ID(unsigned _dimensions) : keys(_dimensions), dimensions(_dimensions) {}
 
@@ -14,6 +20,26 @@ void ID::addKey(unsigned dimension, Key* key){
 
 void ID::addKey(t_Key type, Key* key){
 	keys[type] = key;
+}
+
+void ID::addKey(Linea* k) {
+    keys[LINEA] = k;
+}
+
+void ID::addKey(FranjaHoraria* k) {
+    keys[FRANJA] = k;
+}
+
+void ID::addKey(Falla* k) {
+    keys[FALLA] = k;
+}
+
+void ID::addKey(Accidente* k) {
+    keys[ACCIDENTE] = k;
+}
+
+void ID::addKey(Formacion* k) {
+    keys[FORMACION] = k;
 }
 
 Key* ID::getKey(unsigned dimension){
@@ -80,14 +106,14 @@ bool ID::equalsTo(ID* id) {
 void ID::dump()
 {
     std::cout << "(";
-    
+
     for (int i = 0; i < dimensions; i++) {
         keys[i]->dump();
-        
+
         if (i < dimensions - 1) {
             std::cout << ",";
         }
     }
- 
-    std::cout << ")";   
+
+    std::cout << ")";
 }

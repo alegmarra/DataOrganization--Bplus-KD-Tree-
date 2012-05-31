@@ -55,7 +55,7 @@ void KDtree::setRoot() {
  * @return	0 succesfull insertion
  * 			1 duplicated record
  */
-int KDtree::load(std::vector<Record*> records){
+int KDtree::load(std::vector<Record*>& records){
 	std::vector<Record*>::iterator it;
 
 	int returnStatus = 0;

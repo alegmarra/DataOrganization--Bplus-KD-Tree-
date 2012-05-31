@@ -30,7 +30,7 @@ public:
 	 * 			1 at least one duplicated record
 	 * 			  was not inserted
 	 */
-	int load(std::vector<Record*> records);
+	int load(std::vector<Record*>& records);
 
 
 	/*

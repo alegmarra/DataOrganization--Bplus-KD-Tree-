@@ -14,6 +14,12 @@
 
 enum t_Key{ t_Linea, t_Franja, t_Falla, t_Accidente, t_Formacion };
 
+class Linea;
+class FranjaHoraria;
+class Falla;
+class Accidente;
+class Formacion;
+
 class ID : public Serializable {
 public:
 	ID(unsigned dimensions);
@@ -24,6 +30,13 @@ public:
      */
 	void addKey(unsigned dimension, Key* key);
 	void addKey(t_Key type, Key* key);
+
+	/** especializaciones para el TP */
+	void addKey(Linea* k);
+	void addKey(FranjaHoraria* k);
+	void addKey(Falla* k);
+	void addKey(Accidente* k);
+	void addKey(Formacion* k);
 
     /**
      * @param dimension pertenece a [0; size)
