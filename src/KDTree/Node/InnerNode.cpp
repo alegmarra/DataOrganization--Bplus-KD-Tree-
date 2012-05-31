@@ -29,10 +29,10 @@ IntKey * x = dynamic_cast<IntKey *>(id->getKey(0));
 IntKey * y = dynamic_cast<IntKey *>(id->getKey(1));
 IntKey * z = dynamic_cast<IntKey *>(id->getKey(2));
 
-std::cout << "EnInner - ID: " << x->getValue() << " " << y->getValue() << " " << z->getValue() << std::endl;
+//std::cout << "EnInner - ID: " << x->getValue() << " " << y->getValue() << " " << z->getValue() << std::endl;
 
 		if (result < 0){
-std::cout << "Sigo por (<0): " << firstLeft << std::endl;
+//std::cout << "Sigo por (<0): " << firstLeft << std::endl;
 			Node* next= NodeSerializer::deserializeNode(firstLeft);
 			result = next->insert(record);
 			if (result == 2)
@@ -41,7 +41,7 @@ std::cout << "Sigo por (<0): " << firstLeft << std::endl;
 			else return result;
 		}
 		else if(result == 0){
-std::cout << "Sigo por (==0): " << (*it)->getNode() << std::endl;
+//std::cout << "Sigo por (==0): " << (*it)->getNode() << std::endl;
 			Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 			result = next->insert(record);
 			if (result == 2)
@@ -59,10 +59,10 @@ std::cout << "Sigo por (==0): " << (*it)->getNode() << std::endl;
 	if (it == elements.end()) {
 	    it -= 1;
 	}
-std::cout << "Sigo por (end): " << (*it)->getNode() << std::endl;
+//std::cout << "Sigo por (end): " << (*it)->getNode() << std::endl;
 	Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 	result = next->insert(record);
-std::cout << "Insert " << result << std::endl;
+//std::cout << "Insert " << result << std::endl;
 	if (result == 2)
 		return manageOverflow((*it)->getNode(), next, ++it);
 
@@ -87,7 +87,7 @@ int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
 
 		elements.insert(position, pair);
 
-	//	TODO occupiedSpace += pair->size();
+	//	TODO occupiedSpace += pair->getSize();
 
 		delete pair;
 

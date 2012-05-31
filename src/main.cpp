@@ -30,9 +30,9 @@ int main()
 //    test->run();
 //    delete test;
 //
-    test = new NodeTest();
-    test->run();
-    delete test;
+//    test = new NodeTest();
+//    test->run();
+//    delete test;
 
     test = new KDTreeTest();;
     test->run();
