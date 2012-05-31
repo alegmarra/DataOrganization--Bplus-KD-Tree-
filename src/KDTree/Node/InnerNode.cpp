@@ -19,12 +19,26 @@ int InnerNode::insert(Record* record) {
 	Key* inRecordKey = getKeyByLevel(id, level);
     int result;
 
-	while(it < elements.end()){
+    // First check if the left node should handle the shit
+    if(inRecordKey->compareTo((*it)->getKey()) < 0) {
+        Node* next = NodeSerializer::deserializeNode(firstLeft);
+		result = next->insert(record);
+
+		if (result == 2) {
+			return manageOverflow(firstLeft, next, it);
+		} else if (result == 1) {
+	        NodeSerializer::serializeNode(next, firstLeft);
+	    }
+
+        return result;
+    }
+
+	while(it < elements.end()) {
 
 	    result = inRecordKey->compareTo((*it)->getKey());
 
         // TODO Limpiar
-		
+
 		if (result < 0) {
             it--;
             unsigned nextNum = (*it)->getNode();
@@ -54,21 +68,15 @@ int InnerNode::insert(Record* record) {
 		} else { 
 		    // Handled below
 		}
-		
+
 		it++;
 	}
-
-	//std::cout<< "IT = END() KEY " << (dynamic_cast<IntKey*>((*it)->getKey()))->getValue() << std::endl;
-
-	it--;
-	std::cout<< "IT = END() NODE " << (*it)->getNode() << std::endl;
-
 
 	//Key > all elements
 	if (it == elements.end()) {
 	    it -= 1;
 	}
-	
+
 	Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 	result = next->insert(record);
 
@@ -89,15 +97,15 @@ int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
 		Node* newLeaf = NULL;
 
 		Key* newKey = oldLeaf->split(newLeaf);
+
 		NodeSerializer::serializeNode(oldLeaf, oldNumber);
 		unsigned next;
 		next = NodeSerializer::serializeNode(newLeaf);
 
 		PairKeyNode* pair = new PairKeyNode(newKey, next);
 
-
-
 		elements.insert(position, pair);
+
 		occupiedSpace += pair->getSize();
 
 		return 1;
@@ -141,8 +149,7 @@ void InnerNode::addPair(PairKeyNode* pair){
 	if (!added)
 		elements.push_back(pair);
 
-	numElements++;
-
+    numElements++;
 }
 
 
@@ -312,4 +319,3 @@ void InnerNode::dump()
 }
 
 InnerNode::~InnerNode() {}
-
