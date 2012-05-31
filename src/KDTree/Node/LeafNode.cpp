@@ -250,6 +250,8 @@ std::vector<Record*> LeafNode::sortBy(unsigned level)
  */
 Key* LeafNode::split(Node*& newNode) {
 
+std::cout<< "SPLIT" <<std::endl;
+
 	newNode = new LeafNode(level);
 
 	//Leaf has its records ordered by Key[level]
