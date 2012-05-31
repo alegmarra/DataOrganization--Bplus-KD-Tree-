@@ -218,7 +218,6 @@ int LeafNode::remove(ID* id){
  * Sorts elements by Key corresponding to level%dimensions
  */
 std::vector<Record*> LeafNode::sortBy(unsigned level)
-
 {
     std::vector<Record*>::iterator it;
 	std::vector<Record*>::iterator parentIt;

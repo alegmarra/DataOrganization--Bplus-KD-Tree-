@@ -53,12 +53,17 @@ public:
 
 	virtual void run()
 	{
+		try {
+			//test_Constructor_NewFile_NoError();
 
-		//test_Constructor_NewFile_NoError();
+		    test_FindByQuery();
+		    //test_Full_NonSense_records();
 
-        //test_FindByQuery();
-		cleanUp();
-        test_Full_NonSense_records();
+		} catch (...) {
+			cleanUp();
+			throw;
+		}
+
 	}
 
 private:
@@ -176,6 +181,8 @@ int datos[100][3] = {
 {5,1,14},
 {8,17,4}
 };
+/*
+*/
         int limit = q < 100? q : 100;
         for (int i = 0; i < limit; i++) {
             id = new ID(k);
