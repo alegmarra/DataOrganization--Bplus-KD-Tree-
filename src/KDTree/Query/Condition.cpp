@@ -94,7 +94,7 @@ int QueryCondition::eval(Key * k)
         return Query::LOWER;
     } else if (hi_key->compareTo(k) < 0) { // Higher end is lower than key
         return Query::HIGHER;
-    } else if(low_key->compareTo(hi_key) == 0 && low_key->compareTo(k) == 0) { // Key matches exactly both ends
+    } else if(low_key->compareTo(k) == 0 && low_key->compareTo(k) == 0) { // Key matches exactly both ends
         return Query::EQUAL;    
     } else {
         return Query::MATCH;

@@ -38,7 +38,7 @@ void KDtree::load(std::vector<Record*> records){
 
 	int status;
 
-	for(it= records.begin(); it < records.end(); it++){
+	for(it = records.begin(); it < records.end(); it++){
 		status = root->insert(*it);
 
 		std::cout << "Insert " << status << std::endl;
