@@ -185,7 +185,7 @@ int datos[100][3] = {
 {15,17,7},
 {12,4,7}
 };       
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < 100; i++) {
             id = new ID(k);
             id->addKey(X, new IntKey(datos[i][0], 8));
             id->addKey(Y, new IntKey(datos[i][1], 8));
