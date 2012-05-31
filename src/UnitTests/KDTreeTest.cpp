@@ -70,7 +70,7 @@ private:
             {4,  13, 20}, // SPLIT!
             {11, 14, 12},
             {20, 18, 18},
-            {8,  18, 13},
+            {8,  18, 13}, //SPLIT!
             {15, 16, 5},
             {13, 3,  11},
             {20, 7,  1},
@@ -83,7 +83,7 @@ private:
             {10, 17, 19}
         };
         
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 20; i++) {
             id = new ID(k);
             id->addKey(X, new IntKey(datos[i][0], 8));
             id->addKey(Y, new IntKey(datos[i][1], 8));

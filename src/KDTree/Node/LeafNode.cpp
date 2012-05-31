@@ -110,7 +110,8 @@ std::cout << "EnLeaf - ID: " << x->getValue() << " " << y->getValue() << " " << 
 	}
 
 	occupiedSpace += record->size();
-
+std::cout << "Record Size: " << record->size() <<std::endl;
+std::cout << "Occupied: " << occupiedSpace << std::endl;
 	//Checks for overflow
 	if (occupiedSpace > maxSize){
 		return 2;
@@ -247,6 +248,8 @@ std::vector<Record*> LeafNode::sortBy(unsigned level)
  *
  */
 Key* LeafNode::split(Node*& newNode) {
+
+std::cout<< "SPLIT" <<std::endl;
 
 	newNode = new LeafNode(level);
 
