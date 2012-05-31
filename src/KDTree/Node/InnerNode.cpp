@@ -25,33 +25,36 @@ int InnerNode::insert(Record* record) {
 
 	    result = inRecordKey->compareTo((*it)->getKey());
 
-IntKey * x = dynamic_cast<IntKey *>(id->getKey(0));  
-IntKey * y = dynamic_cast<IntKey *>(id->getKey(1));  
-IntKey * z = dynamic_cast<IntKey *>(id->getKey(2));  
-
-std::cout << "EnInner - ID: " << x->getValue() << " " << y->getValue() << " " << z->getValue() << std::endl;
 
 		if (result < 0){
-std::cout << "Sigo por (<0): " << firstLeft << std::endl;
 			Node* next= NodeSerializer::deserializeNode(firstLeft);
 			result = next->insert(record);
+
 			if (result == 2)
 				return manageOverflow(firstLeft, next, ++it);
 
-			else return result;
-		}
-		else if(result == 0){
-std::cout << "Sigo por (==0): " << (*it)->getNode() << std::endl;
+			else {
+			    if (result == 1) {
+			        NodeSerializer::serializeNode(next, firstLeft);
+		        }
+			    return result;
+		    }
+
+		} else if(result == 0) {
 			Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 			result = next->insert(record);
-			if (result == 2)
+			if (result == 2) {
 				return manageOverflow((*it)->getNode(), next, ++it);
-
-			else return result;
-		}
-		else { 
+			} else {
+			    if (result == 1) {
+			        NodeSerializer::serializeNode(next, (*it)->getNode());
+		        }
+			    return result;
+		    }
+		} else { 
 		    // Handled below
 		}
+		
 		it++;
 	}
 
@@ -65,15 +68,17 @@ std::cout << "Sigo por (==0): " << (*it)->getNode() << std::endl;
 	if (it == elements.end()) {
 	    it -= 1;
 	}
-std::cout << "Sigo por (end): " << (*it)->getNode() << std::endl;
+	
 	Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 	result = next->insert(record);
-std::cout << "Insert " << result << std::endl;
-	if (result == 2)
-		return manageOverflow((*it)->getNode(), next, ++it);
 
-	else return result;
+	if (result == 2) {
+		return manageOverflow((*it)->getNode(), next, it + 1);
+    } else if (result == 1) {
+        NodeSerializer::serializeNode(next, (*it)->getNode());
+    }
 
+    return result;
 
 }
 
