@@ -55,6 +55,12 @@ std::cout << "Sigo por (==0): " << (*it)->getNode() << std::endl;
 		it++;
 	}
 
+	//std::cout<< "IT = END() KEY " << (dynamic_cast<IntKey*>((*it)->getKey()))->getValue() << std::endl;
+
+	it--;
+	std::cout<< "IT = END() NODE " << (*it)->getNode() << std::endl;
+
+
 	//Key > all elements
 	if (it == elements.end()) {
 	    it -= 1;
@@ -87,7 +93,7 @@ int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
 
 		elements.insert(position, pair);
 
-	//	TODO occupiedSpace += pair->size();
+		occupiedSpace += pair->getSize();
 
 		delete pair;
 

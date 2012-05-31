@@ -46,8 +46,7 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
  ../src/UnitTests/../KDTree/KD.h \
  ../src/UnitTests/../KDTree/Serializers/NodeSerializer.h \
  ../src/UnitTests/../KDTree/Query/Query.h \
- ../src/UnitTests/../KDTree/../File/FileBlocks.h ../src/File/FileBlocks.h \
- ../src/KDTree/KD.h
+ ../src/UnitTests/../KDTree/../File/FileBlocks.h
 
 ../src/UnitTests/KeyTest.cpp:
 
@@ -152,7 +151,3 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
 ../src/UnitTests/../KDTree/Query/Query.h:
 
 ../src/UnitTests/../KDTree/../File/FileBlocks.h:
-
-../src/File/FileBlocks.h:
-
-../src/KDTree/KD.h:
