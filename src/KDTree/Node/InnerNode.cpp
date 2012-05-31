@@ -78,7 +78,7 @@ int InnerNode::insert(Record* record) {
 	    it -= 1;
 	}
 
-//std::cout << "Sigo por (end): " << (*it)->getNode() << std::endl;
+
 	Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 	result = next->insert(record);
 //std::cout << "Insert " << result << std::endl;
@@ -320,4 +320,3 @@ void InnerNode::dump()
 }
 
 InnerNode::~InnerNode() {}
-

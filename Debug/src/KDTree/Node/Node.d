@@ -10,7 +10,8 @@ src/KDTree/Node/Node.d: ../src/KDTree/Node/Node.cpp \
  ../src/KDTree/Node/../Query/../RecordID/Key.h \
  ../src/KDTree/Node/../Record.h \
  ../src/KDTree/Node/../Serializers/Serializable.h \
- ../src/KDTree/Node/../RecordID/ID.h ../src/KDTree/Node/../RecordID/Key.h
+ ../src/KDTree/Node/../RecordID/ID.h ../src/KDTree/Node/../RecordID/Key.h \
+ ../src/KDTree/Node/../RecordID/IntKey.h
 
 ../src/KDTree/Node/Node.h:
 
@@ -37,3 +38,5 @@ src/KDTree/Node/Node.d: ../src/KDTree/Node/Node.cpp \
 ../src/KDTree/Node/../RecordID/ID.h:
 
 ../src/KDTree/Node/../RecordID/Key.h:
+
+../src/KDTree/Node/../RecordID/IntKey.h:

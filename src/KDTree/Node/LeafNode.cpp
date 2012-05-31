@@ -263,12 +263,17 @@ Key* LeafNode::split(Node*& newNode) {
 	int lowLimit = (elements.size()/2);
 	int highLimit = (elements.size());
 
+
 	for(int i = lowLimit; i< highLimit; i++) {
 		newNode->insert(elements[i]);
 	}
 
 
+
+
 	Key * parentKey = getKeyByLevel(elements.at(lowLimit)->getID(), level-1);
+
+
 
 	for(int i = lowLimit; i< highLimit; i++){
 		occupiedSpace -= elements[lowLimit]->size();
@@ -277,6 +282,11 @@ Key* LeafNode::split(Node*& newNode) {
 
 	//Updates data
 	numElements = lowLimit;
+
+	std::cout<< "NumElements "<< numElements <<std::endl;
+	std::cout<< "occupiedSpace "<< occupiedSpace <<std::endl;
+	std::cout<< "END SPLIT" <<std::endl;
+
 
 	return parentKey;
 

@@ -1,4 +1,6 @@
 #include "Node.h"
+#include "../RecordID/IntKey.h"
+#include <iostream>
 
 #ifndef MAX_SIZE
 #define MAX_SIZE 3072
@@ -35,5 +37,7 @@ unsigned Node::getNumElements() {
 
 Key* Node::getKeyByLevel(ID * id, unsigned level)
 {
+	Key* key = id->getKey(level % id->getDimensions());
+
     return id->getKey(level % id->getDimensions());
 }
