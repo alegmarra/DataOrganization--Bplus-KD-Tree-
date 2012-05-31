@@ -35,6 +35,7 @@ IntKey * z = dynamic_cast<IntKey *>(id->getKey(2));
 //std::cout << "Sigo por (<0): " << firstLeft << std::endl;
 			Node* next= NodeSerializer::deserializeNode(firstLeft);
 			result = next->insert(record);
+
 			if (result == 2)
 				return manageOverflow(firstLeft, next, ++it);
 
@@ -44,14 +45,15 @@ IntKey * z = dynamic_cast<IntKey *>(id->getKey(2));
 //std::cout << "Sigo por (==0): " << (*it)->getNode() << std::endl;
 			Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 			result = next->insert(record);
-			if (result == 2)
+			if (result == 2) {
 				return manageOverflow((*it)->getNode(), next, ++it);
-
+			}
 			else return result;
 		}
 		else {
 		    // Handled below
 		}
+
 		it++;
 	}
 
@@ -59,15 +61,18 @@ IntKey * z = dynamic_cast<IntKey *>(id->getKey(2));
 	if (it == elements.end()) {
 	    it -= 1;
 	}
+
 //std::cout << "Sigo por (end): " << (*it)->getNode() << std::endl;
 	Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 	result = next->insert(record);
 //std::cout << "Insert " << result << std::endl;
-	if (result == 2)
-		return manageOverflow((*it)->getNode(), next, ++it);
+	if (result == 2) {
+		return manageOverflow((*it)->getNode(), next, it + 1);
+    } else if (result == 1) {
+        NodeSerializer::serializeNode(next, (*it)->getNode());
+    }
 
-	else return result;
-
+    return result;
 
 }
 

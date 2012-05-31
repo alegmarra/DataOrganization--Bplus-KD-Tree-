@@ -1,9 +1,15 @@
 #include "LeafNode.h"
 
 
-LeafNode::LeafNode() : Node() {}
+LeafNode::LeafNode() : Node() {
+    init();
+}
 
 LeafNode::LeafNode(unsigned _level) : Node(_level) {
+    init();
+}
+
+void LeafNode::init() {
     occupiedSpace = 2;  // level + numElements
 }
 
