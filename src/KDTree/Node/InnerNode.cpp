@@ -67,14 +67,12 @@ int InnerNode::insert(Record* record) {
 	result = next->insert(record);
 
 	if (result == 2) {
-		return manageOverflow((*it)->getNode(), next, ++it);
-    } else {
-        if (result == 1) {
-            NodeSerializer::serializeNode(next, (*it)->getNode());
-        }
-        return result;
+		return manageOverflow((*it)->getNode(), next, it + 1);
+    } else if (result == 1) {
+        NodeSerializer::serializeNode(next, (*it)->getNode());
     }
 
+    return result;
 
 }
 
