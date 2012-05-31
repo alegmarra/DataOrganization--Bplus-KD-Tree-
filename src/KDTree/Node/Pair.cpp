@@ -1,12 +1,12 @@
 #include "Pair.h"
 #include "../RecordID/Key.h"
 
-
 PairKeyNode::PairKeyNode() {
     key = NULL;
     next = 0;
 
 }
+
 PairKeyNode::PairKeyNode(Key* _key, unsigned nextNodeNumber) {
     key = _key;
     next = nextNodeNumber;

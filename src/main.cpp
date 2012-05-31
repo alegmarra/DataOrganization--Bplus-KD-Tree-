@@ -12,7 +12,7 @@
 int main()
 {
 	Test* test;
-/*
+
 	test = new KeyTest();
 	test->run();
 	delete test;
@@ -28,7 +28,7 @@ int main()
 	test = new FileBlocksTest();
 	test->run();
 	delete test;
-*/
+
     test = new SerializersTest();
     test->run();
     delete test;
@@ -37,10 +37,12 @@ int main()
     test = new NodeTest();
     test->run();
     delete test;
-
+/*
     test = new KDTreeTest();;
     test->run();
     delete test;
+*/
+
 
     return 0;
 }

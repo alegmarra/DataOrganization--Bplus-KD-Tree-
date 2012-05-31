@@ -67,7 +67,7 @@ private:
             {1,  9,  15},
             {1,  15, 13},
             {17, 15, 4},
-            {4,  13, 20},
+            {4,  13, 20}, // SPLIT!
             {11, 14, 12},
             {20, 18, 18},
             {8,  18, 13},
@@ -83,7 +83,7 @@ private:
             {10, 17, 19}
         };
         
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 8; i++) {
             id = new ID(k);
             id->addKey(X, new IntKey(datos[i][0], 8));
             id->addKey(Y, new IntKey(datos[i][1], 8));
@@ -129,7 +129,7 @@ private:
         char error[50];
   
         loadTree(tree);      
-
+return;
         q = new Query();
         q->addCondition(X, new QueryCondition(new IntKey(1, 8)));
   

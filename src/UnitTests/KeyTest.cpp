@@ -1,3 +1,5 @@
+#ifndef _KEY_TEST_CPP
+#define _KEY_TEST_CPP
 #include <cstring>
 #include "../KDTree/RecordID/StringKey.h"
 #include "../KDTree/RecordID/IntKey.h"
@@ -218,3 +220,4 @@ public:
     }
 
 };
+#endif

@@ -264,8 +264,8 @@ public:
 
         IntKey* medianIntKeyFromSplit = dynamic_cast<IntKey* >(medianKeyFromSplit);
 
-        std::map<int, Record*>::const_iterator it = records.find(medianIntKeyFromSplit->getValue());
-        std::map<int, Record*>::const_iterator itMitad = records.begin();
+        std::map<int, Record*>::iterator it = records.find(medianIntKeyFromSplit->getValue());
+        std::map<int, Record*>::iterator itMitad = records.begin();
         for (unsigned i = 0; i < numElements/2; ++i)
             ++itMitad;
 
@@ -274,19 +274,25 @@ public:
         else
             fail("Wrong median key value assingment");
 
+        std::map<int, Record*> newNodeElements(itMitad, records.end());
+        records.erase(itMitad, records.end());
         unsigned i = 0;
-        for (it = records.begin(); it != itMitad; ++it, ++i) {
-            if ((*it).second == ((LeafNode*)splittingLeafNode)->elements[i])
+        for (it = records.begin(); it != records.end(); ++it, ++i) {
+            temp = ((LeafNode*)splittingLeafNode)->elements[i];
+            k = dynamic_cast<IntKey* >(temp->getID()->getKey(level-1));
+            if ((*(records.find(k->getValue()))).second == temp)
                 pass();
             else
-                fail("Wrong element assingment");
+                fail("Wrong element assingment in splitting node");
         }
-        for (i = 0; it != records.end(); ++it, ++i) {
-            std::cout << "it = " << (*it).second << " vs " << "newNode = " << ((LeafNode*)newNode)->elements[i] << std::endl;
-            if ((*it).second == ((LeafNode*)newNode)->elements[i])
+        i = 0;
+        for (it = newNodeElements.begin(); it != newNodeElements.end(); ++it, ++i) {
+            temp = ((LeafNode*)newNode)->elements[i];
+            k = dynamic_cast<IntKey* >(temp->getID()->getKey(level-1));
+            if ((*(newNodeElements.find(k->getValue()))).second == temp)
                 pass();
             else
-                fail("Wrong element assingment");
+                fail("Wrong element assingment in splitting node");
         }
 
         delete splittingLeafNode;

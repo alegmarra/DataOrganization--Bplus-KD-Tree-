@@ -25,7 +25,8 @@ LeafNode::~LeafNode() {}
  *td::vector<Record*
  * return Inner node
  *
- * */
+ */
+
 Node* LeafNode::grow() {
 
 	/*
@@ -44,12 +45,11 @@ Node* LeafNode::grow() {
 	//Half the elements in each
 	this->level++;
 	Node* newLeaf = NULL;
-	Key* parentKey = this->split( newLeaf);
+	Key* parentKey = this->split(newLeaf);
 
 	//Assigns new number on serialization
 	unsigned parentLeft = NodeSerializer::serializeNode(this);
 	unsigned parentRight = NodeSerializer::serializeNode(newLeaf);
-
 
 	newInner->setLeft(parentLeft);
 	newInner->addPair(new PairKeyNode(parentKey, parentRight));
@@ -125,7 +125,8 @@ std::vector<Record*> LeafNode::find(Record* record){
     }
 
 	std::vector< Record * > result = find(exactQ);
-	delete exactQ;
+    // TODO Copiar la clave para poder borrar la query safely
+	//delete exactQ;
 	return result;
 }
 
@@ -156,10 +157,12 @@ std::vector<Record*> LeafNode::find(Query* query){
 
 			Key* key = (*it)->getID()->getKey(i);
 			//If the Key passes the condition
-			queryResult = query->eval(i,key);
+			queryResult = query->eval(i, key);
+
 			if ((queryResult == Query::EQUAL) || (queryResult == Query::MATCH)) {
 				passed++;
 			}
+			else break;
 		}
 
 		//If every condition in the query passed
@@ -231,7 +234,7 @@ std::vector<Record*> LeafNode::sortBy(unsigned level)
  *
  * returns middle key in return
  *
- * */
+ */
 Key* LeafNode::split(Node*& newNode) {
 
 	newNode = new LeafNode(level);
@@ -239,12 +242,12 @@ Key* LeafNode::split(Node*& newNode) {
 	//Leaf has its records ordered by Key[level]
 	elements = sortBy(level-1);
 
-
 	int lowLimit = (elements.size()/2);
 	int highLimit = (elements.size());
 
-	for(int i = lowLimit; i< highLimit; i++)
-			newNode->insert(elements[i]);
+	for(int i = lowLimit; i< highLimit; i++) {
+		newNode->insert(elements[i]);
+	}
 
 
 	Key * parentKey = getKeyByLevel(elements.at(lowLimit)->getID(), level-1);
