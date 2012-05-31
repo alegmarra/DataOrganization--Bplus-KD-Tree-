@@ -15,7 +15,7 @@ public:
     LeafNode(unsigned _level);
 
     virtual int insert(Record* record);
-    virtual std::vector<Record*> find(Query* query);
+    virtual std::vector<Record*> find(Query* query, unsigned dimension);
     virtual int remove(ID* id);
 
     virtual Key* split(Node*& newNode);
@@ -28,17 +28,23 @@ public:
 
 	~LeafNode();
 
+
 private:
 
-#ifdef TESTING
-        friend class SerializersTest;
-#endif
+	#ifdef TESTING
+			friend class SerializersTest;
+	#endif
 
 	virtual std::vector<Record*> find(Record* record);
 	std::vector<Record*> sortBy(unsigned level);
-
 	std::vector<Record*> elements;
+
     void init();
+
+
+    int findLowLimit(Key* parentKey);
+
+
 
 };
 #endif

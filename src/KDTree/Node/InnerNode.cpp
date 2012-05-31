@@ -79,7 +79,6 @@ int InnerNode::insert(Record* record) {
 
 	Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 	result = next->insert(record);
-
 	if (result == 2) {
 		return manageOverflow((*it)->getNode(), next, it + 1);
     } else if (result == 1) {
@@ -92,6 +91,15 @@ int InnerNode::insert(Record* record) {
 
 int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
 			 	 	 	 	  std::vector<PairKeyNode*>::iterator position){
+
+/*
+	if((*position)->getKey()->compareTo((*(position-1))->getKey()) == 0){
+
+		Node* next = NodeSerializer::deserializeNode((*position)->getNode());
+		int result = next->insert( );
+	}
+*/
+
 
 	if (occupiedSpace < maxSize){
 		Node* newLeaf = NULL;
@@ -154,6 +162,25 @@ void InnerNode::addPair(PairKeyNode* pair){
 
 
 
+std::vector<Record*> InnerNode::findByCondition(unsigned prevNode, Query* query,
+					std::vector<PairKeyNode*>::iterator it, unsigned qCondition , unsigned dimensions) {
+
+	std::vector<Record*> found;
+	if (prevNode){
+		found = NodeSerializer::deserializeNode(prevNode)->find(query, dimensions);
+	}
+
+	while ( (it < elements.end() && (query->eval(level, (*it)->getKey()) == qCondition))) {
+
+		std::vector<Record*> partial;
+		partial = NodeSerializer::deserializeNode((*it)->getNode())->find(query, dimensions);
+		found.insert(found.end(), partial.begin(), partial.end());
+		it++;
+	}
+	return found;
+}
+
+/*
 std::vector<Record*> InnerNode::findInRange(unsigned prevNode, Query* query,
 					std::vector<PairKeyNode*>::iterator it) {
 
@@ -171,6 +198,8 @@ std::vector<Record*> InnerNode::findInRange(unsigned prevNode, Query* query,
 	}
 	return found;
 }
+*/
+
 
 std::vector<Record*> InnerNode::find(Record* record){
 
@@ -181,24 +210,35 @@ std::vector<Record*> InnerNode::find(Record* record){
 	for(unsigned i=0; i<level; i++)
 		exactQ->addCondition(i, new QueryCondition(record->getID()->getKey(i)));
 
-	return find(exactQ);
+	return find(exactQ, record->getID()->getDimensions());
 }
 
 
-std::vector<Record*> InnerNode::find(Query* query){
+
+
+//TODO multiple search por equal
+//Keys reales
+//TODO intentar hacer mierda el àrbol con muchos registros y las claves reales del TP
+
+
+std::vector<Record*> InnerNode::find(Query* query, unsigned dimensions){
 
 	std::vector<Record*>  found;
 	std::vector<PairKeyNode*>::iterator it;
 
 	it=elements.begin();
 
-	switch (query->eval(level, (*it)->getKey())){
+	switch (query->eval((level%dimensions), (*it)->getKey())){
 
-		case (Query::LOWER):
-			return NodeSerializer::deserializeNode(firstLeft)->find(query);
+		case (Query::HIGHER):{
 
+
+ 			return NodeSerializer::deserializeNode(firstLeft)->find(query, dimensions);
+		}
 		case (Query::EQUAL):{
 
+
+/*
 			std::vector<Record*> partial;
 
 			while((query->eval(level, (*it)->getKey()) == Query::EQUAL)
@@ -209,27 +249,40 @@ std::vector<Record*> InnerNode::find(Query* query){
 				it++;
 			}
 			return found;
+*/
+			return findByCondition(firstLeft, query, it,Query::EQUAL, dimensions);
 		}
 
-		case (Query::HIGHER):{
+		case (Query::LOWER):{
+
 			unsigned prev ;
 
-			while((query->eval(level, (*it)->getKey()) == Query::HIGHER)
-				 && (it < elements.end())){
-				 prev = (*it)->getNode();
-				 it++;
+			while((it < elements.end())){ //&& (query->eval(level, (*it)->getKey()) == Query::HIGHER)){
+				 if (query->eval(level, (*it)->getKey()) == Query::HIGHER){
+					 prev = (*it)->getNode();
+					 it++;
+				 }
+				 else
+					 break;
+
 			}
 			if (it != elements.end())
 				if(query->eval(level, (*it)->getKey()) == Query::MATCH)
-					return findInRange(prev, query, it);
+					//return findInRange(prev, query, it);
+					return findByCondition(firstLeft, query, it,Query::MATCH, dimensions);
+
 				else
-					return NodeSerializer::deserializeNode(prev)->find(query);
+					return NodeSerializer::deserializeNode(prev)->find(query, dimensions);
 			else
-				return NodeSerializer::deserializeNode((*it)->getNode())->find(query);
+				return NodeSerializer::deserializeNode((*(it-1))->getNode())->find(query, dimensions);
 		}
 
-		case (Query::MATCH):
-			return findInRange(firstLeft, query, it);
+		case (Query::MATCH):{
+
+			//return findInRange(firstLeft, query, it);
+			return findByCondition(firstLeft, query, it,Query::MATCH, dimensions);
+		}
+
 	}
 
 	return found; //Empty vector, nothing found

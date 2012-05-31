@@ -32,7 +32,7 @@ public:
 
     virtual void dump()=0;
 
-	virtual std::vector<Record*> find(Query* query)=0;
+	virtual std::vector<Record*> find(Query* query, unsigned dimensions)=0;
     
 //    virtual int remove(ID* id) = 0;
 //

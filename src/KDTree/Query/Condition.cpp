@@ -88,9 +88,10 @@ bool QueryCondition::inRange(Key * k)
     return low_key->compareTo(k) <= 0 && hi_key->compareTo(k) >= 0;
 };
 
+
 int QueryCondition::eval(Key * k)
 {
-    if (low_key->compareTo(k) > 0) { // Lower end is higher than key
+	if (low_key->compareTo(k) > 0) { // Lower end is higher than key
         return Query::LOWER;
     } else if (hi_key->compareTo(k) < 0) { // Higher end is lower than key
         return Query::HIGHER;

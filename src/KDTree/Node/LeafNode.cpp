@@ -136,7 +136,7 @@ std::vector<Record*> LeafNode::find(Record* record){
 		exactQ->addCondition(i, new QueryCondition(record->getID()->getKey(i)));
     }
     
-	std::vector< Record * > result = find(exactQ);
+	std::vector< Record * > result = find(exactQ, record->getID()->getDimensions());
     // TODO Copiar la clave para poder borrar la query safely
 	//delete exactQ;
 	return result;
@@ -153,7 +153,7 @@ std::vector<Record*> LeafNode::find(Record* record){
  * @throw FileNotSetException, FileErrorException,
  * 		  InvalidOperationException
  */
-std::vector<Record*> LeafNode::find(Query* query){
+std::vector<Record*> LeafNode::find(Query* query, unsigned dimensions){
 
 	std::vector<Record*>  matchingRecords;
 	unsigned passed = 0;
@@ -165,7 +165,7 @@ std::vector<Record*> LeafNode::find(Query* query){
 	    passed = 0;
 
 		//For each Key that element has
-		for(unsigned i = 0; i < (*it)->getID()->getDimensions(); i++){
+		for(unsigned i = 0; i < dimensions; i++){
 
 			Key* key = (*it)->getID()->getKey(i);
 			//If the Key passes the condition
@@ -177,14 +177,9 @@ std::vector<Record*> LeafNode::find(Query* query){
 			} 
 			else break;
 		}
-		
-
-		//TODO multiple search por equal
-		//Keys reales
-		//TODO intentar hacer mierda el àrbol con muchos registros y las claves reales del TP
 
 		//If every condition in the query passed
-		if(passed == (*it)->getID()->getDimensions())
+		if(passed == dimensions)
 			matchingRecords.push_back(*it);
 	}
 
@@ -214,7 +209,9 @@ int LeafNode::remove(ID* id){
 }
 
 
-
+/*
+ * Sorts elements by Key corresponding to level%dimensions
+ */
 std::vector<Record*> LeafNode::sortBy(unsigned level) 
 {
     std::vector<Record*>::iterator it;
@@ -240,6 +237,43 @@ std::vector<Record*> LeafNode::sortBy(unsigned level)
 	return parentKeySorted;
 }
 
+
+
+/*
+ * Iterates over elements in order to find the best
+ * split pivot.
+ * Has big impact in the way the tree keeps balance.
+ */
+int LeafNode::findLowLimit(Key* parentKey){
+
+	int lowLimit = 0;//=1
+	int halfLimit = (elements.size()/2);
+	int highLimit = (elements.size());
+
+	//Searches for the first element wich key is lower than parent key
+	while((lowLimit < (highLimit -1)) &&
+		  (getKeyByLevel(elements.at(lowLimit)->getID(), level-1)->compareTo(parentKey) < 0)){
+
+		//Element[i], lower than parent key, stays in this leaf
+		lowLimit++;
+	}
+
+	if (lowLimit == 0){
+		//First element key equals parentkey
+		//Splits in a more balanced way
+		while((lowLimit < halfLimit) &&
+			  (getKeyByLevel(elements.at(lowLimit)->getID(), level-1)->compareTo(parentKey) <= 0)){
+
+			//Element[i], lower than parent key, stays in this leaf
+			lowLimit++;
+		}
+	}
+
+	return lowLimit;
+
+}
+
+
 /*
  * @pre	Record that caused the overflow already in elements
  *
@@ -262,18 +296,11 @@ Key* LeafNode::split(Node*& newNode) {
 
 	Key * parentKey = getKeyByLevel(elements.at(halfLimit)->getID(), level-1);
 
-	int lowLimit = 1;
+	int lowLimit = 0;
 	int highLimit = (elements.size());
 
-	//Searches for the first element wich key is lower than parent key
-	//but keeping at least one element in this leaf
-	while((lowLimit < (highLimit -1)) &&
-		  (getKeyByLevel(elements.at(lowLimit)->getID(), level-1)->compareTo(parentKey) < 0)){
-
-		//Element[i], lower than parent key, stays in this leaf
-		lowLimit++;
-	}
-
+	//finds the best split pivot.
+	lowLimit = findLowLimit(parentKey);
 
 	//Passes every element with key equal or higher than parent key to newLeaf
 	for(int i = lowLimit; i< highLimit; i++) {

@@ -12,11 +12,27 @@
 
 KDtree::KDtree(unsigned nDimensions, FileAbstract* myFile)
 {
-    k = nDimensions;
+    dimensions = nDimensions;
     treeFile = myFile;
     setRoot();
 }
 
+/*
+ * @brief	Remove the Record with @id
+ *
+ * @return	0 if removed
+ * 			1 if not found
+ */
+int KDtree::remove(Record* record){
+
+	return root->remove(record->getID());
+
+}
+
+/*
+ *@brief	Recovers root node in from file
+ *			If empty tree (no root), creates one
+ */
 void KDtree::setRoot() {
 
   	NodeSerializer::setFile((FileBlocks *)treeFile);
@@ -33,24 +49,44 @@ void KDtree::setRoot() {
 
 }
 
-void KDtree::load(std::vector<Record*> records){
+/*
+ * @brief	Inserts record in tree
+ *
+ * @return	0 succesfull insertion
+ * 			1 duplicated record
+ */
+int KDtree::load(std::vector<Record*> records){
 	std::vector<Record*>::iterator it;
 
-	int status;
+	int returnStatus = 0;
+
+
+	int partialStatus;
 
 	for(it = records.begin(); it < records.end(); it++){
-		status = root->insert(*it);
+		int partialStatus = root->insert(*it);
 
-		if(status == 2)
+		if(partialStatus == 2){
+			//root overflow
 			root = root->grow();
+		}
+		else if (partialStatus == 1){
+			//Duplicated record in load
+			returnStatus = 1;
+		}
 	}
 
 	NodeSerializer::serializeNode(root, 0);
+
+	return returnStatus;
 }
 
 
 int KDtree::insert(Record* record){
 
+	if(!dimensions){
+		dimensions = record->getID()->getDimensions();
+	}
 	int result = root->insert(record);
 
 	switch (result){
@@ -67,16 +103,16 @@ int KDtree::insert(Record* record){
 		NodeSerializer::serializeNode(root, 0);
 		break;
 	//Duplicated record
-	case 3: return 3;
+	case 3: return 1;
 		break;
 	};
 
-	return 1;
+	return 0;
 }
 
 std::vector< Record * > KDtree::find(Query* query)
 {
-    return root->find(query);
+    return root->find(query, dimensions);
 }
 
 void KDtree::dump()
