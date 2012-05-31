@@ -218,30 +218,31 @@ public:
         start("LeafSplit_NoError");
 
         treeFile->deleteData();
-        const unsigned level = 0;
-        Node* root = new LeafNode(level);
+        const unsigned level = 1;
+        Node* root = new LeafNode(0);
+        Node* splittingLeafNode = new LeafNode(level);
         std::map<int, Record*> records;
         Record* temp;
         IntKey* k;
         int maxElements = (blockSize * 0.75) / getRandRecord()->size();  // memory leak :D
         for (int i = 0; i < maxElements; ++i) {
             temp = getRandRecord();
-            k = dynamic_cast<IntKey* >(temp->getID()->getKey(level));
+            k = dynamic_cast<IntKey* >(temp->getID()->getKey(level-1));
             while (records.find(k->getValue()) != records.end()) {
                 delete temp;
                 temp = getRandRecord();
-                k = dynamic_cast<IntKey* >(temp->getID()->getKey(level));
+                k = dynamic_cast<IntKey* >(temp->getID()->getKey(level-1));
             }
 
             records.insert(std::pair<int, Record*>(k->getValue(), temp));
-            root->insert(temp);
+            splittingLeafNode->insert(temp);
         }
 
-        unsigned numElements = root->getNumElements();
+        unsigned numElements = splittingLeafNode->getNumElements();
         assert(numElements == records.size());
         // la mitad de size+1 para el newNode
         Node* newNode;
-        Key* medianKeyFromSpli = root->split(newNode);
+        Key* medianKeyFromSplit = splittingLeafNode->split(newNode);
 
         unsigned newNodeLevel = newNode->getLevel();
         if (newNodeLevel == level)
@@ -249,22 +250,48 @@ public:
         else
             failVerbose(newNodeLevel, level, "new node level = ");
 
-        unsigned splittedNumElements = root->getNumElements();
+        unsigned splittedNumElements = splittingLeafNode->getNumElements();
         unsigned newNodeNumElements = newNode->getNumElements();
         if (splittedNumElements == numElements/2)
             pass();
         else
             failVerbose(splittedNumElements, numElements/2, "splitted node numElements = ");
 
-        if (newNodeNumElements == 1+(numElements/2))
+        if (newNodeNumElements == (1+numElements)/2)
             pass();
         else
-            failVerbose(newNodeNumElements, 1+(numElements/2), "new node numElements = ");
+            failVerbose(newNodeNumElements, (1+numElements)/2, "new node numElements = ");
 
-        Key* medianKeyFromMap = records[1+numElements/2]->getID()->getKey(level);
+        IntKey* medianIntKeyFromSplit = dynamic_cast<IntKey* >(medianKeyFromSplit);
 
-        delete root;
+        std::map<int, Record*>::const_iterator it = records.find(medianIntKeyFromSplit->getValue());
+        std::map<int, Record*>::const_iterator itMitad = records.begin();
+        for (unsigned i = 0; i < numElements/2; ++i)
+            ++itMitad;
+
+        if (it == itMitad)
+            pass();
+        else
+            fail("Wrong median key value assingment");
+
+        unsigned i = 0;
+        for (it = records.begin(); it != itMitad; ++it, ++i) {
+            if ((*it).second == ((LeafNode*)splittingLeafNode)->elements[i])
+                pass();
+            else
+                fail("Wrong element assingment");
+        }
+        for (i = 0; it != records.end(); ++it, ++i) {
+            std::cout << "it = " << (*it).second << " vs " << "newNode = " << ((LeafNode*)newNode)->elements[i] << std::endl;
+            if ((*it).second == ((LeafNode*)newNode)->elements[i])
+                pass();
+            else
+                fail("Wrong element assingment");
+        }
+
+        delete splittingLeafNode;
         delete newNode;
+        delete root;
         stop();
     }
 

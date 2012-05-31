@@ -20,7 +20,7 @@ int InnerNode::insert(Record* record) {
 
 	int result = inRecordKey->compareTo((*it)->getKey());
 
-	while(it < elements.end()){
+	while(it != elements.end()){
 
 		if (result < 0){
 			Node* next= NodeSerializer::deserializeNode(firstLeft);
@@ -94,9 +94,10 @@ void InnerNode::addPair(PairKeyNode* pair){
 
 	std::vector<PairKeyNode*>::iterator it = elements.begin();
 	bool added = false;
+	int result;
 
-	int result =  pair->getKey()->compareTo((*it)->getKey());
 	while((it < elements.end()) && (!added)){
+        result =  pair->getKey()->compareTo((*it)->getKey());
 		if( result >0)
 			it++;
 		else

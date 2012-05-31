@@ -75,7 +75,7 @@ int LeafNode::insert(Record* record) {
 
 	if (result.size() != 0)
 		return 3;
-		
+
 	//Key in level in inserted record ID
 	Key* inRecordKey = record->getID()->getKey(level);
 
@@ -123,7 +123,7 @@ std::vector<Record*> LeafNode::find(Record* record){
 	for(unsigned i = 0; i < record->getID()->getDimensions(); i++) {
 		exactQ->addCondition(i, new QueryCondition(record->getID()->getKey(i)));
     }
-    
+
 	std::vector< Record * > result = find(exactQ);
 	delete exactQ;
 	return result;
@@ -150,7 +150,7 @@ std::vector<Record*> LeafNode::find(Query* query){
 	//For every element in Node
 	for (it = elements.begin(); it < elements.end(); it++) {
 	    passed = 0;
-	
+
 		//For each Key that element has
 		for(unsigned i = 0; i < (*it)->getID()->getDimensions(); i++){
 
@@ -161,7 +161,7 @@ std::vector<Record*> LeafNode::find(Query* query){
 				passed++;
 			}
 		}
-		
+
 		//If every condition in the query passed
 		if(passed == (*it)->getID()->getDimensions())
 			matchingRecords.push_back(*it);
@@ -194,23 +194,23 @@ int LeafNode::remove(ID* id){
 
 
 
-std::vector<Record*> LeafNode::sortBy(unsigned level) 
+std::vector<Record*> LeafNode::sortBy(unsigned level)
 {
     std::vector<Record*>::iterator it;
 	std::vector<Record*>::iterator parentIt;
 	std::vector<Record*> parentKeySorted;
-	
+
 	for (it = elements.begin(); it < elements.end(); it++) {
 
 		Key* key = getKeyByLevel((*it)->getID(), level);
-		
+
 		for (parentIt = parentKeySorted.begin(); parentIt < parentKeySorted.end(); parentIt++) {
-			if (getKeyByLevel((*parentIt)->getID(), level)->compareTo(key) < 0) {
+			if (getKeyByLevel((*parentIt)->getID(), level)->compareTo(key) > 0) {
 				parentIt = parentKeySorted.insert(parentIt, *it);
 				break;
 			}
 		}
-		
+
 		if (parentIt == parentKeySorted.end()) {
 			parentKeySorted.push_back(*it);
 		}
@@ -240,7 +240,7 @@ Key* LeafNode::split(Node*& newNode) {
 	elements = sortBy(level-1);
 
 
-	int lowLimit = (elements.size()/2)+1;
+	int lowLimit = (elements.size()/2);
 	int highLimit = (elements.size());
 
 	for(int i = lowLimit; i< highLimit; i++)
