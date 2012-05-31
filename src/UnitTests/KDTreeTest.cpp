@@ -57,7 +57,7 @@ public:
 			//test_Constructor_NewFile_NoError();
 
 		    test_FindByQuery();
-		    //test_Full_NonSense_records();
+		    test_Full_NonSense_records();
 
 		} catch (...) {
 			cleanUp();
@@ -253,14 +253,14 @@ tree->dump();
             }
         }
 
-        dumpResult(result);
-        std::cout << "Partial X = 1" << std::endl;
+//        dumpResult(result);
+  //      std::cout << "Partial X = 1" << std::endl;
 
         if (result.size() == expected) pass();
         else {
-        	std::cout << "PARTIAL match failed for " << search <<  " Expected result " << expected << " got " <<   (int)result.size() <<std::endl;
-          //  sprintf(error, "Partial match failed. Expected result size %d. Got %d" ,(int)expected, (int)result.size());
-  //          fail(error);
+//        	std::cout << "PARTIAL match failed for " << search <<  " Expected result " << expected << " got " <<   (int)result.size() <<std::endl;
+            sprintf(error, "Partial match failed. Expected result size %d. Got %d" ,(int)expected, (int)result.size());
+            fail(error);
         }
 
         delete q;
@@ -287,19 +287,19 @@ tree->dump();
 
             if((z->getValue() >=low) && (z->getValue() <=high)){
             	expected++;
-            }
+               	     }
         }
 
 
-        dumpResult(result);
-        std::cout << "Partial  4<= Z <= 13" << std::endl;
+       // dumpResult(result);
+        //std::cout << "Partial  4<= Z <= 13" << std::endl;
 
 
         if	(result.size() == expected) pass();
         else {
-        	std::cout << "Partial match failed. Expected result " << expected << " got " <<   (int)result.size() <<std::endl;
-           // sprintf(error, "Partial match failed. Expected result size %d. Got %d" ,(int)expected, (int)result.size());
-            //fail(error);
+//std::cout << "Partial match failed. Expected result " << expected << " got " <<   (int)result.size() <<std::endl;
+            sprintf(error, "Partial match failed. Expected result size %d. Got %d" ,(int)expected, (int)result.size());
+            fail(error);
         }
 
         delete q;
@@ -313,16 +313,17 @@ tree->dump();
         
 
 
-        dumpResult(result);
-        std::cout << "EXACT X=9; Y= 16; Z= 20" << std::endl;
+      //  dumpResult(result);
+       // std::cout << "EXACT X=9; Y= 16; Z= 20" << std::endl;
 
-
-        if (result.size() == 1) pass();
+        expected = 1;
+        if (result.size() == expected) pass();
         else {
-        	std::cout << "Exact record match failed" <<std::endl;
+        //	std::cout << "Exact record match failed" <<std::endl;
 
-        	//sprintf(error, "Exact match failed. Expected result size 1. Got %d" , (int)result.size());
-            //fail(error);
+            sprintf(error, "Exact match failed. Expected result size %d. Got %d" ,(int)expected, (int)result.size());
+
+            fail(error);
         }
 
         delete q;
@@ -346,17 +347,17 @@ tree->dump();
         }
 
 
-        dumpResult(result);
+      //  dumpResult(result);
 
-        std::cout << "PARTIAL X>= " << low << std::endl;
+        //std::cout << "PARTIAL X>= " << low << std::endl;
 
 
         if (result.size() == expected) pass();
         else {
-        	std::cout << "Partial match failed. Expected result " << expected << " got " <<   (int)result.size() <<std::endl;
+      //  	std::cout << "Partial match failed. Expected result " << expected << " got " <<   (int)result.size() <<std::endl;
 
-//            sprintf(error, "Exact match failed. Expected result size 8. Got %d" , (int)result.size());
-      //      fail(error);
+            sprintf(error, "Partial match failed. Expected result size %d. Got %d" ,(int)expected, (int)result.size());
+            fail(error);
         }
 
         delete q;
