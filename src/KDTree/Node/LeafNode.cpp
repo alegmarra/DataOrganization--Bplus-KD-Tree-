@@ -25,7 +25,8 @@ LeafNode::~LeafNode() {}
  *td::vector<Record*
  * return Inner node
  *
- * */
+ */
+ 
 Node* LeafNode::grow() {
 
 	/*
@@ -44,12 +45,11 @@ Node* LeafNode::grow() {
 	//Half the elements in each
 	this->level++;
 	Node* newLeaf = NULL;
-	Key* parentKey = this->split( newLeaf);
+	Key* parentKey = this->split(newLeaf);
 
 	//Assigns new number on serialization
 	unsigned parentLeft = NodeSerializer::serializeNode(this);
 	unsigned parentRight = NodeSerializer::serializeNode(newLeaf);
-
 
 	newInner->setLeft(parentLeft);
 	newInner->addPair(new PairKeyNode(parentKey, parentRight));

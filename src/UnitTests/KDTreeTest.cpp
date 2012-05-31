@@ -83,7 +83,7 @@ private:
             {10, 17, 19}
         };
         
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 8; i++) {
             id = new ID(k);
             id->addKey(X, new IntKey(datos[i][0], 8));
             id->addKey(Y, new IntKey(datos[i][1], 8));

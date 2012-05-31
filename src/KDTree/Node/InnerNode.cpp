@@ -1,5 +1,4 @@
 #include "InnerNode.h"
-#include <iostream>
 #include "../RecordID/KeyFactory.h"
 #include "../RecordID/Key.h"
 #include "../../Exceptions/InvalidOperationException.cpp"
@@ -17,7 +16,6 @@ int InnerNode::insert(Record* record) {
 	ID* id = record->getID();
 
 	Key* inRecordKey = getKeyByLevel(id, level);
-
     int result;
 
 	while(it < elements.end()){
@@ -47,6 +45,10 @@ int InnerNode::insert(Record* record) {
 	}
 
 	//Key > all elements
+	if (it == elements.end()) {
+	    it -= 1;
+	}
+	
 	Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 	result = next->insert(record);
 	if (result == 2)
