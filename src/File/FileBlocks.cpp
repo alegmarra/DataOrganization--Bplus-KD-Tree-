@@ -34,9 +34,8 @@ FileBlocks::FileBlocks(const char * path, unsigned blockSize)
             buffer[i] = '#';
 
 		f_space = fopen(listPath.c_str(), "wb+");
-		fwrite(buffer, 1, (blockSize-1), f_space);
+		fwrite(buffer, 1, (blockSize), f_space);
 
-		//updateSpace(0, (blockSize-1));
 		delete[] buffer;
 	}
 
@@ -73,7 +72,7 @@ unsigned FileBlocks::getBlockSize(){
 
 void FileBlocks::updateSpace(unsigned blockNumber,unsigned occupied){
 
-	int freeSpace = (blockSize-1) - occupied;
+	int freeSpace = (blockSize) - occupied;
 
 	if(freeSpace < 0)
 		throw InvalidOperationException("Overflow in a file Block ");
@@ -131,8 +130,8 @@ int FileBlocks::insert(void* object, unsigned blockNumber, unsigned insertionSiz
     else
         buffer = (char*) object;
 	//writes the buffer from blocks beginning
-	result = fwrite ( buffer ,1, (blockSize -1), pFile );
-    if (result != (blockSize -1)) return result;
+	result = fwrite ( buffer ,1, (blockSize), pFile );
+    if (result != (blockSize)) return result;
 
     updateSpace(blockNumber, insertionSize);
 
@@ -161,7 +160,7 @@ int FileBlocks::update(void* object, unsigned blockNumber, unsigned updateSize){
 	delete[] buffer;
 
 	size_t result;
-	unsigned offset = (blockNumber * (blockSize - 1));
+	unsigned offset = (blockNumber * (blockSize));
 
 	reset();
 	//Seeks blocks beginning
@@ -182,15 +181,15 @@ int FileBlocks::update(void* object, unsigned blockNumber, unsigned updateSize){
 		buffer = (char*) (object);
 
 	//writes the buffer from blocks beginning
-	result = fwrite(buffer, 1, (blockSize - 1), pFile);
-	if (result != (blockSize - 1))
+	result = fwrite(buffer, 1, (blockSize), pFile);
+	if (result != (blockSize))
 		return 0;
 
 	updateSpace(blockNumber, updateSize);
 
     delete[] buffer;
 
-    if (result != blockSize-1) return 0;
+    if (result != blockSize) return 0;
 
     return 1;
 }
@@ -223,7 +222,7 @@ void* FileBlocks::find(void* object){
 
     // seek blocks begining
 	unsigned blockNumber = *((unsigned*)object);
-    unsigned offset = (blockNumber * (blockSize-1));
+    unsigned offset = (blockNumber * (blockSize));
 
     size_t result = fseek(pFile, offset, SEEK_SET);
     if (result != 0){
@@ -232,8 +231,8 @@ void* FileBlocks::find(void* object){
     }
 
     // copy the block into the buffer:
-    result = fread (buffer,1, (blockSize-1) ,pFile);
-    if (result != (blockSize-1)){
+    result = fread (buffer,1, (blockSize) ,pFile);
+    if (result != (blockSize)){
     	delete[] buffer;
     	return NULL;
     }
