@@ -208,7 +208,7 @@ std::vector<Record*> LeafNode::sortBy(unsigned level)
 		Key* key = getKeyByLevel((*it)->getID(), level);
 		
 		for (parentIt = parentKeySorted.begin(); parentIt < parentKeySorted.end(); parentIt++) {
-			if (getKeyByLevel((*parentIt)->getID(), level)->compareTo(key) < 0) {
+			if (getKeyByLevel((*parentIt)->getID(), level)->compareTo(key) > 0) {
 				parentIt = parentKeySorted.insert(parentIt, *it);
 				break;
 			}
