@@ -260,9 +260,11 @@ std::cout<< "SPLIT" <<std::endl;
 	int lowLimit = (elements.size()/2);
 	int highLimit = (elements.size());
 
+
 	for(int i = lowLimit; i< highLimit; i++) {
 		newNode->insert(elements[i]);
 	}
+
 
 
 	Key * parentKey = getKeyByLevel(elements.at(lowLimit)->getID(), level-1);
