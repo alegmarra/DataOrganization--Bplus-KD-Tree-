@@ -42,7 +42,7 @@ int InnerNode::insert(Record* record) {
 			Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 			result = next->insert(record);
 			if (result == 2) {
-				return manageOverflow((*it)->getNode(), next, ++it);
+				return manageOverflow((*it)->getNode(), next, it + 1);
 			} else {
 			    if (result == 1) {
 			        NodeSerializer::serializeNode(next, (*it)->getNode());
@@ -81,8 +81,8 @@ int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
 		Node* newLeaf = NULL;
 
 		Key* newKey = oldLeaf->split(newLeaf);
+		
 		NodeSerializer::serializeNode(oldLeaf, oldNumber);
-
 		unsigned next;
 		next = NodeSerializer::serializeNode(newLeaf);
 
