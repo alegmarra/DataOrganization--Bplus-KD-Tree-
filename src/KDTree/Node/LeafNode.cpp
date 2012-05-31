@@ -111,7 +111,8 @@ std::cout << "EnLeaf - ID: " << x->getValue() << " " << y->getValue() << " " << 
 	}
 
 	occupiedSpace += record->size();
-
+std::cout << "Record Size: " << record->size() <<std::endl;
+std::cout << "Occupied: " << occupiedSpace << std::endl;
 	//Checks for overflow
 	if (occupiedSpace > maxSize){
 		return 2;

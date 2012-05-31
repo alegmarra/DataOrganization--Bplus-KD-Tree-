@@ -62,6 +62,7 @@ std::cout << "Sigo por (==0): " << (*it)->getNode() << std::endl;
 std::cout << "Sigo por (end): " << (*it)->getNode() << std::endl;
 	Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 	result = next->insert(record);
+std::cout << "El resultado es " << result << std::endl;
 	if (result == 2)
 		return manageOverflow((*it)->getNode(), next, ++it);
 

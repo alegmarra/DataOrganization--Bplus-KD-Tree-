@@ -9,7 +9,7 @@
 #include "RecordID/ID.h"
 
 #ifndef K
-#define K 5
+#define K 3
 #endif
 
 Record::Record() {
