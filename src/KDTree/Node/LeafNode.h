@@ -21,6 +21,8 @@ public:
     virtual Key* split(Node*& newNode);
     virtual Node* grow();
 
+    void dump();
+
 	int serialize(char* buffer);
 	int deserialize(const char* buffer);
 

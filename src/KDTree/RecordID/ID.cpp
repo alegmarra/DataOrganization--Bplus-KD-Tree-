@@ -1,11 +1,5 @@
-/*
- * ID.cpp
- *
- *  Created on: May 7, 2012
- *      Author: AleMarra
- */
-
 #include "ID.h"
+#include <iostream>
 #include "KeyFactory.h"
 #include "../../Exceptions/NonExistingDimensionException.h"
 
@@ -81,4 +75,19 @@ bool ID::equalsTo(ID* id) {
     }
 
     return iguales;
+}
+
+void ID::dump()
+{
+    std::cout << "(";
+    
+    for (int i = 0; i < dimensions; i++) {
+        keys[i]->dump();
+        
+        if (i < dimensions - 1) {
+            std::cout << ",";
+        }
+    }
+ 
+    std::cout << ")";   
 }

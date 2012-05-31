@@ -22,6 +22,8 @@ class PairKeyNode{
         /** size en bytes */
         unsigned getSize();
 
+        void dump();
+
         ~PairKeyNode();
 };
 

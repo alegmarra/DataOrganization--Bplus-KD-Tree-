@@ -41,6 +41,8 @@ public:
 	int serialize(char* buffer);
 	int deserialize(const char* buffer);
 
+    void dump();
+
 	virtual ~ID();
 
 private:
