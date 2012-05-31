@@ -8,16 +8,17 @@
 unsigned KeyFactory::k = 5;
 
 Key* KeyFactory::getKey(unsigned level) {
-    
-    return new IntKey(8);
-    
-    switch (level % k) {
-        case LINEA:     return new Linea();
-        case FRANJA:    return new FranjaHoraria();
-        case FALLA:     return new Falla();
-        case ACCIDENTE: return new Accidente();
-        case FORMACION: return new Formacion();
-        default: return NULL;
+    if (k != 5)
+        return new IntKey(8);
+    else {
+        switch (level % k) {
+            case LINEA:     return new Linea();
+            case FRANJA:    return new FranjaHoraria();
+            case FALLA:     return new Falla();
+            case ACCIDENTE: return new Accidente();
+            case FORMACION: return new Formacion();
+            default: return NULL;
+        }
     }
 }
 

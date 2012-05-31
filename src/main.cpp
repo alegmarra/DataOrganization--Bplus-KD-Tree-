@@ -26,17 +26,6 @@ int main(int argc, char * argv[])
 	test->run();
 	delete test;
 
-<<<<<<< HEAD
-//    test = new SerializersTest();
-//    test->run();
-//    delete test;
-//
-//    test = new NodeTest();
-//    test->run();
-//    delete test;
-
-    test = new KDTreeTest();;
-=======
     test = new SerializersTest();
     test->run();
     delete test;

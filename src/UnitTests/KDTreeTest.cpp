@@ -4,12 +4,20 @@
 #include "Test.cpp"
 #include <vector>
 #include <iostream>
+#include <stdlib.h>
+#include <time.h>
+#include "../KDTree/RecordID/Linea.h"
+#include "../KDTree/RecordID/FranjaHoraria.h"
+#include "../KDTree/RecordID/Falla.h"
+#include "../KDTree/RecordID/Accidente.h"
+#include "../KDTree/RecordID/Formacion.h"
+#include "../KDTree/RecordID/KeyFactory.h"
 
 #define X 0
 #define Y 1
 #define Z 2
 
-class KDTreeTest: public Test 
+class KDTreeTest: public Test
 {
 
 private:
@@ -24,16 +32,17 @@ public:
 
     KDTreeTest(int _q): Test("KDTree")
     {
-q=_q;
+        srand(time(NULL));
+        q=_q;
         blockSize = 200;
         path = "/tmp/test_FindByQuery.bin";
 		spacePath = "/tmp/test_FindByQuery_space.bin";
         k = 3;
-    
+
         cleanUp();
     }
-    
-    ~KDTreeTest() 
+
+    ~KDTreeTest()
     {
         remove(path);
 		remove(spacePath);
@@ -45,11 +54,12 @@ q=_q;
 		//test_Constructor_NewFile_NoError();
 
         test_FindByQuery();
+        test_Full_NonSense_records();
 	}
 
 private:
 
-    void cleanUp() 
+    void cleanUp()
     {
 		remove(path);
 		remove(spacePath);
@@ -59,6 +69,7 @@ private:
     {
         std::vector< Record * > records_list;
         ID * id;
+        KeyFactory::setDimensions(3);
 /*
         int datos[20][3] = {
             {1,  8,  12},
@@ -184,117 +195,169 @@ int datos[100][3] = {
 {1,10,15},
 {15,17,7},
 {12,4,7}
-};       
-        for (int i = 0; i < q; i++) {
+};
+        int limit = q < 100? q : 100;
+        for (int i = 0; i < limit; i++) {
             id = new ID(k);
             id->addKey(X, new IntKey(datos[i][0], 8));
             id->addKey(Y, new IntKey(datos[i][1], 8));
             id->addKey(Z, new IntKey(datos[i][2], 8));
-        
+
             records_list.push_back(new Record(id));
         }
-        
+
         tree->load(records_list);
 tree->dump();
 
     }
-    
+
     void dumpResult(std::vector< Record * > result)
     {
         ID * id;
-        IntKey * x;  
+        IntKey * x;
         IntKey * y;
         IntKey * z;
-  
+
         std::cout << "========================" << std::endl;
-  
+
         for (int i = 0; i < result.size(); i++) {
             id = result[i]->getID();
             x = dynamic_cast<IntKey *>(id->getKey(X));
             y = dynamic_cast<IntKey *>(id->getKey(Y));
             z = dynamic_cast<IntKey *>(id->getKey(Z));
-        
+
             if (x && y && z) {
                 std::cout << "(" << x->getValue() << ", " << y->getValue() << ", " << z->getValue() << ")" << std::endl;
             }
-        
+
         }
     }
 
     void test_FindByQuery()
     {
         start("FindByQuery");
-        
+
         FileBlocks * f = new FileBlocks(path, blockSize);
         KDtree * tree = new KDtree(k, f);
         Query * q;
         std::vector< Record * > result;
         char error[50];
-  
-        loadTree(tree);      
+
+        loadTree(tree);
 return;
         q = new Query();
         q->addCondition(X, new QueryCondition(new IntKey(1, 8)));
-  
+
         result = tree->find(q);
-        
+
         if (result.size() == 3) pass();
         else {
             sprintf(error, "Partial match failed. Expected result size 3. Got %d" , (int)result.size());
             fail(error);
         }
-        
+
         //dumpResult(result);
         delete q;
 
         q = new Query();
         q->addCondition(Y, new QueryCondition(new IntKey(8, 8), new IntKey(12, 8)));
-  
+
         result = tree->find(q);
-        
+
         if (result.size() == 5) pass();
         else {
             sprintf(error, "Range match failed. Expected result size 5. Got %d" , (int)result.size());
             fail(error);
         }
-  
+
         //dumpResult(result);
         delete q;
-        
+
         q = new Query();
         q->addCondition(X, new QueryCondition(new IntKey(13, 8)));
         q->addCondition(Y, new QueryCondition(new IntKey(3, 8)));
         q->addCondition(Z, new QueryCondition(new IntKey(11, 8)));
-        
+
         result = tree->find(q);
-        
+
         if (result.size() == 1) pass();
         else {
             sprintf(error, "Exact match failed. Expected result size 1. Got %d" , (int)result.size());
             fail(error);
         }
-  
+
         //dumpResult(result);
         delete q;
-        
+
         q = new Query();
         q->addCondition(X, (new QueryCondition())->setLow(new IntKey(10, 8)));
         result = tree->find(q);
-        
+
         if (result.size() == 8) pass();
         else {
             sprintf(error, "Exact match failed. Expected result size 8. Got %d" , (int)result.size());
             fail(error);
         }
-  
+
         //dumpResult(result);
         delete q;
-  
+
         delete tree;
 
         cleanUp();
-        
+
         stop();
     }
+
+    Record* getRand_NonSense_Record() {
+        ID* id = new ID(k);
+        std::string auxString;
+        int stringSize = rand() % 10 + 5;
+        for (int i = 0; i < stringSize; ++i)
+            auxString += rand() % 25 + 65;
+        id->addKey(new Linea(auxString));
+
+        id->addKey(new FranjaHoraria(rand()));
+
+        auxString.clear();
+        stringSize = rand() % 15 + 5;
+        for (int i = 0; i < stringSize; ++i)
+            auxString += rand() % 25 + 65;
+        id->addKey(new Falla(auxString));
+
+        auxString.clear();
+        stringSize = rand() % 15 + 10;
+        for (int i = 0; i < stringSize; ++i)
+            auxString += rand() % 25 + 65;
+        id->addKey(new Accidente(auxString));
+
+        id->addKey(new Formacion(rand() % 2048));
+
+        return new Record(id);
+    }
+
+    void test_Full_NonSense_records()
+    {
+        start("Full_NonSense_records");
+
+        blockSize = 256;
+        path = "/tmp/test_Full.bin";
+		spacePath = "/tmp/test_Full_space.bin";
+        k = 5;
+
+        FileBlocks * f = new FileBlocks(path, blockSize);
+        KDtree * tree = new KDtree(k, f);
+        KeyFactory::setDimensions(k);
+        Record::setDimensions(k);
+        std::vector<Record* > records(q);
+        for (int i = 0; i < q; ++i)
+            records[i] = getRand_NonSense_Record();
+
+        tree->load(records);
+        tree->dump();
+
+        cleanUp();
+    }
+
 
 };

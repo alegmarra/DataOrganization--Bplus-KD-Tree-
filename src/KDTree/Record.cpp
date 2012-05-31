@@ -12,6 +12,8 @@
 #define K 3
 #endif
 
+unsigned Record::k = K;
+
 Record::Record() {
     myID = NULL;
 }
@@ -32,7 +34,7 @@ int Record::serialize(char* buffer) {
 
 int Record::deserialize(const char* buffer) {
     if (!myID)
-        myID = new ID(K);
+        myID = new ID(k);
     return myID->deserialize(buffer);
 }
 
@@ -43,4 +45,8 @@ unsigned Record::size(){
 void Record::dump()
 {
     myID->dump();
+}
+
+void Record::setDimensions(unsigned _k) {
+    k = _k;
 }

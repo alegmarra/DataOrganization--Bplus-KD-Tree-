@@ -33,3 +33,7 @@ int StringKey::serialize(char* buffer) {
 unsigned StringKey::getSize() {
     return value.size()+1;
 }
+
+void StringKey::dump() {
+    std::cout << value;
+}

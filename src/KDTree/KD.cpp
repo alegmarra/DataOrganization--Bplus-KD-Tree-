@@ -33,7 +33,7 @@ void KDtree::setRoot() {
 
 }
 
-void KDtree::load(std::vector<Record*> records){
+void KDtree::load(std::vector<Record*>& records){
 	std::vector<Record*>::iterator it;
 
 	int status;

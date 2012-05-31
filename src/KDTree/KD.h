@@ -24,7 +24,7 @@ public:
 	KDtree(unsigned k, FileAbstract* myFile);
 
 	// TODO Carga los records de la lista
-	void load(std::vector<Record*> records);
+	void load(std::vector<Record*>& records);
 
 	//Inserta el record en el arbol, chequeando que no sea
 	//una entrada duplicada

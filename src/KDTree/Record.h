@@ -24,7 +24,9 @@ class Record : public Serializable {
 
         int serialize(char* buffer);
         int deserialize(const char* buffer);
-        
+
+        static void setDimensions(unsigned _k);
+
         virtual void dump();
 
         virtual ~Record();
@@ -33,7 +35,7 @@ private:
 	ID* myID;
  // Data* data;
 
-
+    static unsigned k;
 };
 
 #endif /* RECORD_H_ */
