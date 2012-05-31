@@ -4,7 +4,7 @@ SOURCES := $(shell find $(SRCPATH) -name *.cpp)
 OBJECTS := $(patsubst $(TARGETPATH)%.cpp,$(TARGETPATH)%.o,$(SOURCES))
 EXECUTABLE=run
 CC=g++ -g
-CFLAGS=-I$(SRCPATH)
+CFLAGS=-I$(SRCPATH) -fno-stack-protector
 
 all: $(EXECUTABLE)
 
