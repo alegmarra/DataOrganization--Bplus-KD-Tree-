@@ -36,5 +36,7 @@ private:
 	std::vector<Record*> sortBy(unsigned level);
 
 	std::vector<Record*> elements;
+    void init();
+
 };
 #endif

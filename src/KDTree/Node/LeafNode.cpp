@@ -1,9 +1,15 @@
 #include "LeafNode.h"
 
 
-LeafNode::LeafNode() : Node() {}
+LeafNode::LeafNode() : Node() {
+    init();
+}
 
 LeafNode::LeafNode(unsigned _level) : Node(_level) {
+    init();
+}
+
+void LeafNode::init() {
     occupiedSpace = 2;  // level + numElements
 }
 
@@ -74,12 +80,6 @@ Node* LeafNode::grow() {
 
 int LeafNode::insert(Record* record) {
 
-ID* id = record->getID();
-IntKey * x = dynamic_cast<IntKey *>(id->getKey(0));  
-IntKey * y = dynamic_cast<IntKey *>(id->getKey(1));  
-IntKey * z = dynamic_cast<IntKey *>(id->getKey(2));  
-std::cout << "EnLeaf - ID: " << x->getValue() << " " << y->getValue() << " " << z->getValue() << std::endl;
-
     std::vector< Record * > result = find(record);
 
 	if (result.size() != 0)
@@ -111,7 +111,7 @@ std::cout << "EnLeaf - ID: " << x->getValue() << " " << y->getValue() << " " << 
 	}
 
 	occupiedSpace += record->size();
-std::cout << "Record Size: " << record->size() <<std::endl;
+
 std::cout << "Occupied: " << occupiedSpace << std::endl;
 	//Checks for overflow
 	if (occupiedSpace > maxSize){
