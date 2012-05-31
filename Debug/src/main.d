@@ -18,13 +18,13 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
  ../src/UnitTests/../File/../Exceptions/InvalidOperationException.cpp \
  ../src/UnitTests/SerializersTest.cpp \
  ../src/UnitTests/../KDTree/Serializers/NodeSerializer.h \
- /home/alemarra/tpDatos/src/KDTree/Node/Node.h \
- /home/alemarra/tpDatos/src/KDTree/Node/../Serializers/Serializable.h \
- /home/alemarra/tpDatos/src/KDTree/Node/../Query/Query.h \
- /home/alemarra/tpDatos/src/KDTree/Node/../Record.h \
- /home/alemarra/tpDatos/src/KDTree/Node/../Serializers/Serializable.h \
- /home/alemarra/tpDatos/src/KDTree/Node/../RecordID/ID.h \
- /home/alemarra/tpDatos/src/KDTree/Node/../RecordID/Key.h \
+ ../src/UnitTests/../KDTree/Serializers/../Node/Node.h \
+ ../src/UnitTests/../KDTree/Serializers/../Node/../Serializers/Serializable.h \
+ ../src/UnitTests/../KDTree/Serializers/../Node/../Query/Query.h \
+ ../src/UnitTests/../KDTree/Serializers/../Node/../Record.h \
+ ../src/UnitTests/../KDTree/Serializers/../Node/../Serializers/Serializable.h \
+ ../src/UnitTests/../KDTree/Serializers/../Node/../RecordID/ID.h \
+ ../src/UnitTests/../KDTree/Serializers/../Node/../RecordID/Key.h \
  ../src/UnitTests/../KDTree/Node/LeafNode.h \
  ../src/UnitTests/../KDTree/Node/Node.h \
  ../src/UnitTests/../KDTree/Node/InnerNode.h \
@@ -42,11 +42,12 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
  ../src/UnitTests/../KDTree/RecordID/Falla.h \
  ../src/UnitTests/../KDTree/RecordID/Accidente.h \
  ../src/UnitTests/../KDTree/RecordID/Formacion.h \
- ../src/UnitTests/NodeTest.cpp ../src/File/FileBlocks.h \
- ../src/KDTree/KD.h \
- /home/alemarra/tpDatos/src/KDTree/Serializers/NodeSerializer.h \
- /home/alemarra/tpDatos/src/KDTree/Query/Query.h \
- ../src/KDTree/../File/FileBlocks.h
+ ../src/UnitTests/NodeTest.cpp ../src/UnitTests/KDTreeTest.cpp \
+ ../src/UnitTests/../KDTree/KD.h \
+ ../src/UnitTests/../KDTree/Serializers/NodeSerializer.h \
+ ../src/UnitTests/../KDTree/Query/Query.h \
+ ../src/UnitTests/../KDTree/../File/FileBlocks.h ../src/File/FileBlocks.h \
+ ../src/KDTree/KD.h
 
 ../src/UnitTests/KeyTest.cpp:
 
@@ -92,19 +93,19 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
 
 ../src/UnitTests/../KDTree/Serializers/NodeSerializer.h:
 
-/home/alemarra/tpDatos/src/KDTree/Node/Node.h:
+../src/UnitTests/../KDTree/Serializers/../Node/Node.h:
 
-/home/alemarra/tpDatos/src/KDTree/Node/../Serializers/Serializable.h:
+../src/UnitTests/../KDTree/Serializers/../Node/../Serializers/Serializable.h:
 
-/home/alemarra/tpDatos/src/KDTree/Node/../Query/Query.h:
+../src/UnitTests/../KDTree/Serializers/../Node/../Query/Query.h:
 
-/home/alemarra/tpDatos/src/KDTree/Node/../Record.h:
+../src/UnitTests/../KDTree/Serializers/../Node/../Record.h:
 
-/home/alemarra/tpDatos/src/KDTree/Node/../Serializers/Serializable.h:
+../src/UnitTests/../KDTree/Serializers/../Node/../Serializers/Serializable.h:
 
-/home/alemarra/tpDatos/src/KDTree/Node/../RecordID/ID.h:
+../src/UnitTests/../KDTree/Serializers/../Node/../RecordID/ID.h:
 
-/home/alemarra/tpDatos/src/KDTree/Node/../RecordID/Key.h:
+../src/UnitTests/../KDTree/Serializers/../Node/../RecordID/Key.h:
 
 ../src/UnitTests/../KDTree/Node/LeafNode.h:
 
@@ -142,12 +143,16 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
 
 ../src/UnitTests/NodeTest.cpp:
 
+../src/UnitTests/KDTreeTest.cpp:
+
+../src/UnitTests/../KDTree/KD.h:
+
+../src/UnitTests/../KDTree/Serializers/NodeSerializer.h:
+
+../src/UnitTests/../KDTree/Query/Query.h:
+
+../src/UnitTests/../KDTree/../File/FileBlocks.h:
+
 ../src/File/FileBlocks.h:
 
 ../src/KDTree/KD.h:
-
-/home/alemarra/tpDatos/src/KDTree/Serializers/NodeSerializer.h:
-
-/home/alemarra/tpDatos/src/KDTree/Query/Query.h:
-
-../src/KDTree/../File/FileBlocks.h:

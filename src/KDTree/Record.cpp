@@ -9,7 +9,7 @@
 #include "RecordID/ID.h"
 
 #ifndef K
-#define K 5
+#define K 3
 #endif
 
 Record::Record() {
@@ -37,11 +37,10 @@ int Record::deserialize(const char* buffer) {
 }
 
 unsigned Record::size(){
-
-
-	/*
-	 * TODO tamaño de DATA
-	 *
-	 */
 	return myID->getSize();
+}
+
+void Record::dump()
+{
+    myID->dump();
 }

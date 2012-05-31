@@ -21,7 +21,7 @@ class Key;
 
 class KDtree {
 public:
-	KDtree(FileAbstract* myFile);
+	KDtree(unsigned k, FileAbstract* myFile);
 
 	// TODO Carga los records de la lista
 	void load(std::vector<Record*> records);
@@ -35,7 +35,9 @@ public:
 	void remove(Record* record);
 
 	//TODO Busqueda punual de un record particular
-	std::vector<Record*> find(Query* query);
+	std::vector< Record * > find(Query* query);
+
+    void dump();
 
 	virtual ~KDtree();
 
@@ -46,7 +48,7 @@ private:
 
 	FileAbstract* treeFile;
 	Node* root;
-
+    unsigned k;
 };
 
 #endif /* KD_H_ */

@@ -21,6 +21,7 @@ class IntKey : public Key {
 
         unsigned getSize();
         int_least64_t getValue();
+        virtual void dump();
     private:
         int_least64_t value;
         unsigned size;

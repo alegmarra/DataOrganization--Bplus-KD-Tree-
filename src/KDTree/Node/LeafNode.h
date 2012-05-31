@@ -18,8 +18,10 @@ public:
     virtual std::vector<Record*> find(Query* query);
     virtual int remove(ID* id);
 
-    virtual Key* split(Node* newNode);
+    virtual Key* split(Node*& newNode);
     virtual Node* grow();
+
+    void dump();
 
 	int serialize(char* buffer);
 	int deserialize(const char* buffer);
@@ -36,5 +38,7 @@ private:
 	std::vector<Record*> sortBy(unsigned level);
 
 	std::vector<Record*> elements;
+    void init();
+
 };
 #endif

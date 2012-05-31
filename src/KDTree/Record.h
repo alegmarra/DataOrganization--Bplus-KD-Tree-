@@ -24,6 +24,8 @@ class Record : public Serializable {
 
         int serialize(char* buffer);
         int deserialize(const char* buffer);
+        
+        virtual void dump();
 
         virtual ~Record();
 

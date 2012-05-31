@@ -9,24 +9,26 @@
 #include "../Exceptions/FileErrorException.h"
 #include "Node/LeafNode.h"
 
-KDtree::KDtree(FileAbstract* myFile){
 
- treeFile = myFile;
-
- setRoot();
-
+KDtree::KDtree(unsigned nDimensions, FileAbstract* myFile)
+{
+    k = nDimensions;
+    treeFile = myFile;
+    setRoot();
 }
 
-void KDtree::setRoot(){
+void KDtree::setRoot() {
 
-  	NodeSerializer::setFile((FileBlocks*)treeFile);
+  	NodeSerializer::setFile((FileBlocks *)treeFile);
+
+    Node::setFullSize(((FileBlocks *)treeFile)->getBlockSize());
 
 	try{
 		root = NodeSerializer::deserializeNode(0);
 	}
 	catch(FileErrorException& e){
-		root= new LeafNode();
-		std::cout << NodeSerializer::serializeNode(root) <<std::endl;
+		root = new LeafNode();
+		NodeSerializer::serializeNode(root);
 	}
 
 }
@@ -36,8 +38,9 @@ void KDtree::load(std::vector<Record*> records){
 
 	int status;
 
-	for(it= records.begin(); it < records.end(); it++){
+	for(it = records.begin(); it < records.end(); it++){
 		status = root->insert(*it);
+
 		if(status == 2)
 			root = root->grow();
 	}
@@ -71,7 +74,18 @@ int KDtree::insert(Record* record){
 	return 1;
 }
 
+std::vector< Record * > KDtree::find(Query* query)
+{
+    return root->find(query);
+}
 
+void KDtree::dump()
+{
+    std::cout << std::endl;
+    std::cout << "Node 0:";
+    root->dump();
+    std::cout << std::endl;
+}
 
 KDtree::~KDtree() {
 	delete treeFile;

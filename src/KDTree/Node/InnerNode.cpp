@@ -1,9 +1,9 @@
 #include "InnerNode.h"
-#include <iostream>
 #include "../RecordID/KeyFactory.h"
 #include "../RecordID/Key.h"
 #include "../../Exceptions/InvalidOperationException.cpp"
 #include "../Serializers/NodeSerializer.h"
+#include <iostream>
 
 InnerNode::InnerNode() : Node() {}
 
@@ -16,40 +16,61 @@ int InnerNode::insert(Record* record) {
 	std::vector<PairKeyNode*>::iterator it = elements.begin();
 	ID* id = record->getID();
 
-	Key* inRecordKey = id->getKey(level % id->getDimensions());
-
-	int result = inRecordKey->compareTo((*it)->getKey());
+	Key* inRecordKey = getKeyByLevel(id, level);
+    int result;
 
 	while(it < elements.end()){
+
+	    result = inRecordKey->compareTo((*it)->getKey());
+
 
 		if (result < 0){
 			Node* next= NodeSerializer::deserializeNode(firstLeft);
 			result = next->insert(record);
+
 			if (result == 2)
 				return manageOverflow(firstLeft, next, ++it);
 
-			else return result;
-		}
-		else
-		if(result == 0){
+			else {
+			    if (result == 1) {
+			        NodeSerializer::serializeNode(next, firstLeft);
+		        }
+			    return result;
+		    }
+
+		} else if(result == 0) {
 			Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 			result = next->insert(record);
-			if (result == 2)
+			if (result == 2) {
 				return manageOverflow((*it)->getNode(), next, ++it);
-
-			else return result;
+			} else {
+			    if (result == 1) {
+			        NodeSerializer::serializeNode(next, (*it)->getNode());
+		        }
+			    return result;
+		    }
+		} else { 
+		    // Handled below
 		}
+		
 		it++;
 	}
 
 	//Key > all elements
+	if (it == elements.end()) {
+	    it -= 1;
+	}
+	
 	Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 	result = next->insert(record);
-	if (result == 2)
-		return manageOverflow((*it)->getNode(), next, ++it);
 
-	else return result;
+	if (result == 2) {
+		return manageOverflow((*it)->getNode(), next, it + 1);
+    } else if (result == 1) {
+        NodeSerializer::serializeNode(next, (*it)->getNode());
+    }
 
+    return result;
 
 }
 
@@ -69,9 +90,7 @@ int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
 
 		elements.insert(position, pair);
 
-	//	TODO occupiedSpace += pair->size();
-
-		delete pair;
+		occupiedSpace += pair->getSize();
 
 		return 1;
 	}
@@ -86,7 +105,7 @@ Node* InnerNode::grow() {
 	throw InvalidOperationException("Called Grow for InnerNode");
 }
 
-Key* InnerNode::split(Node* n) {
+Key* InnerNode::split(Node*& n) {
 	throw InvalidOperationException("Called Split for InnerNode");
 }
 
@@ -94,9 +113,12 @@ void InnerNode::addPair(PairKeyNode* pair){
 
 	std::vector<PairKeyNode*>::iterator it = elements.begin();
 	bool added = false;
+	int result;
 
-	int result =  pair->getKey()->compareTo((*it)->getKey());
 	while((it < elements.end()) && (!added)){
+
+	    result = pair->getKey()->compareTo((*it)->getKey());
+
 		if( result >0)
 			it++;
 		else
@@ -107,9 +129,11 @@ void InnerNode::addPair(PairKeyNode* pair){
 			added = true;
 		}
 	}
+
 	if (!added)
 		elements.push_back(pair);
 
+    numElements++;
 }
 
 
@@ -256,6 +280,26 @@ int InnerNode::deserialize(const char* buffer) {
     }
 
     return bytes;
+}
+
+void InnerNode::dump()
+{
+    std::cout << level << "|" << firstLeft;
+    
+    for (int i = 0; i < elements.size(); i++) {
+        elements[i]->dump();
+    }
+    
+    std::cout << std::endl;
+    std::cout << "Node " << firstLeft << ":";
+    NodeSerializer::deserializeNode(firstLeft)->dump();
+    std::cout << std::endl;
+    
+    for (int i = 0; i < elements.size(); i++) {
+        std::cout << "Node " << elements[i]->getNode() << ":";  
+        NodeSerializer::deserializeNode(elements[i]->getNode())->dump();
+        std::cout << std::endl;
+    }    
 }
 
 InnerNode::~InnerNode() {}

@@ -1,4 +1,5 @@
 #include "IntKey.h"
+#include <iostream>
 #include "../../Exceptions/InvalidIntSizeException.h"
 
 #define MAX_BYTES 8
@@ -48,4 +49,13 @@ int IntKey::deserialize(const char* buffer) {
 
 unsigned IntKey::getSize() {
     return size;
+}
+
+int_least64_t IntKey::getValue() {
+    return value;
+}
+
+void IntKey::dump()
+{
+    std::cout << value;
 }
