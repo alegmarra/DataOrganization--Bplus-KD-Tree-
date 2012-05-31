@@ -141,7 +141,7 @@ std::vector<Record*> LeafNode::find(Record* record){
 		exactQ->addCondition(i, new QueryCondition(record->getID()->getKey(i)));
     }
 
-	std::vector< Record * > result = find(exactQ);
+	std::vector< Record * > result = find(exactQ, record->getID()->getDimensions());
     // TODO Copiar la clave para poder borrar la query safely
 	//delete exactQ;
 	return result;
@@ -158,7 +158,7 @@ std::vector<Record*> LeafNode::find(Record* record){
  * @throw FileNotSetException, FileErrorException,
  * 		  InvalidOperationException
  */
-std::vector<Record*> LeafNode::find(Query* query){
+std::vector<Record*> LeafNode::find(Query* query, unsigned dimensions){
 
 	std::vector<Record*>  matchingRecords;
 	unsigned passed = 0;
@@ -170,7 +170,7 @@ std::vector<Record*> LeafNode::find(Query* query){
 	    passed = 0;
 
 		//For each Key that element has
-		for(unsigned i = 0; i < (*it)->getID()->getDimensions(); i++){
+		for(unsigned i = 0; i < dimensions; i++){
 
 			Key* key = (*it)->getID()->getKey(i);
 			//If the Key passes the condition
@@ -184,7 +184,7 @@ std::vector<Record*> LeafNode::find(Query* query){
 		}
 
 		//If every condition in the query passed
-		if(passed == (*it)->getID()->getDimensions())
+		if(passed == dimensions)
 			matchingRecords.push_back(*it);
 	}
 
@@ -214,8 +214,15 @@ int LeafNode::remove(ID* id){
 }
 
 
+<<<<<<< HEAD
 
 std::vector<Record*> LeafNode::sortBy(unsigned level)
+=======
+/*
+ * Sorts elements by Key corresponding to level%dimensions
+ */
+std::vector<Record*> LeafNode::sortBy(unsigned level)
+>>>>>>> a926294de6c6a324d4b7e6e26da623f6236ee2ac
 {
     std::vector<Record*>::iterator it;
 	std::vector<Record*>::iterator parentIt;
@@ -240,41 +247,77 @@ std::vector<Record*> LeafNode::sortBy(unsigned level)
 	return parentKeySorted;
 }
 
+
+
 /*
- * Elements must be pre-ordered
- * Record that caused the overflow already
- * in Elements
+ * Iterates over elements in order to find the best
+ * split pivot.
+ * Has big impact in the way the tree keeps balance.
+ */
+int LeafNode::findLowLimit(Key* parentKey){
+
+	int lowLimit = 0;//=1
+	int halfLimit = (elements.size()/2);
+	int highLimit = (elements.size());
+
+	//Searches for the first element wich key is lower than parent key
+	while((lowLimit < (highLimit -1)) &&
+		  (getKeyByLevel(elements.at(lowLimit)->getID(), level-1)->compareTo(parentKey) < 0)){
+
+		//Element[i], lower than parent key, stays in this leaf
+		lowLimit++;
+	}
+
+	if (lowLimit == 0){
+		//First element key equals parentkey
+		//Splits in a more balanced way
+		while((lowLimit < halfLimit) &&
+			  (getKeyByLevel(elements.at(lowLimit)->getID(), level-1)->compareTo(parentKey) <= 0)){
+
+			//Element[i], lower than parent key, stays in this leaf
+			lowLimit++;
+		}
+	}
+
+	return lowLimit;
+
+}
+
+
+/*
+ * @pre	Record that caused the overflow already in elements
  *
- * Instantiates a new leaf, passes to it the upper
- * half of its elements, and its level.
+ * @brief	Instantiates a new leaf, passes to it the upper
+ * 			part of its elements, and its level.
  *
- * returns new leaf in @newNode param
+ * @return	new leaf in @newNode param
  *
- * returns middle key in return
+ * @return	middle key in return
  *
  */
 Key* LeafNode::split(Node*& newNode) {
 
 	newNode = new LeafNode(level);
 
-	//Leaf has its records ordered by Key[level]
+	//Leaf has its records ordered by Key[level%dimension]
 	elements = sortBy(level-1);
 
-	int lowLimit = (elements.size()/2);
+	int halfLimit = (elements.size()/2);
+
+	Key * parentKey = getKeyByLevel(elements.at(halfLimit)->getID(), level-1);
+
+	int lowLimit = 0;
 	int highLimit = (elements.size());
 
+	//finds the best split pivot.
+	lowLimit = findLowLimit(parentKey);
 
+	//Passes every element with key equal or higher than parent key to newLeaf
 	for(int i = lowLimit; i< highLimit; i++) {
 		newNode->insert(elements[i]);
 	}
 
-
-
-
-	Key * parentKey = getKeyByLevel(elements.at(lowLimit)->getID(), level-1);
-
-
-
+	//Updates space and elements in this leaf
 	for(int i = lowLimit; i< highLimit; i++){
 		occupiedSpace -= elements[lowLimit]->size();
 		elements.erase(elements.begin() + lowLimit);
@@ -283,13 +326,7 @@ Key* LeafNode::split(Node*& newNode) {
 	//Updates data
 	numElements = lowLimit;
 
-	std::cout<< "NumElements "<< numElements <<std::endl;
-	std::cout<< "occupiedSpace "<< occupiedSpace <<std::endl;
-	std::cout<< "END SPLIT" <<std::endl;
-
-
 	return parentKey;
-
 }
 
 

@@ -23,21 +23,39 @@ class KDtree {
 public:
 	KDtree(unsigned k, FileAbstract* myFile);
 
-	// TODO Carga los records de la lista
-	void load(std::vector<Record*>& records);
+	/*
+	 * @brief	Inserts all records in tree
+	 *
+	 * @return	0 succesfull insertion
+	 * 			1 at least one duplicated record
+	 * 			  was not inserted
+	 */
+	int load(std::vector<Record*>& records);
 
-	//Inserta el record en el arbol, chequeando que no sea
-	//una entrada duplicada
+
+	/*
+	 * @brief	Inserts record in tree
+	 *
+	 * @return	0 succesfull insertion
+	 * 			1 duplicated record
+	 */
 	int insert(Record* record);
 
-	//TODO Si se encuentra, borra la entrada del arbol
-	//Record* o ID* ¿?¿?
-	void remove(Record* record);
+
+	/*
+	 * @brief	Remove the Record with @id
+	 *
+	 * @return	0 if removed
+	 * 			1 if not found
+	 */
+	int remove(Record* record);
 
 	//TODO Busqueda punual de un record particular
 	std::vector< Record * > find(Query* query);
 
+
     void dump();
+
 
 	virtual ~KDtree();
 
@@ -48,7 +66,7 @@ private:
 
 	FileAbstract* treeFile;
 	Node* root;
-    unsigned k;
+    unsigned dimensions;
 };
 
 #endif /* KD_H_ */

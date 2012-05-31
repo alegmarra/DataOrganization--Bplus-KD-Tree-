@@ -47,8 +47,9 @@ int Query::eval(unsigned dimension, Key * k)
             return it->second[i]->eval(k);
         }
     }
-
-    return 0;
+//CAMBIO
+    return 4;
+    //return 0;
 }
 
 Query::~Query()

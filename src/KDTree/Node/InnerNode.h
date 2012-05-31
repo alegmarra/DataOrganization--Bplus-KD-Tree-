@@ -11,7 +11,7 @@ class InnerNode: public Node{
         InnerNode(unsigned _level);
 
     	virtual int insert(Record* record);
-    	virtual std::vector<Record*> find(Query* query);
+    	virtual std::vector<Record*> find(Query* query, unsigned dimensions);
 
     	virtual int remove(ID* id);
 
@@ -40,6 +40,13 @@ class InnerNode: public Node{
 
     	std::vector<Record*> findInRange(unsigned prevNode, Query* query,
         					 std::vector<PairKeyNode*>::iterator it);
+
+
+
+    	std::vector<Record*> findByCondition(unsigned prevNode, Query* query,
+        					 std::vector<PairKeyNode*>::iterator it, unsigned qCondition,
+        					 unsigned dimensions);
+
 
     	int manageOverflow(unsigned oldLeafNumber, Node* oldLeaf,
 	 	 	 	  std::vector<PairKeyNode*>::iterator position);
