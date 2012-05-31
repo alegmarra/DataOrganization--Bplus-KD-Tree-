@@ -79,6 +79,13 @@ std::vector< Record * > KDtree::find(Query* query)
     return root->find(query);
 }
 
+void KDtree::dump()
+{
+    std::cout << std::endl;
+    std::cout << "Node 0:";
+    root->dump();
+    std::cout << std::endl;
+}
 
 KDtree::~KDtree() {
 	delete treeFile;

@@ -37,6 +37,8 @@ public:
 	//TODO Busqueda punual de un record particular
 	std::vector< Record * > find(Query* query);
 
+    void dump();
+
 	virtual ~KDtree();
 
 private:

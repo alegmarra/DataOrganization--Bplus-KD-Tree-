@@ -1,4 +1,5 @@
 #include "IntKey.h"
+#include <iostream>
 #include "../../Exceptions/InvalidIntSizeException.h"
 
 #define MAX_BYTES 8
@@ -52,4 +53,9 @@ unsigned IntKey::getSize() {
 
 int_least64_t IntKey::getValue() {
     return value;
+}
+
+void IntKey::dump()
+{
+    std::cout << value;
 }

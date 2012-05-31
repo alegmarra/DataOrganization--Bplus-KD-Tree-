@@ -1,4 +1,5 @@
 #include "LeafNode.h"
+#include <iostream>
 
 
 LeafNode::LeafNode() : Node() {
@@ -112,7 +113,6 @@ int LeafNode::insert(Record* record) {
 
 	occupiedSpace += record->size();
 
-std::cout << "Occupied: " << occupiedSpace << std::endl;
 	//Checks for overflow
 	if (occupiedSpace > maxSize){
 		return 2;
@@ -250,8 +250,6 @@ std::vector<Record*> LeafNode::sortBy(unsigned level)
  */
 Key* LeafNode::split(Node*& newNode) {
 
-std::cout<< "SPLIT" <<std::endl;
-
 	newNode = new LeafNode(level);
 
 	//Leaf has its records ordered by Key[level]
@@ -320,3 +318,11 @@ int LeafNode::deserialize(const char* buffer) {
     return bytes;
 }
 
+void LeafNode::dump()
+{
+    std::cout << level << "|";
+    
+    for (int i = 0; i < elements.size(); i++) {
+        elements[i]->dump();
+    }
+}

@@ -3,15 +3,13 @@
 #include "../RecordID/Key.h"
 #include "../../Exceptions/InvalidOperationException.cpp"
 #include "../Serializers/NodeSerializer.h"
+#include <iostream>
 
 InnerNode::InnerNode() : Node() {}
 
 InnerNode::InnerNode(unsigned _level) : Node(_level) {
     occupiedSpace = 3;
 }
-
-#include <iostream>
-#include "../RecordID/IntKey.h"
 
 int InnerNode::insert(Record* record) {
 
@@ -24,11 +22,8 @@ int InnerNode::insert(Record* record) {
     int i = 0;
 	while(it < elements.end()){
 
-		std::cout << "elements size " << elements.size() << std::endl;
-		std::cout << "i " << i << std::endl;
 		i++;
 
-		std::cout << dynamic_cast<IntKey*>((*it)->getKey())->getValue() << std::endl;
 		result = inRecordKey->compareTo((*it)->getKey());
 
 
@@ -104,8 +99,8 @@ int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
 		PairKeyNode* pair = new PairKeyNode(newKey, next);
 
 
-		elements.insert(position, pair);
 
+		elements.insert(position, pair);
 		occupiedSpace += pair->getSize();
 
 		return 1;
@@ -150,6 +145,7 @@ void InnerNode::addPair(PairKeyNode* pair){
 		elements.push_back(pair);
 
 	numElements++;
+
 }
 
 
@@ -296,6 +292,26 @@ int InnerNode::deserialize(const char* buffer) {
     }
 
     return bytes;
+}
+
+void InnerNode::dump()
+{
+    std::cout << level << "|" << firstLeft;
+    
+    for (int i = 0; i < elements.size(); i++) {
+        elements[i]->dump();
+    }
+    
+    std::cout << std::endl;
+    std::cout << "Node " << firstLeft << ":";
+    NodeSerializer::deserializeNode(firstLeft)->dump();
+    std::cout << std::endl;
+    
+    for (int i = 0; i < elements.size(); i++) {
+        std::cout << "Node " << elements[i]->getNode() << ":";  
+        NodeSerializer::deserializeNode(elements[i]->getNode())->dump();
+        std::cout << std::endl;
+    }    
 }
 
 InnerNode::~InnerNode() {}
