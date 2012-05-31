@@ -47,9 +47,16 @@ Node* NodeSerializer::deserializeNode(unsigned node) {
 
     Node* newNode;
     char* buffer = (char*)file->find(&node);
-    if (!buffer)
-        throw FileErrorException();
+    if (!buffer){
 
+    	std::cout << "FILE ERROR" << std::endl;
+
+    	throw FileErrorException();
+
+
+
+
+    }
     if (buffer[0] & IS_LEAF)
         newNode = new LeafNode();
     else

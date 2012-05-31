@@ -56,8 +56,9 @@ public:
 
 		//test_Constructor_NewFile_NoError();
 
-        test_FindByQuery();
-        //test_Full_NonSense_records();
+        //test_FindByQuery();
+		cleanUp();
+        test_Full_NonSense_records();
 	}
 
 private:
@@ -72,30 +73,7 @@ private:
     {
         ID * id;
         KeyFactory::setDimensions(3);
-/*
-        int datos[20][3] = {
-            {1,  8,  12},
-            {8,  8,  14},
-            {5,  17, 18},
-            {1,  9,  15},
-            {1,  15, 13},
-            {17, 15, 4},
-            {4,  13, 20}, // SPLIT!
-            {11, 14, 12},
-            {20, 18, 18},
-            {9,  29, 13}, //SPLIT!
-            {15, 16, 5},
-            {13, 3,  11},
-            {20, 7,  1},
-            {7,  12, 13},
-            {5,  9,  18},
-            {4,  17, 17},
-            {6,  2,  7},
-            {8,  13, 6},
-            {19, 15, 2},
-            {10, 17, 19}
-        };
-*/
+
 int datos[100][3] = {
 {13,13,16},
 {14,18,12},
@@ -382,7 +360,7 @@ tree->dump();
 
         stop();
     }
-/*
+
     Record* getRand_NonSense_Record() {
         ID* id = new ID(k);
         std::string auxString;
@@ -433,5 +411,5 @@ tree->dump();
         cleanUp();
     }
 
-*/
+
 };
