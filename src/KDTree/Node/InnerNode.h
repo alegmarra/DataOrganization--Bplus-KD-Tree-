@@ -21,7 +21,7 @@ class InnerNode: public Node{
     	virtual Node* grow();
     	virtual Key* split(Node*& newNode);
 
-
+        virtual void dump();
 
         virtual void setLeft(unsigned child);
 

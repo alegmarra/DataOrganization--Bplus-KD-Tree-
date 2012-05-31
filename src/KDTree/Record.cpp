@@ -39,3 +39,8 @@ int Record::deserialize(const char* buffer) {
 unsigned Record::size(){
 	return myID->getSize();
 }
+
+void Record::dump()
+{
+    myID->dump();
+}
