@@ -20,7 +20,15 @@ src/UnitTests/KDTreeTest.d: ../src/UnitTests/KDTreeTest.cpp \
  ../src/UnitTests/../KDTree/../File/../Exceptions/InvalidOperationException.cpp \
  ../src/UnitTests/../KDTree/RecordID/ID.h \
  ../src/UnitTests/../KDTree/RecordID/IntKey.h \
- ../src/UnitTests/../KDTree/RecordID/Key.h ../src/UnitTests/Test.cpp
+ ../src/UnitTests/../KDTree/RecordID/Key.h ../src/UnitTests/Test.cpp \
+ ../src/UnitTests/../KDTree/RecordID/Linea.h \
+ ../src/UnitTests/../KDTree/RecordID/StringKey.h \
+ ../src/UnitTests/../KDTree/RecordID/FranjaHoraria.h \
+ ../src/UnitTests/../KDTree/RecordID/IntKey.h \
+ ../src/UnitTests/../KDTree/RecordID/Falla.h \
+ ../src/UnitTests/../KDTree/RecordID/Accidente.h \
+ ../src/UnitTests/../KDTree/RecordID/Formacion.h \
+ ../src/UnitTests/../KDTree/RecordID/KeyFactory.h
 
 ../src/UnitTests/../KDTree/KD.h:
 
@@ -67,3 +75,19 @@ src/UnitTests/KDTreeTest.d: ../src/UnitTests/KDTreeTest.cpp \
 ../src/UnitTests/../KDTree/RecordID/Key.h:
 
 ../src/UnitTests/Test.cpp:
+
+../src/UnitTests/../KDTree/RecordID/Linea.h:
+
+../src/UnitTests/../KDTree/RecordID/StringKey.h:
+
+../src/UnitTests/../KDTree/RecordID/FranjaHoraria.h:
+
+../src/UnitTests/../KDTree/RecordID/IntKey.h:
+
+../src/UnitTests/../KDTree/RecordID/Falla.h:
+
+../src/UnitTests/../KDTree/RecordID/Accidente.h:
+
+../src/UnitTests/../KDTree/RecordID/Formacion.h:
+
+../src/UnitTests/../KDTree/RecordID/KeyFactory.h:

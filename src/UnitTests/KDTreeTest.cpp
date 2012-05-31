@@ -57,7 +57,7 @@ public:
 		//test_Constructor_NewFile_NoError();
 
         test_FindByQuery();
-        test_Full_NonSense_records();
+        //test_Full_NonSense_records();
 	}
 
 private:
@@ -127,7 +127,7 @@ private:
 {14,11,9},
 {18,3,11},
 {19,13,16},
-{9,16,20},
+{9,16,20}, // EXACT
 {6,3,6},
 {4,19,17},
 {9,16,9},
@@ -271,11 +271,16 @@ tree->dump();
             }
         }
 
-
+        dumpResult(result);
+        std::cout << "Partial X = 1" << std::endl;
 
         if (result.size() == expected) pass();
+        else {
+        	std::cout << "PARTIAL match failed for " << search <<  " Expected result " << expected << " got " <<   (int)result.size() <<std::endl;
+          //  sprintf(error, "Partial match failed. Expected result size %d. Got %d" ,(int)expected, (int)result.size());
+  //          fail(error);
+        }
 
-        dumpResult(result);
         delete q;
 //return;
 
@@ -287,22 +292,25 @@ tree->dump();
         Key* l = new IntKey(low, 8);
         Key* h = new IntKey(high, 8);
 
-        q->addCondition(Y, new QueryCondition(l,h));
-
+        q->addCondition(Z, new QueryCondition(l,h));
+  
         result = tree->find(q);
 
-
         expected= 0;
-        IntKey * y;
+        IntKey * z;
 
         for (int i = 0; i < records_list.size(); i++) {
             id = records_list[i]->getID();
-            y = dynamic_cast<IntKey *>(id->getKey(Y));
+            z = dynamic_cast<IntKey *>(id->getKey(Z));
 
-            if((y->getValue() >=low) && (y->getValue() <=high)){
+            if((z->getValue() >=low) && (z->getValue() <=high)){
             	expected++;
             }
         }
+
+
+        dumpResult(result);
+        std::cout << "Partial  4<= Z <= 13" << std::endl;
 
 
         if	(result.size() == expected) pass();
@@ -312,7 +320,6 @@ tree->dump();
             //fail(error);
         }
 
-        dumpResult(result);
         delete q;
 //return;
         q = new Query();
@@ -321,29 +328,55 @@ tree->dump();
         q->addCondition(Z, new QueryCondition(new IntKey(20, 8)));
 
         result = tree->find(q);
+        
+
+
+        dumpResult(result);
+        std::cout << "EXACT X=9; Y= 16; Z= 20" << std::endl;
+
 
         if (result.size() == 1) pass();
         else {
-        	std::cout << "Exact record match failed. Expected result " << expected << " got " <<   (int)result.size() <<std::endl;
+        	std::cout << "Exact record match failed" <<std::endl;
 
         	//sprintf(error, "Exact match failed. Expected result size 1. Got %d" , (int)result.size());
             //fail(error);
         }
 
-        //dumpResult(result);
         delete q;
-return;
+//return;
         q = new Query();
-        q->addCondition(X, (new QueryCondition())->setLow(new IntKey(10, 8)));
+
+        low= 10;
+
+        q->addCondition(X, (new QueryCondition())->setLow(new IntKey(low, 8)));
         result = tree->find(q);
 
-        if (result.size() == 8) pass();
-        else {
-            sprintf(error, "Exact match failed. Expected result size 8. Got %d" , (int)result.size());
-            fail(error);
+        expected= 0;
+
+        for (int i = 0; i < records_list.size(); i++) {
+            id = records_list[i]->getID();
+            x = dynamic_cast<IntKey *>(id->getKey(X));
+
+            if((x->getValue() >= low)){
+            	expected++;
+            }
         }
 
-        //dumpResult(result);
+
+        dumpResult(result);
+
+        std::cout << "PARTIAL X>= " << low << std::endl;
+
+
+        if (result.size() == expected) pass();
+        else {
+        	std::cout << "Partial match failed. Expected result " << expected << " got " <<   (int)result.size() <<std::endl;
+
+//            sprintf(error, "Exact match failed. Expected result size 8. Got %d" , (int)result.size());
+      //      fail(error);
+        }
+
         delete q;
 
         delete tree;
@@ -352,7 +385,7 @@ return;
 
         stop();
     }
-
+/*
     Record* getRand_NonSense_Record() {
         ID* id = new ID(k);
         std::string auxString;
@@ -403,5 +436,5 @@ return;
         cleanUp();
     }
 
-
+*/
 };
