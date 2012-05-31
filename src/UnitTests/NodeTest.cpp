@@ -63,9 +63,9 @@ public:
 
 		test_LeafSplit_NoError();
 
-/*		test_LeafGrow_NoError();
+		test_LeafGrow_NoError();
 
-		test_InnerInsert_Overflow_Error();
+/*		test_InnerInsert_Overflow_Error();
 
 		test_Find_NoError();
 
@@ -302,12 +302,27 @@ public:
     }
 
 	void test_LeafGrow_NoError(){
-//	    start("LeafGrow_NoError");
-//
-//        Node* root = new LeafNode(0);
-//
-//
-//        stop();
+	    start("LeafGrow_NoError");
+        treeFile->deleteData();
+
+        Node* root = new LeafNode(0);
+        int maxElements = (blockSize * 0.75) / getRandRecord()->size();  // memory leak :D
+        for (int i = 0; i < maxElements; ++i)
+            root->insert(getRandRecord());
+
+        root = root->grow();
+        InnerNode* grownRoot = dynamic_cast<InnerNode* >(root);
+        if (grownRoot)
+            pass();
+        else
+            fail("LeafNode didn't become InnerNode");
+
+        if (grownRoot->getLevel() == 0)
+            pass();
+        else
+            failVerbose(grownRoot->getLevel(), 0, "grown root level = ");
+
+        stop();
 	}
 
 
