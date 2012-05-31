@@ -37,11 +37,5 @@ int Record::deserialize(const char* buffer) {
 }
 
 unsigned Record::size(){
-
-
-	/*
-	 * TODO tamaño de DATA
-	 *
-	 */
 	return myID->getSize();
 }

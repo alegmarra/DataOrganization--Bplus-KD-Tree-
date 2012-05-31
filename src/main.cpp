@@ -6,9 +6,6 @@
 #include "UnitTests/NodeTest.cpp"
 #include "UnitTests/KDTreeTest.cpp"
 
-#include "File/FileBlocks.h"
-#include "KDTree/KD.h"
-
 int main()
 {
 	Test* test;
@@ -29,20 +26,17 @@ int main()
 	test->run();
 	delete test;
 
-    test = new SerializersTest();
-    test->run();
-    delete test;
-
-
+//    test = new SerializersTest();
+//    test->run();
+//    delete test;
+//
     test = new NodeTest();
     test->run();
     delete test;
-/*
+
     test = new KDTreeTest();;
     test->run();
     delete test;
-*/
-
 
     return 0;
 }
