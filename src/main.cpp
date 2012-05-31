@@ -6,13 +6,10 @@
 #include "UnitTests/NodeTest.cpp"
 #include "UnitTests/KDTreeTest.cpp"
 
-#include "File/FileBlocks.h"
-#include "KDTree/KD.h"
-
 int main()
 {
 	Test* test;
-/*
+
 	test = new KeyTest();
 	test->run();
 	delete test;
@@ -36,7 +33,7 @@ int main()
     test = new NodeTest();
     test->run();
     delete test;
-*/
+
     test = new KDTreeTest();;
     test->run();
     delete test;
