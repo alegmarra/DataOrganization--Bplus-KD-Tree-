@@ -32,7 +32,7 @@ int InnerNode::insert(Record* record) {
 			result = next->insert(record);
 
 			if (result == 2)
-				return manageOverflow(firstLeft, next, ++it);
+				return manageOverflow(firstLeft, next, it);
 
 			else return result;
 		}

@@ -18,18 +18,18 @@ private:
     unsigned k;
     const char * path;
     const char * spacePath;
-    
+    int q;
 
 public:
 
-    KDTreeTest(): Test("KDTree")
+    KDTreeTest(int _q): Test("KDTree")
     {
-
+q=_q;
         blockSize = 200;
         path = "/tmp/test_FindByQuery.bin";
 		spacePath = "/tmp/test_FindByQuery_space.bin";
         k = 3;
-
+    
         cleanUp();
     }
     
@@ -90,14 +90,14 @@ int datos[100][3] = {
 {6,4,4},
 {2,9,10},
 {1,2,2},
-{17,18,18},
+{17,18,18}, // 7 SPLIT
 {17,3,12},
 {2,18,13},
 {7,13,5},
-{11,7,19},//11
+{11,7,19},
 {19,17,3},
-{13,1,6},
-{2,5,18},
+{13,1,6},// 13 SPLIT
+{2,5,18},// 14 SPLIT
 {14,15,5},
 {11,10,7},
 {7,19,19},
@@ -185,7 +185,7 @@ int datos[100][3] = {
 {15,17,7},
 {12,4,7}
 };       
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < q; i++) {
             id = new ID(k);
             id->addKey(X, new IntKey(datos[i][0], 8));
             id->addKey(Y, new IntKey(datos[i][1], 8));

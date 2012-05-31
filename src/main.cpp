@@ -5,11 +5,11 @@
 #include "UnitTests/SerializersTest.cpp"
 #include "UnitTests/NodeTest.cpp"
 #include "UnitTests/KDTreeTest.cpp"
-
-int main()
+#include <stdlib.h>
+int main(int argc, char * argv[])
 {
 	Test* test;
-
+/*
 	test = new KeyTest();
 	test->run();
 	delete test;
@@ -26,6 +26,7 @@ int main()
 	test->run();
 	delete test;
 
+<<<<<<< HEAD
 //    test = new SerializersTest();
 //    test->run();
 //    delete test;
@@ -35,6 +36,16 @@ int main()
 //    delete test;
 
     test = new KDTreeTest();;
+=======
+    test = new SerializersTest();
+    test->run();
+    delete test;
+
+    test = new NodeTest();
+    test->run();
+    delete test;
+*/
+    test = new KDTreeTest(atoi(argv[1]));
     test->run();
     delete test;
 
