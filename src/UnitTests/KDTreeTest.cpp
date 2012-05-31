@@ -53,11 +53,17 @@ public:
 
 	virtual void run()
 	{
+		try {
+			//test_Constructor_NewFile_NoError();
 
-		//test_Constructor_NewFile_NoError();
+		    test_FindByQuery();
+		    //test_Full_NonSense_records();
 
-        test_FindByQuery();
-        //test_Full_NonSense_records();
+		} catch (...) {
+			cleanUp();
+			throw;
+		}
+
 	}
 
 private:
@@ -72,7 +78,7 @@ private:
     {
         ID * id;
         KeyFactory::setDimensions(3);
-
+/*
         int datos[20][3] = {
             {1,  8,  12},
             {8,  8,  14},
@@ -95,8 +101,8 @@ private:
             {19, 15, 2},
             {10, 17, 19}
         };
-
-/*int datos[100][3] = {
+*/
+int datos[100][3] = {
 {13,13,16},
 {14,18,12},
 {18,20,8},
@@ -200,7 +206,9 @@ private:
 {1,10,15},
 {15,17,7},
 {12,4,7}
-};*/
+};
+/*
+*/
         int limit = q < 100? q : 100;
         for (int i = 0; i < limit; i++) {
             id = new ID(k);
