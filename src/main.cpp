@@ -25,11 +25,11 @@ int main()
 	test = new FileBlocksTest();
 	test->run();
 	delete test;
-
+/*
     test = new SerializersTest();
     test->run();
     delete test;
-
+*/
     test = new NodeTest();
     test->run();
     delete test;

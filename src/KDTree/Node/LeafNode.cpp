@@ -69,12 +69,22 @@ Node* LeafNode::grow() {
  * @throw FileNotSetException, FileErrorException,
  * 		  InvalidOperationException
  */
+#include <iostream>
+#include "../RecordID/IntKey.h"
+
 int LeafNode::insert(Record* record) {
+
+ID* id = record->getID();
+IntKey * x = dynamic_cast<IntKey *>(id->getKey(0));  
+IntKey * y = dynamic_cast<IntKey *>(id->getKey(1));  
+IntKey * z = dynamic_cast<IntKey *>(id->getKey(2));  
+std::cout << "EnLeaf - ID: " << x->getValue() << " " << y->getValue() << " " << z->getValue() << std::endl;
 
     std::vector< Record * > result = find(record);
 
 	if (result.size() != 0)
 		return 3;
+
 		
 	//Key in level in inserted record ID
 	Key* inRecordKey = record->getID()->getKey(level);
@@ -116,6 +126,7 @@ int LeafNode::insert(Record* record) {
  */
 std::vector<Record*> LeafNode::find(Record* record){
 
+
 	//Generates an exact query, wich has
 	//an exact condition for every key in record
 	Query* exactQ = new Query();
@@ -151,12 +162,13 @@ std::vector<Record*> LeafNode::find(Query* query){
 	//For every element in Node
 	for (it = elements.begin(); it < elements.end(); it++) {
 	    passed = 0;
-	
+
 		//For each Key that element has
 		for(unsigned i = 0; i < (*it)->getID()->getDimensions(); i++){
 
 			Key* key = (*it)->getID()->getKey(i);
 			//If the Key passes the condition
+
 			queryResult = query->eval(i, key);
 			
 			if ((queryResult == Query::EQUAL) || (queryResult == Query::MATCH)) {

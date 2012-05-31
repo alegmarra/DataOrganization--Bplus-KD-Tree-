@@ -10,6 +10,9 @@ InnerNode::InnerNode(unsigned _level) : Node(_level) {
     occupiedSpace = 3;
 }
 
+#include <iostream>
+#include "../RecordID/IntKey.h"
+
 int InnerNode::insert(Record* record) {
 
 	std::vector<PairKeyNode*>::iterator it = elements.begin();
@@ -22,7 +25,14 @@ int InnerNode::insert(Record* record) {
 
 	    result = inRecordKey->compareTo((*it)->getKey());
 
+IntKey * x = dynamic_cast<IntKey *>(id->getKey(0));  
+IntKey * y = dynamic_cast<IntKey *>(id->getKey(1));  
+IntKey * z = dynamic_cast<IntKey *>(id->getKey(2));  
+
+std::cout << "EnInner - ID: " << x->getValue() << " " << y->getValue() << " " << z->getValue() << std::endl;
+
 		if (result < 0){
+std::cout << "Sigo por (<0): " << firstLeft << std::endl;
 			Node* next= NodeSerializer::deserializeNode(firstLeft);
 			result = next->insert(record);
 			if (result == 2)
@@ -31,6 +41,7 @@ int InnerNode::insert(Record* record) {
 			else return result;
 		}
 		else if(result == 0){
+std::cout << "Sigo por (==0): " << (*it)->getNode() << std::endl;
 			Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 			result = next->insert(record);
 			if (result == 2)
@@ -48,7 +59,7 @@ int InnerNode::insert(Record* record) {
 	if (it == elements.end()) {
 	    it -= 1;
 	}
-	
+std::cout << "Sigo por (end): " << (*it)->getNode() << std::endl;
 	Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 	result = next->insert(record);
 	if (result == 2)
