@@ -20,6 +20,10 @@ int InnerNode::insert(Record* record) {
     int result;
 
     int i = 0;
+
+
+
+
 	while(it < elements.end()){
 
 		i++;
