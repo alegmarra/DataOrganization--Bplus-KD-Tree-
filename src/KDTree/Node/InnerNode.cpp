@@ -353,14 +353,14 @@ int InnerNode::deserialize(const char* buffer) {
     level = LEVEL_MASK & buffer[0];
     numElements = buffer[1];
     elements.resize(numElements);
-    firstLeft = buffer[2];
+    firstLeft = (unsigned char)buffer[2];
     int bytes = 3;
     unsigned next;
 
     for (unsigned i = 0; i < numElements; ++i) {
         Key* key = KeyFactory::getKey(level);
         bytes += key->deserialize(buffer + bytes);
-        next = buffer[bytes++];
+        next = (unsigned char)buffer[bytes++];
         elements[i] = new PairKeyNode(key, next);
     }
 

@@ -24,7 +24,8 @@ src/UnitTests/NodeTest.d: ../src/UnitTests/NodeTest.cpp \
  ../src/UnitTests/../File/../Exceptions/InvalidOperationException.cpp \
  ../src/UnitTests/../KDTree/RecordID/IntKey.h \
  ../src/UnitTests/../KDTree/RecordID/Key.h \
- ../src/UnitTests/../KDTree/RecordID/ID.h
+ ../src/UnitTests/../KDTree/RecordID/ID.h \
+ ../src/UnitTests/../KDTree/RecordID/KeyFactory.h
 
 ../src/UnitTests/Test.cpp:
 
@@ -79,3 +80,5 @@ src/UnitTests/NodeTest.d: ../src/UnitTests/NodeTest.cpp \
 ../src/UnitTests/../KDTree/RecordID/Key.h:
 
 ../src/UnitTests/../KDTree/RecordID/ID.h:
+
+../src/UnitTests/../KDTree/RecordID/KeyFactory.h:

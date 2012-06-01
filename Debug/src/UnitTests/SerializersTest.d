@@ -31,7 +31,8 @@ src/UnitTests/SerializersTest.d: ../src/UnitTests/SerializersTest.cpp \
  ../src/UnitTests/../KDTree/RecordID/IntKey.h \
  ../src/UnitTests/../KDTree/RecordID/Falla.h \
  ../src/UnitTests/../KDTree/RecordID/Accidente.h \
- ../src/UnitTests/../KDTree/RecordID/Formacion.h
+ ../src/UnitTests/../KDTree/RecordID/Formacion.h \
+ ../src/UnitTests/../KDTree/RecordID/KeyFactory.h
 
 ../src/UnitTests/Test.cpp:
 
@@ -98,3 +99,5 @@ src/UnitTests/SerializersTest.d: ../src/UnitTests/SerializersTest.cpp \
 ../src/UnitTests/../KDTree/RecordID/Accidente.h:
 
 ../src/UnitTests/../KDTree/RecordID/Formacion.h:
+
+../src/UnitTests/../KDTree/RecordID/KeyFactory.h:

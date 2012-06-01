@@ -29,12 +29,12 @@ unsigned NodeSerializer::serializeNode(Node* node, int nodeNumber) {
     if (nodeNumber == NEW_NODE) {
         blockNumber = file->getFreeBlock();
         if (!file->insert(buffer, blockNumber, bytes))
-            throw FileErrorException();
+            throw FileErrorException("inserting", blockNumber);
     }
     else {
         blockNumber = nodeNumber;
         if (!file->update(buffer, blockNumber, bytes))
-            throw FileErrorException();
+            throw FileErrorException("updating", blockNumber);
     }
 
     delete[] buffer;
@@ -46,11 +46,12 @@ Node* NodeSerializer::deserializeNode(unsigned node) {
 	if (!file)
         throw FileNotSetException();
 
-	Node* newNode= NULL;
-    char* buffer = (char*)file->find(& node);
-    if (!buffer){
-    	throw FileErrorException();
-    }
+	Node* newNode;
+    char* buffer = (char*)file->find(&node);
+
+    if (!buffer)
+        throw FileErrorException("deserializing", node);
+
     if (buffer[0] & IS_LEAF){
         newNode = new LeafNode();
     }
@@ -70,7 +71,6 @@ void NodeSerializer::setFile(const char* filename, unsigned _blockSize) {
 }
 
 void NodeSerializer::setFile(FileBlocks* treeFile) {
-    delete file;
     file = treeFile;
     blockSize = treeFile->getBlockSize();
 }

@@ -42,12 +42,12 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
  ../src/UnitTests/../KDTree/RecordID/Falla.h \
  ../src/UnitTests/../KDTree/RecordID/Accidente.h \
  ../src/UnitTests/../KDTree/RecordID/Formacion.h \
+ ../src/UnitTests/../KDTree/RecordID/KeyFactory.h \
  ../src/UnitTests/NodeTest.cpp ../src/UnitTests/KDTreeTest.cpp \
  ../src/UnitTests/../KDTree/KD.h \
  ../src/UnitTests/../KDTree/Serializers/NodeSerializer.h \
  ../src/UnitTests/../KDTree/Query/Query.h \
- ../src/UnitTests/../KDTree/../File/FileBlocks.h \
- ../src/UnitTests/../KDTree/RecordID/KeyFactory.h
+ ../src/UnitTests/../KDTree/../File/FileBlocks.h
 
 ../src/UnitTests/KeyTest.cpp:
 
@@ -141,6 +141,8 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
 
 ../src/UnitTests/../KDTree/RecordID/Formacion.h:
 
+../src/UnitTests/../KDTree/RecordID/KeyFactory.h:
+
 ../src/UnitTests/NodeTest.cpp:
 
 ../src/UnitTests/KDTreeTest.cpp:
@@ -152,5 +154,3 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
 ../src/UnitTests/../KDTree/Query/Query.h:
 
 ../src/UnitTests/../KDTree/../File/FileBlocks.h:
-
-../src/UnitTests/../KDTree/RecordID/KeyFactory.h:

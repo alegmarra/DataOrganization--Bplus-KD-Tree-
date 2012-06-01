@@ -41,6 +41,8 @@ public:
         path = "/tmp/test_FindByQuery.bin";
 		spacePath = "/tmp/test_FindByQuery_space.bin";
         k = 3;
+        Record::setDimensions(k);
+        KeyFactory::setDimensions(k);
 
         cleanUp();
     }
@@ -64,6 +66,8 @@ public:
 			throw;
 		}
 
+//        test_FindByQuery();
+        test_Full_NonSense_records();
 	}
 
 private:
@@ -275,7 +279,7 @@ tree->dump();
         Key* h = new IntKey(high, 8);
 
         q->addCondition(Z, new QueryCondition(l,h));
-  
+
         result = tree->find(q);
 
         expected= 0;
@@ -310,7 +314,7 @@ tree->dump();
         q->addCondition(Z, new QueryCondition(new IntKey(20, 8)));
 
         result = tree->find(q);
-        
+
 
 
       //  dumpResult(result);
@@ -400,27 +404,38 @@ tree->dump();
     {
         start("Full_NonSense_records");
 
-        blockSize = 256;
-        path = "test_Full.bin";
-		spacePath = "test_Full_space.bin";
-        k = 5;
+        blockSize = 2048;
+        path = "/tmp/test_Full.bin";
+		spacePath = "/tmp/test_Full_space.bin";
+
+		k = 5;
+        KeyFactory::setDimensions(k);
+        Record::setDimensions(k);
 
         remove(path);
         remove(spacePath);
 
         FileBlocks * f = new FileBlocks(path, blockSize);
         KDtree * tree = new KDtree(k, f);
-/*        KeyFactory::setDimensions(k);
+
+        KeyFactory::setDimensions(k);
         Record::setDimensions(k);
+
+
         std::vector<Record* > records(q);
         for (int i = 0; i < q; ++i)
             records[i] = getRand_NonSense_Record();
-
-        tree->load(records);
-        tree->dump();
+//        try {
+            tree->load(records);
+            tree->dump();
+//        }
+//        catch(std::exception& e) {
+//            std::cout << e.what() << std::endl;
+//            cleanUp();
+//        }
 
         cleanUp();
-*/
+
     }
 
 
