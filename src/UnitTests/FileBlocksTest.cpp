@@ -676,4 +676,10 @@ public:
         remove(path);
         stop();
     }
+    
+    ~FileBlocksTest()
+    {
+    	remove(path);
+    	remove(spacePath);
+    }
 };
