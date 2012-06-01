@@ -12,7 +12,10 @@
 #include "../KDTree/RecordID/Formacion.h"
 #include "../KDTree/RecordID/KeyFactory.h"
 
+#include <stdio.h>
+
 #define FILENAME "testFile_nodeSerializer.bin"
+#define FILENAME_SPACE "testFile_nodeSerializer_space.bin"
 
 class SerializersTest : public Test {
     public:
@@ -33,6 +36,8 @@ class SerializersTest : public Test {
 
         ~SerializersTest() {
             NodeSerializer::freeStaticMem();
+			remove(FILENAME);
+			remove(FILENAME_SPACE);
         }
 
     private:
