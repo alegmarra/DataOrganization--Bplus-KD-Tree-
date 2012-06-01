@@ -40,7 +40,7 @@ public:
         path = "/tmp/test_KDTree.bin";
 		spacePath = "/tmp/test_KDTree_space.bin";
 
-        verbose = true;
+        verbose = false;
 
         cleanUp();
     }
@@ -172,9 +172,9 @@ private:
             id = records_list[i]->getID();
             z = dynamic_cast<IntKey *>(id->getKey(Z));
 
-            if((z->getValue() >=low) && (z->getValue() <=high)){
+            if((z->getValue() >= low) && (z->getValue() <= high)) {
             	expected++;
-               	     }
+       	     }
         }
 
         if	(result.size() == expected) pass();
@@ -268,6 +268,17 @@ private:
 
         std::vector<Record* > records = InputParser::recoverRecords(textLog.c_str());
 
+		ID* id = new ID(k);
+
+	    id->addKey(new Linea("Mitre"));
+        id->addKey(new FranjaHoraria(1234567890));
+	    id->addKey(new Falla("Motores 80%"));
+	    id->addKey(new Accidente("choque estacion"));
+	    id->addKey(new Formacion(630));
+
+	    records.push_back( new Record(id));
+
+
         try {
         
             int load_result = tree->load(records);
@@ -292,7 +303,7 @@ private:
         Query* q = new Query();
 
         q->addCondition(LINEA, new QueryCondition(new Linea("Mitre")));
-        q->addCondition(FRANJA, new QueryCondition(new FranjaHoraria(11)));
+        q->addCondition(FRANJA, new QueryCondition(new FranjaHoraria(1234567890)));
         q->addCondition(FALLA, new QueryCondition(new Falla("Motores 80%")));
         q->addCondition(ACCIDENTE, new QueryCondition(new Accidente("choque estacion")));
         q->addCondition(FORMACION, new QueryCondition(new Formacion(630)));

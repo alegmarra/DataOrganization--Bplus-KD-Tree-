@@ -16,14 +16,6 @@ class FranjaHoraria : public IntKey {
         FranjaHoraria();
         FranjaHoraria(int_least64_t value);
         virtual void dump() ;
-        
-        unsigned getFromHour();
-        unsigned getFromMinute();
-        unsigned getToHour();
-        unsigned getToMinute();
-        unsigned getDay();
-        unsigned getMonth();
-        unsigned getYear();
 };
 
 #endif  // FRANJA_HORARIA_H

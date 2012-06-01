@@ -1,5 +1,6 @@
 #include "FranjaHoraria.h"
 #include <iostream>
+#include <time.h>
 
 FranjaHoraria::FranjaHoraria() : IntKey(8) {}
 
@@ -8,19 +9,16 @@ FranjaHoraria::FranjaHoraria(int_least64_t value) : IntKey(value, 8) {}
 
 void FranjaHoraria::dump() 
 {
-    std::cout << std::endl << "Timestamp: " << getValue() <<std::endl; //<< " | " << getFromHour() << ":";
-    exit(2);
-}
+    char * from = new char[6];
+    char * to = new char[6];
+    char * date = new char[12];
+    
+    time_t from_t = (time_t)(getValue() - 60 * 15);
+    time_t to_t   = (time_t)(getValue() + 60 * 15);
+    
+    strftime(from, 6, "%H:%M", gmtime(&from_t));
+    strftime(to, 6, "%H:%M", localtime(&to_t));
+    strftime(date, 12, "%d/%m/%Y", localtime(&from_t));
 
-unsigned FranjaHoraria::getFromHour() 
-{
-    int_least64_t time = getValue();
-    time -= 15 * 60; // Minus 15 minutes
-    return time;
-};
-unsigned FranjaHoraria::getFromMinute() {};
-unsigned FranjaHoraria::getToHour() {};
-unsigned FranjaHoraria::getToMinute() {};
-unsigned FranjaHoraria::getDay() {};
-unsigned FranjaHoraria::getMonth() {};
-unsigned FranjaHoraria::getYear() {};
+    std::cout << from << " - " << to << " " << date;
+}

@@ -94,14 +94,7 @@ public:
 			ID* id = new ID(dimensions);
 
 		    id->addKey(new Linea(set[0]));
-
-            std::istringstream convert(set[4]);
-		    unsigned fh;
-            if ( !(convert >> fh) ) fh = 0;
-std::cout << fh << std::endl;
-            id->addKey(new FranjaHoraria(fh));
-            //id->addKey(new FranjaHoraria(atoi(set[4].c_str())));
-
+            id->addKey(new FranjaHoraria(atoi(set[4].c_str())));
 		    id->addKey(new Falla(set[1]));
 		    id->addKey(new Accidente(set[2]));
 		    id->addKey(new Formacion(atoi(set[3].c_str())));
@@ -109,16 +102,6 @@ std::cout << fh << std::endl;
 	        records.push_back( new Record(id));
 
 		}
-exit(2);
-		ID* id = new ID(dimensions);
-
-	    id->addKey(new Linea("Mitre"));
-        id->addKey(new FranjaHoraria(11));
-	    id->addKey(new Falla("Motores 80%"));
-	    id->addKey(new Accidente("choque estacion"));
-	    id->addKey(new Formacion(630));
-
-	    records.push_back( new Record(id));
 
 		return records;
 	}
