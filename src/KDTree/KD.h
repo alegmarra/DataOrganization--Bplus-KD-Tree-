@@ -1,9 +1,3 @@
-/*
- * KD.h
- *
- *  Created on: Apr 29, 2012
- *      Author:
- */
 
 #ifndef KD_H_
 #define KD_H_
@@ -21,6 +15,7 @@ class Key;
 
 class KDtree {
 public:
+
 	KDtree(unsigned k, FileAbstract* myFile);
 
 	/*
@@ -30,7 +25,7 @@ public:
 	 * 			1 at least one duplicated record
 	 * 			  was not inserted
 	 */
-	int load(std::vector<Record*>& records);
+	int load(std::vector<Record*> records);
 
 
 	/*
@@ -52,6 +47,11 @@ public:
 
 	//TODO Busqueda punual de un record particular
 	std::vector< Record * > find(Query* query);
+
+	/*
+	 * @brief	Deletes all data, leaves tree empty
+	 */
+	void clear();
 
 
     void dump();

@@ -186,27 +186,6 @@ std::vector<Record*> InnerNode::findByCondition(unsigned prevNode, Query* query,
 	return found;
 }
 
-/*
-std::vector<Record*> InnerNode::findInRange(unsigned prevNode, Query* query,
-					std::vector<PairKeyNode*>::iterator it) {
-
-	std::vector<Record*> found;
-	found = NodeSerializer::deserializeNode(prevNode)->find(query);
-
-	while ((query->eval(level, (*it)->getKey()) == Query::MATCH)
-			&& (it < elements.end())) {
-
-		std::vector<Record*> partial;
-		partial = NodeSerializer::deserializeNode((*it)->getNode())->find(
-				query);
-		found.insert(found.end(), partial.begin(), partial.end());
-		it++;
-	}
-	return found;
-}
-*/
-
-
 std::vector<Record*> InnerNode::find(Record* record){
 
 	//Generates an exact query, wich has
@@ -249,18 +228,6 @@ std::vector<Record*> InnerNode::find(Query* query, unsigned dimensions){
 
 			//std::cout << "EQUAL " << firstLeft<< std::endl;
 
-/*
-			std::vector<Record*> partial;
-
-			while((query->eval(level, (*it)->getKey()) == Query::EQUAL)
-					 && (it < elements.end())){
-
-				partial = NodeSerializer::deserializeNode((*it)->getNode())->find(query);
-				found.insert(found.end(), partial.begin(), partial.end());
-				it++;
-			}
-			return found;
-*/
 			return findByCondition(firstLeft, query, it,Query::EQUAL, dimensions);
 		}
 

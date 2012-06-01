@@ -12,7 +12,7 @@
 
 KDtree::KDtree(unsigned nDimensions, FileAbstract* myFile)
 {
-    dimensions = nDimensions;
+	dimensions = nDimensions;
     treeFile = myFile;
     setRoot();
 }
@@ -35,7 +35,7 @@ int KDtree::remove(Record* record){
  */
 void KDtree::setRoot() {
 
-
+	Record::setDimensions(dimensions);
   	NodeSerializer::setFile((FileBlocks *)treeFile);
     Node::setFullSize(((FileBlocks *)treeFile)->getBlockSize());
 
@@ -56,7 +56,7 @@ void KDtree::setRoot() {
  * @return	0 succesfull insertion
  * 			1 duplicated record
  */
-int KDtree::load(std::vector<Record*>& records){
+int KDtree::load(std::vector<Record*> records){
 	std::vector<Record*>::iterator it;
 
 	int returnStatus = 0;
@@ -123,6 +123,13 @@ void KDtree::dump()
     root->dump();
     std::cout << std::endl;
 }
+
+void KDtree::clear(){
+
+	treeFile->deleteData();
+	setRoot();
+}
+
 
 KDtree::~KDtree() {
 	delete treeFile;

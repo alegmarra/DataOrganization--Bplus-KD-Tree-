@@ -58,7 +58,8 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
  /home/alemarra/tpDatos/src/KDTree/RecordID/Falla.h \
  /home/alemarra/tpDatos/src/KDTree/RecordID/Accidente.h \
  /home/alemarra/tpDatos/src/KDTree/RecordID/Formacion.h \
- /home/alemarra/tpDatos/src/KDTree/RecordID/KeyFactory.h
+ /home/alemarra/tpDatos/src/KDTree/RecordID/KeyFactory.h \
+ ../src/KDTree/KD.h ../src/InputParser.cpp
 
 ../src/UnitTests/KeyTest.cpp:
 
@@ -187,3 +188,7 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
 /home/alemarra/tpDatos/src/KDTree/RecordID/Formacion.h:
 
 /home/alemarra/tpDatos/src/KDTree/RecordID/KeyFactory.h:
+
+../src/KDTree/KD.h:
+
+../src/InputParser.cpp:

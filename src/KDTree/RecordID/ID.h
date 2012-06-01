@@ -61,7 +61,7 @@ public:
 private:
 
 	std::vector<Key*> keys;
-	const unsigned dimensions;
+	unsigned dimensions;
 };
 
 #endif /* ID_H_ */

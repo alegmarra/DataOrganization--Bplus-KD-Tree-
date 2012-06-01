@@ -345,7 +345,7 @@ int LeafNode::deserialize(const char* buffer) {
     int bytes = 2;
 
     for (unsigned i = 0; i < numElements; ++i) {
-        Record* aux = new Record;
+        Record* aux = new Record();
         bytes += aux->deserialize(buffer + bytes);
         elements[i] = aux;
     }
