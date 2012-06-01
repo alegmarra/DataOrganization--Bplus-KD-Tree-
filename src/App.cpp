@@ -58,6 +58,7 @@ public:
 		routes["delete"] = DELETE;
 		routes["show"] = SHOW;
 		routes["help"] = HELP;
+
 		fields["linea"] = LINEA;
 		fields["franja"] = FRANJA;
 		fields["falla"] = FALLA;
@@ -231,6 +232,7 @@ private:
 			while (indx < line.size()) {
 				std::string word;
 				chr = line[indx];
+
 				do {
 					word += chr;
 					indx++;
@@ -238,6 +240,9 @@ private:
 				} while ((chr != '=') && (indx < line.size()));
 				field.push_back(word);
 				indx++;
+				if(line[indx] == '"')
+					indx++;
+
 			}
 
 			recordsList.push_back(field);
