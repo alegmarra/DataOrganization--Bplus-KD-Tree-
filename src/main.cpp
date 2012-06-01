@@ -1,43 +1,25 @@
-#include "UnitTests/KeyTest.cpp"
-#include "UnitTests/ConditionTest.cpp"
-#include "UnitTests/QueryTest.cpp"
-#include "UnitTests/FileBlocksTest.cpp"
-#include "UnitTests/SerializersTest.cpp"
-#include "UnitTests/NodeTest.cpp"
-#include "UnitTests/KDTreeTest.cpp"
+#include "App.cpp"
 
 int main(int argc, char * argv[])
 {
-	Test* test;
+    App app;
 
-	test = new KeyTest();
-	test->run();
-	delete test;
-
-    test = new ConditionTest();
-    test->run();
-    delete test;
-
-    test = new QueryTest();
-    test->run();
-	delete test;
-
-	test = new FileBlocksTest();
-	test->run();
-	delete test;
-
-    test = new SerializersTest();
-    test->run();
-    delete test;
-
-    test = new NodeTest();
-    test->run();
-    delete test;
-
-    test = new KDTreeTest();
-    test->run();
-    delete test;
-
+    if (argc > 1) {
+        app.setAction(argv[1]);
+    }
+    
+    if (argc > 2) {
+        app.setPath(argv[2]);
+    }
+    
+    if (argc > 3) {
+        for (int i = 3; i < argc; i++) {
+            app.addArg(argv[i]);
+        }
+    }
+    
+    app.run();
+        
     return 0;
 }
 

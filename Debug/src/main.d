@@ -1,4 +1,4 @@
-src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
+src/main.d: ../src/main.cpp ../src/App.cpp ../src/UnitTests/KeyTest.cpp \
  ../src/UnitTests/../KDTree/RecordID/StringKey.h \
  ../src/UnitTests/../KDTree/RecordID/Key.h \
  ../src/UnitTests/../KDTree/RecordID/../../Exceptions/InvalidKeyException.cpp \
@@ -58,7 +58,10 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
  /home/alemarra/tpDatos/src/KDTree/RecordID/Falla.h \
  /home/alemarra/tpDatos/src/KDTree/RecordID/Accidente.h \
  /home/alemarra/tpDatos/src/KDTree/RecordID/Formacion.h \
- /home/alemarra/tpDatos/src/KDTree/RecordID/KeyFactory.h
+ /home/alemarra/tpDatos/src/KDTree/RecordID/KeyFactory.h \
+ ../src/InputParser.cpp ../src/KDTree/KD.h ../src/File/FileBlocks.h
+
+../src/App.cpp:
 
 ../src/UnitTests/KeyTest.cpp:
 
@@ -187,3 +190,9 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
 /home/alemarra/tpDatos/src/KDTree/RecordID/Formacion.h:
 
 /home/alemarra/tpDatos/src/KDTree/RecordID/KeyFactory.h:
+
+../src/InputParser.cpp:
+
+../src/KDTree/KD.h:
+
+../src/File/FileBlocks.h:

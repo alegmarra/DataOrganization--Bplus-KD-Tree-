@@ -297,8 +297,16 @@ void FileBlocks::deleteData() {
 		freeBlocksList.clear();
 		spaceInBlocks.clear();
 	}
-	else
+	else{
 	    pFile = fopen(filename, "wb+");
+
+		std::string s = filename;
+		std::string listPath = s.substr(0, (s.size() -4));
+
+		listPath += "_space.bin";
+
+		fopen(listPath.c_str(), "wb+");
+	}
 }
 
 FileBlocks::~FileBlocks(){

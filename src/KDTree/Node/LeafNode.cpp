@@ -205,6 +205,9 @@ int LeafNode::remove(ID* id){
 
 	for(it = elements.begin(); it < elements.end(); it++)
 		if( id->equalsTo((*it)->getID())){
+			std::cout << "ENCONTRADO " << std::endl;
+			(*it)->dump();
+			std::cout << std::endl;
 			elements.erase(it);
 			numElements--;
 			return 0;

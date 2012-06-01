@@ -4,16 +4,19 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/App.cpp \
 ../src/Comparator.cpp \
 ../src/InputParser.cpp \
 ../src/main.cpp 
 
 OBJS += \
+./src/App.o \
 ./src/Comparator.o \
 ./src/InputParser.o \
 ./src/main.o 
 
 CPP_DEPS += \
+./src/App.d \
 ./src/Comparator.d \
 ./src/InputParser.d \
 ./src/main.d 

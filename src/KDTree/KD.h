@@ -1,10 +1,3 @@
-/*
- * KD.h
- *
- *  Created on: Apr 29, 2012
- *      Author:
- */
-
 #ifndef KD_H_
 #define KD_H_
 #include<iostream>
@@ -53,6 +46,8 @@ public:
 	//TODO Busqueda punual de un record particular
 	std::vector< Record * > find(Query* query);
 
+
+	void clear();
 
     void dump();
 

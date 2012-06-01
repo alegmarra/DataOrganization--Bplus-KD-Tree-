@@ -1,10 +1,3 @@
-/*
- * KD.cpp
- *
- *  Created on: Apr 29, 2012
- *      Author:
- */
-
 #include "KD.h"
 #include "../Exceptions/FileErrorException.h"
 #include "Node/LeafNode.h"
@@ -25,7 +18,12 @@ KDtree::KDtree(unsigned nDimensions, FileAbstract* myFile)
  */
 int KDtree::remove(Record* record){
 
-	return root->remove(record->getID());
+	int result = root->remove(record->getID());
+
+	if (result == 0)
+		NodeSerializer::serializeNode(root, 0);
+
+	return result;
 
 }
 
@@ -35,7 +33,7 @@ int KDtree::remove(Record* record){
  */
 void KDtree::setRoot() {
 
-
+	Record::setDimensions(dimensions);
   	NodeSerializer::setFile((FileBlocks *)treeFile);
     Node::setFullSize(((FileBlocks *)treeFile)->getBlockSize());
 
@@ -48,6 +46,11 @@ void KDtree::setRoot() {
 		NodeSerializer::serializeNode(root);
 	}
 
+}
+
+void KDtree::clear(){
+	treeFile->deleteData();
+	setRoot();
 }
 
 /*

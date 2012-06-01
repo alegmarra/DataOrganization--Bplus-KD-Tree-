@@ -1,10 +1,3 @@
-/*
- * Record.h
- *
- *  Created on: May 7, 2012
- *      Author: AleMarra
- */
-
 #ifndef RECORD_H_
 #define RECORD_H_
 
