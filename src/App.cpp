@@ -684,19 +684,35 @@ man["load"] += "\tDonde '%s%' representa una cadena de caracteres distinta de ']
 man["load"] += "\ty '%d%' representa un número entero";
 
 man["insert"] = "NOMBRE: insert - Inserta un nuevo elemento en el árbol\n";
-man["insert"] += "USO: run insert <key1>=<value1> [<key2>=<value2> [<key3>=<value3>\n";
+man["insert"] += "USO: run insert <tree_path> <key1>=<value1> [<key2>=<value2> [<key3>=<value3>\n";
 man["insert"] += "\t[<key4>=<value4> [<key5>=<value5>]]]]\n";
 man["insert"] += "DESCRIPCION\n";
-man["insert"] += "\tPermite crear e insertar un registro. Cada argumento deber ser\n";
-man["insert"] += "\tun par clave=valor. Para admitir valores con espacios, todo el\n";
-man["insert"] += "\targumento debe estar entre comillas. Sólo una clave es obligatoria.\n";
-man["insert"] += "\tLas claves faltantes serán generadas con el valor más bajo\n";
-man["insert"] += "\tposible para el dominio de esa dimensión. Si el registro ya\n";
-man["insert"] += "\tse encuentra almacenado en el árbol, no se realizará ninguna\n";
-man["insert"] += "\tacción";
+man["insert"] += "\tPermite crear e insertar un registro en el árbol <tree_path>. Cada\n";
+man["insert"] += "\targumento deber ser un par clave=valor. Para admitir valores con\n";
+man["insert"] += "\tespacios, todo el argumento debe estar entre comillas. Sólo una\n";
+man["insert"] += "\tclave es obligatoria. Las claves faltantes serán generadas con el\n";
+man["insert"] += "\tvalor más bajo posible para el dominio de esa dimensión. Si el\n";
+man["insert"] += "\tregistro ya se encuentra almacenado en el árbol, no se realizará\n";
+man["insert"] += "\tninguna acción";
+
+man["find"] = "NOMBRE: find - Realiza una consulta sobre el árbol\n"; 
+man["find"] += "USO: run find <tree_path> <condition1> [<condition2> [<condition3>\n";
+man["find"] += "\t[<condition4> [<condition5>]]]]\n";
+man["find"] += "DESCRIPCION\n";
+man["find"] += "\tPermite realizar una búsqueda sobre el árbol <tree_path> con múltiples\n";
+man["find"] += "\tcondiciones. Los registros encontrados serán mostrados por pantalla.\n";
+man["find"] += "\tCada argumento de condición puede ser de tipo igualdad o rango.\n";
+man["find"] += "\tLos formatos aceptados son:\n";
+man["find"] += "\t  dimension=valor\t\t- Búsqueda por igualdad\n";
+man["find"] += "\t  dimension[desde,hasta]\t- Búsqueda por rango inclusivo\n";
+man["find"] += "\t  dimension[*,hasta]\t\t- Búsqueda 'menor o igual a'\n";
+man["find"] += "\t  dimension[desde,*]\t\t- Búsqueda 'mayor o igual a'\n";
+man["find"] += "\tEl símbolo '*' en uno de los extremos del rango representa al\n";
+man["find"] += "\tinfinito positivo o negativo dependiend del extremo. Para\n";
+man["find"] += "\tadmitir valores con espacios, todo el argumento debe estar entre\n";
+man["find"] += "\tcomillas";
+
 /*
-        routes["insert"] = INSERT;
-        routes["find"] = FIND; 
         routes["remove"] = REMOVE;
         routes["clear"] = CLEAR;
         routes["delete"] = DELETE;
