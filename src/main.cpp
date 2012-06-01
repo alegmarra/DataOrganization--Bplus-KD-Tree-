@@ -5,7 +5,7 @@
 #include "UnitTests/SerializersTest.cpp"
 #include "UnitTests/NodeTest.cpp"
 #include "UnitTests/KDTreeTest.cpp"
-#include <stdlib.h>
+
 int main(int argc, char * argv[])
 {
 	Test* test;
@@ -34,7 +34,7 @@ int main(int argc, char * argv[])
     test->run();
     delete test;
 
-    test = new KDTreeTest(atoi(argv[1]));
+    test = new KDTreeTest();
     test->run();
     delete test;
 
