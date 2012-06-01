@@ -426,7 +426,7 @@ private:
             << "\tfind\t\tRealiza una consulta sobre el árbol" << std::endl
             << "\tremove\t\tElimina un registro del árbol" << std::endl
             << "\tclear\t\tVacía el contenido del árbol" << std::endl
-            << "\tdelete\t\Borra todos los archivos relacionados " << std::endl
+            << "\tdelete\t\tBorra todos los archivos relacionados " << std::endl
             << "\tshow\t\tMuestra el contenido del árbol" << std::endl
             << std::endl
             << "Probá 'run help <comando>' para mas información sobre un comando específico" << std::endl
