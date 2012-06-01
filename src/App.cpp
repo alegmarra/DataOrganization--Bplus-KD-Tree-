@@ -51,6 +51,9 @@ public:
     App() 
     {
         action = "";
+        
+        KeyFactory::setDimensions(5);
+        
         routes["test"] = TEST;
         routes["load"] = LOAD;
         routes["insert"] = INSERT;
@@ -164,7 +167,7 @@ private:
                             container = &low;
                             status = 'L';
                         } else {
-                            (*container) += _c;
+                            (*container) += tolower(_c);
                         }
                         break;
                         
