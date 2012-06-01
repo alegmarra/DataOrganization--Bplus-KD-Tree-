@@ -408,11 +408,12 @@ tree->dump();
         path = "/tmp/test_Full.bin";
 		spacePath = "/tmp/test_Full_space.bin";
         k = 5;
+        KeyFactory::setDimensions(k);
+        Record::setDimensions(k);
 
         FileBlocks * f = new FileBlocks(path, blockSize);
         KDtree * tree = new KDtree(k, f);
-        KeyFactory::setDimensions(k);
-        Record::setDimensions(k);
+
         std::vector<Record* > records(q);
         for (int i = 0; i < q; ++i)
             records[i] = getRand_NonSense_Record();

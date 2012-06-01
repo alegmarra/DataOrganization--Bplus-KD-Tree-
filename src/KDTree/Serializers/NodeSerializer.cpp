@@ -69,7 +69,6 @@ void NodeSerializer::setFile(const char* filename, unsigned _blockSize) {
 }
 
 void NodeSerializer::setFile(FileBlocks* treeFile) {
-    delete file;
     file = treeFile;
     blockSize = treeFile->getBlockSize();
 }
