@@ -419,6 +419,17 @@ private:
     
     }
     
+
+    bool shown(Key* key,std::vector<Key*> shownKeys){
+
+    	for(int i = 0; i< shownKeys.size(); i++){
+    			if(shownKeys[i]->compareTo(key) == 0)
+    				return true;
+    	}
+
+    	return false;
+    }
+
     void reportAction()
     {
     	/*
@@ -582,7 +593,8 @@ private:
 		if (result.size() == 0) {
 			std::cout << "No se encontraron registros" << std::endl;
 		} else {
-		
+			std::cout << std::endl;
+
 			for(int i = 0; i < headers.size(); i++) {
 				std::cout << headers[i];
 				std::cout << "\t\t";
@@ -591,12 +603,18 @@ private:
 			std::cout << std::endl;
 			std::cout << std::endl;
 		
+			std::vector<Key*> shownKeys;
+
 			for (int i = 0; i < result.size(); i++) {
 				for (int f = 0; f < fields.size(); f++) {
-					result[i]->getID()->getKey(fields[f])->dump();
-					std::cout << "\t\t";
+					if (!shown(result[i]->getID()->getKey(fields[f]), shownKeys)){
+						result[i]->getID()->getKey(fields[f])->dump();
+						shownKeys.push_back(result[i]->getID()->getKey(fields[f]));
+						std::cout << "\t\t";
+						std::cout << std::endl;
+
+					}
 				}
-				std::cout << std::endl;
 			}
 
 

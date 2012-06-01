@@ -12,7 +12,7 @@
 #include "../KDTree/RecordID/Accidente.h"
 #include "../KDTree/RecordID/Formacion.h"
 #include "../KDTree/RecordID/KeyFactory.h"
-#include "InputParser.cpp"
+#include "../InputParser.cpp"
 
 #define X 0
 #define Y 1
