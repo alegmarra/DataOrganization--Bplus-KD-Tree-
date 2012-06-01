@@ -17,8 +17,8 @@ void FranjaHoraria::dump()
     time_t to_t   = (time_t)(getValue() + 60 * 15);
     
     strftime(from, 6, "%H:%M", gmtime(&from_t));
-    strftime(to, 6, "%H:%M", localtime(&to_t));
-    strftime(date, 12, "%d/%m/%Y", localtime(&from_t));
+    strftime(to, 6, "%H:%M", gmtime(&to_t));
+    strftime(date, 12, "%d/%m/%Y", gmtime(&from_t));
 
     std::cout << from << " - " << to << " " << date;
 }
