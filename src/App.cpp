@@ -5,6 +5,8 @@
 #include "UnitTests/SerializersTest.cpp"
 #include "UnitTests/NodeTest.cpp"
 #include "UnitTests/KDTreeTest.cpp"
+#include "InputParser.cpp"
+#include "../KDTree/KD.h"
 
 
 /**
@@ -19,6 +21,9 @@ private:
     std::string action;
     std::vector< std::string > args;
     
+    KDtree* appTree;
+
+
 public:
 
     void setPath(std::string _path)
@@ -82,7 +87,12 @@ private:
     
     void deleteAction() {};
     
-    void showAction() {};
+    void showAction() {
+
+    	appTree->dump();
+
+    	//DELETE?????
+    };
  
     void testAciton()
     {

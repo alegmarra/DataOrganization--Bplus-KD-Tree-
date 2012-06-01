@@ -35,7 +35,7 @@ int KDtree::remove(Record* record){
  */
 void KDtree::setRoot() {
 
-
+	Record::setDimensions(dimensions);
   	NodeSerializer::setFile((FileBlocks *)treeFile);
     Node::setFullSize(((FileBlocks *)treeFile)->getBlockSize());
 
@@ -48,6 +48,11 @@ void KDtree::setRoot() {
 		NodeSerializer::serializeNode(root);
 	}
 
+}
+
+void KDtree::clear(){
+	treeFile->deleteData();
+	setRoot();
 }
 
 /*

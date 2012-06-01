@@ -54,6 +54,8 @@ public:
 	std::vector< Record * > find(Query* query);
 
 
+	void clear();
+
     void dump();
 
 
