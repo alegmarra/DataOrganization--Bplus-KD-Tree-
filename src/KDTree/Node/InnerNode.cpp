@@ -259,7 +259,7 @@ std::vector<Record*> InnerNode::find(Query* query, unsigned dimensions){
 			unsigned prev ;
 
 			while((it < elements.end())){ //&& (query->eval(level, (*it)->getKey()) == Query::HIGHER)){
-				 if (query->eval(level, (*it)->getKey()) == Query::HIGHER){
+				 if (query->eval(level, (*it)->getKey()) == Query::LOWER){
 					 prev = (*it)->getNode();
 					 it++;
 				 }
@@ -338,14 +338,14 @@ int InnerNode::deserialize(const char* buffer) {
     level = LEVEL_MASK & buffer[0];
     numElements = buffer[1];
     elements.resize(numElements);
-    firstLeft = buffer[2];
+    firstLeft = (unsigned char)buffer[2];
     int bytes = 3;
     unsigned next;
 
     for (unsigned i = 0; i < numElements; ++i) {
         Key* key = KeyFactory::getKey(level);
         bytes += key->deserialize(buffer + bytes);
-        next = buffer[bytes++];
+        next = (unsigned char)buffer[bytes++];
         elements[i] = new PairKeyNode(key, next);
     }
 

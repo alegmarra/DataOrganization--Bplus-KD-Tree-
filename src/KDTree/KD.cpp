@@ -62,8 +62,8 @@ int KDtree::load(std::vector<Record*>& records){
 
 
 	int partialStatus;
-
-	for(it = records.begin(); it < records.end(); it++){
+    int debugIt = 0;  // debuggin purposes only
+	for(it = records.begin(); it < records.end(); it++, debugIt++){
 		int partialStatus = root->insert(*it);
 
 		if(partialStatus == 2){

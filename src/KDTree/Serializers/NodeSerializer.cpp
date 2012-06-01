@@ -29,12 +29,12 @@ unsigned NodeSerializer::serializeNode(Node* node, int nodeNumber) {
     if (nodeNumber == NEW_NODE) {
         blockNumber = file->getFreeBlock();
         if (!file->insert(buffer, blockNumber, bytes))
-            throw FileErrorException();
+            throw FileErrorException("inserting", blockNumber);
     }
     else {
         blockNumber = nodeNumber;
         if (!file->update(buffer, blockNumber, bytes))
-            throw FileErrorException();
+            throw FileErrorException("updating", blockNumber);
     }
 
     delete[] buffer;
@@ -48,7 +48,7 @@ Node* NodeSerializer::deserializeNode(unsigned node) {
     Node* newNode;
     char* buffer = (char*)file->find(&node);
     if (!buffer)
-        throw FileErrorException();
+        throw FileErrorException("deserializing", node);
 
     if (buffer[0] & IS_LEAF)
         newNode = new LeafNode();

@@ -56,7 +56,7 @@ public:
 
 		//test_Constructor_NewFile_NoError();
 
-        test_FindByQuery();
+//        test_FindByQuery();
         test_Full_NonSense_records();
 	}
 
@@ -197,9 +197,6 @@ int datos[100][3] = {
 {19,7,9},
 {5,1,14},
 {8,17,4},
-{1,10,15},
-{15,17,7},
-{12,4,7}
 };
         int limit = q < 100? q : 100;
         for (int i = 0; i < limit; i++) {
@@ -384,7 +381,7 @@ return;
     {
         start("Full_NonSense_records");
 
-        blockSize = 256;
+        blockSize = 2048;
         path = "/tmp/test_Full.bin";
 		spacePath = "/tmp/test_Full_space.bin";
         k = 5;
@@ -396,9 +393,14 @@ return;
         std::vector<Record* > records(q);
         for (int i = 0; i < q; ++i)
             records[i] = getRand_NonSense_Record();
-
-        tree->load(records);
-        tree->dump();
+//        try {
+            tree->load(records);
+            tree->dump();
+//        }
+//        catch(std::exception& e) {
+//            std::cout << e.what() << std::endl;
+//            cleanUp();
+//        }
 
         cleanUp();
     }
