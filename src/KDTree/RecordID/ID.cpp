@@ -110,7 +110,7 @@ void ID::dump()
     std::cout << "(";
 
     for (int i = 0; i < dimensions; i++) {
-        keys[i]->dump();
+        keys.at(i)->dump();
 
         if (i < dimensions - 1) {
             std::cout << ",";

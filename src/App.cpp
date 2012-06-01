@@ -36,7 +36,11 @@
 #define SHOW 8
 #define HELP 9
 
- 
+#ifndef DIMENSIONS
+#define DIMENSIONS 5
+#endif
+
+
 class App
 {
 private:
@@ -45,14 +49,9 @@ private:
     std::vector< std::string > args;
 
     std::map< std::string, unsigned > routes;
+    std::map< std::string, unsigned > fields;
 
-    #ifndef DIMENSIONS
-	#define DIMENSIONS 5
-	#endif
-
-  
 public:
-
     App() 
     {
         action = "";
@@ -68,80 +67,221 @@ public:
         routes["delete"] = DELETE;
         routes["show"] = SHOW;
         routes["help"] = HELP;
+
+		fields["linea"] = LINEA;
+		fields["franja"] = FRANJA;
+		fields["falla"] = FALLA;
+		fields["accidente"] = ACCIDENTE;
+		fields["formacion"] = FORMACION;
     }
 
-    void setPath(std::string _path)
-    {
-        path = _path;
-    }
+	void setPath(std::string _path) {
+		path = _path;
+	}
 
-    void setAction(std::string _action)
-    {
-        action = _action;
-    }
-    
-    void addArg(char * arg)
-    {
-        args.push_back(arg);
-    }
+	void setAction(std::string _action) {
+		action = _action;
+	}
 
-    void run()
-    {
-        switch(routes[action]) {
-            case LOAD:
-                loadAction();
-                break; 
-            case INSERT:
-                insertAction();
-                break;
-            case FIND:
-                findAction();
-                break;
-            case REMOVE:
-                removeAction();
-                break; 
-            case CLEAR:
-                clearAction();
-                break;
-            case DELETE:
-                deleteAction();
-                break;
-            case SHOW:
-                showAction();
-                break;
-            case TEST:
-                testAction();
-                break;
-            case HELP:
-                helpAction();
-                break;
-            default:
-                usageAction();
-                break;
-        }
-    }
+	void addArg(char* arg) {
+		args.push_back(arg);
+	}
 
-private:    
-    void loadAction() {
+	void run() {
+		switch (routes[action]) {
+		case LOAD:
+			loadAction();
+			break;
+		case INSERT:
+			insertAction();
+			break;
+		case FIND:
+			findAction();
+			break;
+		case REMOVE:
+			removeAction();
+			break;
+		case CLEAR:
+			clearAction();
+			break;
+		case DELETE:
+			deleteAction();
+			break;
+		case SHOW:
+			showAction();
+			break;
+		case TEST:
+			testAction();
+			break;
+		case HELP:
+			helpAction();
+			break;
+		default:
+			usageAction();
+			break;
+		}
+	}
 
-        std::vector<Record* > records = InputParser::recoverRecords(args[0].c_str());
+private:
+	void loadAction() {
+		std::vector<Record*> records = InputParser::recoverRecords(
+				args[0].c_str());
+		unsigned dim = DIMENSIONS;
+		KDtree* tree = new KDtree(dim, new FileBlocks(path.c_str(), 4096));
+		int result = tree->load(records);
+		if (result == 0)
+			std::cout << "Los registros se cargaron correctamente!"
+					<< std::endl;
+		else
+			std::cerr << "Se encontraron registros duplicados, fueron omitidos"
+					<< std::endl;
 
-    	unsigned dim = DIMENSIONS;
+		delete tree;
+	};
 
-        KDtree * tree = new KDtree(dim, new FileBlocks(path.c_str(), 4096));
+	void fillMissingData(std::vector<bool> visited, ID*& id) {
 
-        int result = tree->load(records);
+		for (int i = 0; i < DIMENSIONS; i++) {
+			if (!visited[i])
+				switch (i) {
 
-        if (result == 0)
-        	std::cout << "Loaded Successfully!" << std::endl;
-        else
-        	std::cerr << "Duplicated records on load, some records skipped" << std::endl;
+				case (LINEA): {
+					id->addKey(new Linea(" "));
+					visited[LINEA] = true;
+					break;
+				}
+
+				case (FRANJA): {
+					id->addKey(new FranjaHoraria(0));
+					visited[FRANJA] = true;
+					break;
+				}
+
+				case (FALLA): {
+					id->addKey(new Falla(" "));
+					visited[FALLA] = true;
+					break;
+				}
+
+				case (ACCIDENTE): {
+					id->addKey(new Accidente(" "));
+					visited[ACCIDENTE] = true;
+					break;
+				}
+
+				case (FORMACION): {
+					id->addKey(new Formacion(0));
+					visited[FORMACION] = true;
+					break;
+				}
+
+				}
+		}
+	}
+
+
+	void createID(std::vector<std::vector<std::string> >& recordsList, ID*& id,
+				  std::vector<bool>& visited) {
+
+		for (int i = 0; i < recordsList.size(); i++) {
+
+			std::vector < std::string > set = recordsList[i];
+
+			switch (fields[set[0]]) {
+
+			case (LINEA): {
+				id->addKey(new Linea(set[1]));
+				visited[LINEA] = true;
+				break;
+			}
+
+			case (FRANJA): {
+				id->addKey(new FranjaHoraria(atoi(set[1].c_str())));
+				visited[FRANJA] = true;
+				break;
+			}
+
+			case (FALLA): {
+				id->addKey(new Falla(set[1]));
+				visited[FALLA] = true;
+				break;
+			}
+
+			case (ACCIDENTE): {
+				id->addKey(new Accidente(set[1]));
+				visited[ACCIDENTE] = true;
+				break;
+			}
+
+			case (FORMACION): {
+				id->addKey(new Formacion(atoi(set[1].c_str())));
+				visited[FORMACION] = true;
+				break;
+			}
+
+			default:
+				std::cerr << "Invalid Key" << std::endl;
+				break;
+			}
+
+		}
+	}
+
+	std::vector < std::vector<std::string> > parseInput(){
+
+		std::vector < std::string > field;
+		std::vector < std::vector<std::string> > recordsList;
+		int pair = 0;
+		int indx = 0;
+		char chr;
+
+		while (pair < args.size()) {
+			std::string line = args[pair];
+			int indx = 0;
+			while (indx < line.size()) {
+				std::string word;
+				chr = line[indx];
+
+				do {
+					word += chr;
+					indx++;
+					chr = line[indx];
+				} while ((chr != '=') && (indx < line.size()));
+				field.push_back(word);
+				indx++;
+				if(line[indx] == '"')
+					indx++;
+
+			}
+
+			recordsList.push_back(field);
+			field.clear();
+			pair++;
+		}
+
+		return recordsList;
+	}
+
+	void insertAction() {
+
+		std::vector < std::vector<std::string> > fieldsList = parseInput();
+
+		Record* record;
+		ID* id = new ID(DIMENSIONS);
+		std::vector<bool> visited(DIMENSIONS, false);
+
+		createID(fieldsList, id, visited);
+
+		fillMissingData(visited, id);
+
+        record = new Record(id);
+
+        KDtree* tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), 4096));
+        tree->insert(record);
 
         delete tree;
 
     };
-    
-    void insertAction() {};
     
     void findAction() 
     {
