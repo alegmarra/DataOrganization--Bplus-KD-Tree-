@@ -101,6 +101,16 @@ public:
 
 		}
 
+		ID* id = new ID(dimensions);
+
+	    id->addKey(new Linea("Mitre"));
+        id->addKey(new FranjaHoraria(11));
+	    id->addKey(new Falla("Motores 80%"));
+	    id->addKey(new Accidente("choque estacion"));
+	    id->addKey(new Formacion(630));
+
+	    records.push_back( new Record(id));
+
 		return records;
 	}
 

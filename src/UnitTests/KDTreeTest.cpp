@@ -67,8 +67,8 @@ public:
 			//throw;
 		//}
 
-//        test_FindByQuery();
-        test_Full_NonSense_records();
+//
+
 	}
 
 private:
@@ -423,8 +423,6 @@ tree->dump();
         FileBlocks * f = new FileBlocks(path, blockSize);
         KDtree * tree = new KDtree(k, f);
 
-
-
         KeyFactory::setDimensions(k);
         Record::setDimensions(k);
 
@@ -445,10 +443,10 @@ tree->dump();
             int result = tree->load(records);
 
             if (result == 1)
-            	std::cout<< "CORRECTO" << std::endl;
+            	std::cout<< "CON DUPLICADOS" << std::endl;
             else
-            	std::cout<< "DUPLICADOS" << std::endl;
-            tree->dump();
+            	std::cout<< "SIN DUPLICADOS" << std::endl;
+
         }
         catch(std::exception& e) {
             std::cout << e.what() << std::endl;
@@ -457,26 +455,23 @@ tree->dump();
         Query* q = new Query();
 
         q->addCondition(LINEA, new QueryCondition(new Linea("Mitre")));
-        //q->addCondition(FRANJA, new QueryCondition(new FranjaHoraria(9)));
-        //q->addCondition(FALLA, new QueryCondition(new Falla("Frena 80%")));
+        q->addCondition(FRANJA, new QueryCondition(new FranjaHoraria(11)));
+        q->addCondition(FALLA, new QueryCondition(new Falla("Motores 80%")));
         q->addCondition(ACCIDENTE, new QueryCondition(new Accidente("choque estacion")));
-        //q->addCondition(FORMACION, new QueryCondition(new Formacion(1774)));
+        q->addCondition(FORMACION, new QueryCondition(new Formacion(630)));
 
-        //Linea[Mitre]Fallas[Frena 80%]Accidentes[choque estacion]Formacion[1774]
 
         std::vector<Record*> results = tree->find(q);
 
-        if (results.size() == 0)
-        	std::cout<< "FUUUCK" << std::endl;
-        else
-        	std::cout<< "Results Size" << results.size() << std::endl;
+        std::cout<< "Results Size" << results.size() << std::endl;
 
-        //dumpResult(results);
 
         for(int i = 0; i< results.size(); i++){
         	results[i]->dump();
         	std::cout<< std::endl;
         }
+
+
         cleanUp();
 
     }
