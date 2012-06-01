@@ -14,7 +14,7 @@
  * Front controller
  *
  * Accepted format is:
- *     run <path> <action> [<args>]
+ *     run <action> [<args>]
  */
  
 #define TEST 1
@@ -40,6 +40,7 @@ public:
 
     App() 
     {
+        action = "";
         routes["test"] = TEST;
         routes["load"] = LOAD;
         routes["insert"] = INSERT;
@@ -158,7 +159,7 @@ private:
     
     void usageAction() 
     {
-        std::cout << "uso: run <ruta> <comando> [<args>]" << std::endl
+        std::cout << "uso: run <comando> [<ruta> [<args>]]" << std::endl
             << std::endl
             << "La lista completa de comandos es:" << std::endl
             << "\ttest\t\tCorre las pruebas de unidad"  << std::endl
