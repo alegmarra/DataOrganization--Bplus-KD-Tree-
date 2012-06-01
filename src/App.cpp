@@ -137,7 +137,64 @@ private:
     
     void findAction() 
     {
-        std::cout << path;
+        if (path.size() == 0 || args.size() == 0) {
+            usageAction();
+            return;
+        }
+        
+        Query * q = new Query();
+
+        for (int i = 0; i < args.size(); i++) {
+            std::string dimension = "";
+            char op = 'M'; // (E)qual, (R)ange, (F)inished or (M)issing
+            std::string low = "";
+            std::string high = "";
+            char status = 'D'; // (D)imension, (L)ow or (H)igh
+            std::string * container = &dimension;           
+            for (int c = 0; c < args[i].size(); c++) {
+                char _c = args[i][c];
+                switch(status) {
+                    case 'D':
+                        if (_c == '=' || _c == '[') {
+                            if (_c == '=') {
+                                op = 'E';
+                            } else {
+                                op = 'R';
+                            }
+                            container = &low;
+                            status = 'L';
+                        } else {
+                            (*container) += _c;
+                        }
+                        break;
+                        
+                    case 'L':
+                        if (_c == ',') {
+                            container = &high;
+                            status = 'H';
+                        } else {
+                            (*container) += _c;
+                        }
+                        break;
+                        
+                    case 'H':
+                        if (_c == ']') {
+                            status = 'F';
+                        } else {
+                            (*container) += _c;
+                        }
+                        break;
+                        
+                    default: break;
+                }
+                
+            }
+            
+            std::cout << "Dimension: " << dimension << std::endl;
+            std::cout << "Operador: " << op << std::endl;
+            std::cout << "Low: " << low << std::endl;
+            std::cout << "High: " << high << std::endl;
+        }        
     };
     
     void removeAction() {};
