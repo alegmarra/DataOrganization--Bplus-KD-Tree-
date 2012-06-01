@@ -25,6 +25,7 @@
 #define CLEAR 6
 #define DELETE 7
 #define SHOW 8
+#define HELP 9
 
  
 class App
@@ -47,6 +48,7 @@ public:
         routes["clear"] = CLEAR;
         routes["delete"] = DELETE;
         routes["show"] = SHOW;
+        routes["help"] = HELP;
     }
 
     void setPath(std::string _path)
@@ -90,6 +92,9 @@ public:
                 break;
             case TEST:
                 testAction();
+                break;
+            case HELP:
+                helpAction();
                 break;
             default:
                 usageAction();
@@ -150,9 +155,10 @@ private:
     
     }
     
+    
     void usageAction() 
     {
-        std::cout << "uso: run <path> <command> [<args>]" << std::endl
+        std::cout << "uso: run <ruta> <comando> [<args>]" << std::endl
             << std::endl
             << "La lista completa de comandos es:" << std::endl
             << "\ttest\t\tCorre las pruebas de unidad"  << std::endl
@@ -163,6 +169,17 @@ private:
             << "\tclear\t\tVacía el contenido del árbol" << std::endl
             << "\tdelete\t\t???" << std::endl
             << "\tshow\t\tMuestra el contenido del árbol" << std::endl
+            << std::endl
+            << "Probá 'run help <comando>' para mas información sobre un comando específico" << std::endl
             ;
-    }   
+    }
+    
+    
+    
+       
+    void helpAction()
+    {
+        std::cout << "Para! quien te pensas que soy? Juan Carlos Manual?" << std::endl;
+    }
 };
+
