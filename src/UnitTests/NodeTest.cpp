@@ -20,6 +20,7 @@ private:
 
 	FileBlocks* treeFile;
 	const char * path;
+	const char * pathSpace;
 	unsigned blockSize;
 
 public:
@@ -27,6 +28,7 @@ public:
 	NodeTest(): Test("NodeTest"){
 
 		path = "my_Node_test_file.bin";
+		pathSpace = "my_Node_test_file_space.bin";
 		blockSize = 4096;
 
 		treeFile = new FileBlocks(path, blockSize);
@@ -34,6 +36,12 @@ public:
         srand(time(NULL));
         Record::setDimensions(5);
         KeyFactory::setDimensions(5);
+    }
+    
+    ~NodeTest()
+    {
+    	remove(path);
+    	remove(pathSpace);
     }
 
     Record* getRandRecord(unsigned dimensions = 3) {
