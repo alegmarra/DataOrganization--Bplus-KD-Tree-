@@ -6,6 +6,9 @@
 #include "UnitTests/NodeTest.cpp"
 #include "UnitTests/KDTreeTest.cpp"
 
+#include <map>
+#include <vector>
+#include <string>
 
 /**
  * Front controller
@@ -13,17 +16,42 @@
  * Accepted format is:
  *     run path action [arg1 [arg2 [arg3]]]
  */
+ 
+#define TEST 1
+#define LOAD 2
+#define INSERT 3
+#define FIND 4
+#define REMOVE 5
+#define CLEAR 6
+#define DELETE 7
+#define SHOW 8
+
+ 
 class App
 {
 private:
+    std::string path;
     std::string action;
     std::vector< std::string > args;
-    
+    std::map< std::string, unsigned > routes;
+  
 public:
+
+    App() 
+    {
+        routes["test"] = TEST;
+        routes["load"] = LOAD;
+        routes["insert"] = INSERT;
+        routes["find"] = FIND; 
+        routes["remove"] = REMOVE;
+        routes["clear"] = CLEAR;
+        routes["delete"] = DELETE;
+        routes["show"] = SHOW;
+    }
 
     void setPath(std::string _path)
     {
-    
+        path = _path;
     }
 
     void setAction(std::string _action)
@@ -31,38 +59,36 @@ public:
         action = _action;
     }
     
-    void setArgs(std::string _args)
+    void addArg(char * arg)
     {
-        // Logica para separar los argumentos e insertarlos en el vector
-        // si se pueden pasar desde main como array o algo asi, mejor
-        args = _args;
+        args.push_back(arg);
     }
 
     void run()
     {
-        switch(action) {
-            "load":
+        switch(routes[action]) {
+            case LOAD:
                 loadAction();
                 break; 
-            "insert":
+            case INSERT:
                 insertAction();
                 break;
-            "find":
+            case FIND:
                 findAction();
                 break;
-            "remove":
+            case REMOVE:
                 removeAction();
                 break; 
-            "clear":
+            case CLEAR:
                 clearAction();
                 break;
-            "delete":
+            case DELETE:
                 deleteAction();
                 break;
-            "show":
+            case SHOW:
                 showAction();
                 break;
-            "test":
+            case TEST:
                 testAction();
                 break;
             default:
@@ -76,6 +102,8 @@ private:
     
     void insertAction() {};
     
+    void findAction() {};
+    
     void removeAction() {};
     
     void clearAction() {};
@@ -84,7 +112,7 @@ private:
     
     void showAction() {};
  
-    void testAciton()
+    void testAction()
     {
 	    Test* test;
 
@@ -123,4 +151,4 @@ private:
     {
         // aca tiramos las instrucciones de uso por pantalla
     }   
-}
+};

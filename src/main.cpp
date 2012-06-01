@@ -2,7 +2,7 @@
 
 int main(int argc, char * argv[])
 {
-    App app();
+    App app;
 
     if (argc > 0) {
         app.setPath(argv[0]);
@@ -13,8 +13,9 @@ int main(int argc, char * argv[])
     }
     
     if (argc > 2) {
-        // Aca saco los primeros 2 argumentos con alguna logica de arrays
-        app.setArgs(argv);
+        for (int i = 2; i < argc; i++) {
+            app.addArg(argv[i]);
+        }
     }
     
     app.run();
