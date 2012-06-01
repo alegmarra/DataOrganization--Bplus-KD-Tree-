@@ -1,3 +1,7 @@
+#ifndef INPUT_PARSER_
+#define INPUT_PARSER_
+
+
 
 #include "Exceptions/FileErrorException.h"
 #include <iostream>
@@ -107,3 +111,4 @@ public:
 	}
 
 };
+#endif

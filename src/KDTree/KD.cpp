@@ -1,10 +1,3 @@
-/*
- * KD.cpp
- *
- *  Created on: Apr 29, 2012
- *      Author:
- */
-
 #include "KD.h"
 #include "../Exceptions/FileErrorException.h"
 #include "Node/LeafNode.h"

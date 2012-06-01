@@ -6,8 +6,13 @@
 #include "UnitTests/NodeTest.cpp"
 #include "UnitTests/KDTreeTest.cpp"
 #include "InputParser.cpp"
-#include "../KDTree/KD.h"
+#include "KDTree/KD.h"
+#include "File/FileBlocks.h"
 
+
+#include <map>
+#include <vector>
+#include <string>
 
 /**
  * Front controller
@@ -15,20 +20,48 @@
  * Accepted format is:
  *     run path action [arg1 [arg2 [arg3]]]
  */
+ 
+#define TEST 1
+#define LOAD 2
+#define INSERT 3
+#define FIND 4
+#define REMOVE 5
+#define CLEAR 6
+#define DELETE 7
+#define SHOW 8
+
+ 
 class App
 {
 private:
+    std::string path;
     std::string action;
     std::vector< std::string > args;
-    
-    KDtree* appTree;
 
+    std::map< std::string, unsigned > routes;
 
+    #ifndef DIMENSIONS
+	#define DIMENSIONS 5
+	#endif
+
+  
 public:
+
+    App() 
+    {
+        routes["test"] = TEST;
+        routes["load"] = LOAD;
+        routes["insert"] = INSERT;
+        routes["find"] = FIND; 
+        routes["remove"] = REMOVE;
+        routes["clear"] = CLEAR;
+        routes["delete"] = DELETE;
+        routes["show"] = SHOW;
+    }
 
     void setPath(std::string _path)
     {
-    
+        path = _path;
     }
 
     void setAction(std::string _action)
@@ -36,38 +69,36 @@ public:
         action = _action;
     }
     
-    void setArgs(std::string _args)
+    void addArg(char * arg)
     {
-        // Logica para separar los argumentos e insertarlos en el vector
-        // si se pueden pasar desde main como array o algo asi, mejor
-        args = _args;
+        args.push_back(arg);
     }
 
     void run()
     {
-        switch(action) {
-            "load":
+        switch(routes[action]) {
+            case LOAD:
                 loadAction();
                 break; 
-            "insert":
+            case INSERT:
                 insertAction();
                 break;
-            "find":
+            case FIND:
                 findAction();
                 break;
-            "remove":
+            case REMOVE:
                 removeAction();
                 break; 
-            "clear":
+            case CLEAR:
                 clearAction();
                 break;
-            "delete":
+            case DELETE:
                 deleteAction();
                 break;
-            "show":
+            case SHOW:
                 showAction();
                 break;
-            "test":
+            case TEST:
                 testAction();
                 break;
             default:
@@ -77,24 +108,67 @@ public:
     }
 
 private:    
-    void loadAction() {};
+    void loadAction() {
+
+        std::vector<Record* > records = InputParser::recoverRecords(args[0].c_str());
+
+    	unsigned dim = DIMENSIONS;
+
+        KDtree * tree = new KDtree(dim, new FileBlocks(path.c_str(), 4096));
+
+        int result = tree->load(records);
+
+        if (result == 0)
+        	std::cout << "Loaded Successfully!" << std::endl;
+        else
+        	std::cerr << "Duplicated records on load, some records skipped" << std::endl;
+
+        delete tree;
+
+    };
     
     void insertAction() {};
     
+    void findAction() {};
+    
     void removeAction() {};
     
-    void clearAction() {};
+    void clearAction() {
+
+    	unsigned dim = DIMENSIONS;
+
+        KDtree * tree = new KDtree(dim, new FileBlocks(path.c_str(), 4096));
+
+        tree->clear();
+
+        delete tree;
+
+    };
     
-    void deleteAction() {};
+    void deleteAction() {
+
+    	remove(path.c_str());
+
+		std::string s = path;
+		std::string listPath = s.substr(0, (s.size() -4));
+
+		listPath += "_space.bin";
+
+		remove(listPath.c_str());
+    };
     
     void showAction() {
 
-    	appTree->dump();
+    	unsigned dim = DIMENSIONS;
 
-    	//DELETE?????
+        KDtree * tree = new KDtree(dim, new FileBlocks(path.c_str(), 4096));
+
+        tree->dump();
+
+        delete tree;
     };
  
-    void testAciton()
+    void testAction()
     {
 	    Test* test;
 
@@ -133,4 +207,4 @@ private:
     {
         // aca tiramos las instrucciones de uso por pantalla
     }   
-}
+};
