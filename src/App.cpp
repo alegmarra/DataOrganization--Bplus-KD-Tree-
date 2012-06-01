@@ -35,6 +35,7 @@
 #define DELETE 7
 #define SHOW 8
 #define HELP 9
+#define REPORT 10
 
 #ifndef DIMENSIONS
 #define DIMENSIONS 5
@@ -71,6 +72,7 @@ public:
         routes["delete"] = DELETE;
         routes["show"] = SHOW;
         routes["help"] = HELP;
+        routes["report"] = REPORT;
 
 		fields["linea"] = LINEA;
 		fields["franja"] = FRANJA;
@@ -119,6 +121,9 @@ public:
 			break;
 		case HELP:
 			helpAction();
+			break;
+		case REPORT:
+			reportAction();
 			break;
 		default:
 			usageAction();
@@ -414,6 +419,191 @@ private:
     
     }
     
+    void reportAction()
+    {
+    	/*
+    	Todos los trenes que tienen cierta falla.
+		Todos los trenes que tienen cierto accidente.
+		Todas las fallas de una formacion determinada.
+		Todos los accidentes de una formacion determinada.
+		Todas las fallas.
+		Todas las formaciones.
+		Todas las lineas.
+		Todos los accidentes
+		*/
+		
+		std::map< std::string, unsigned > available_reports;
+		
+		available_reports["trenesxfalla"] = 1;
+		available_reports["trenesxaccidente"] = 2;
+		available_reports["fallasxformacion"] = 3;
+		available_reports["accidentesxformacion"] = 4;
+		available_reports["fallas"] = 5;
+		available_reports["formaciones"] = 6;
+		available_reports["lineas"] = 7;
+		available_reports["accidentes"] = 8;
+		
+		if (args.size() == 0) {
+			std::cerr << "No se especificó el tipo de reporte" << std::endl;
+			return;
+		}
+		
+		if (available_reports.find(args[0]) == available_reports.end()) {
+			std::cerr << "No se encontró el reporte especificado" << std::endl;
+			return;
+		}
+		
+		Query * q = new Query();
+		QueryBuilder builder;
+		builder.setQuery(q);
+		std::vector< std::string > headers;
+		std::vector< unsigned > fields;
+		
+		switch (available_reports[args[0]]) {
+			case 1:
+				if (args.size() < 2) {
+					std::cerr << "No se especificó la falla" << std::endl;
+					delete q;
+					return;				
+				}
+				
+				builder.parse("falla=" + args[1]);
+				
+				headers.push_back("Línea");
+				headers.push_back("Formación");
+				
+				fields.push_back(LINEA);
+				fields.push_back(FORMACION);
+				
+				break;
+			case 2:
+				if (args.size() < 2) {
+					std::cerr << "No se especificó el accidente" << std::endl;
+					delete q;
+					return;				
+				}
+				
+				builder.parse("accidente=" + args[1]);
+				
+				headers.push_back("Línea");
+				headers.push_back("Formación");
+				
+				fields.push_back(LINEA);
+				fields.push_back(FORMACION);
+				
+				break;
+
+			case 3:
+				if (args.size() < 2) {
+					std::cerr << "No se especificó la línea ni la formación" << std::endl;
+					delete q;
+					return;				
+				}
+				
+				if (args.size() < 3) {
+					std::cerr << "No se especificó la formación" << std::endl;
+					delete q;
+					return;				
+				}
+				
+				builder.parse("linea=" + args[1]);
+				builder.parse("formacion=" + args[2]);
+				
+				headers.push_back("Línea");
+				headers.push_back("Formación");
+				headers.push_back("Falla");
+				
+				fields.push_back(LINEA);
+				fields.push_back(FORMACION);
+				fields.push_back(FALLA);
+				
+				break;
+
+			case 4:
+				if (args.size() < 2) {
+					std::cerr << "No se especificó la línea ni la formación" << std::endl;
+					delete q;
+					return;				
+				}
+				
+				if (args.size() < 3) {
+					std::cerr << "No se especificó la formación" << std::endl;
+					delete q;
+					return;				
+				}
+				
+				builder.parse("linea=" + args[1]);
+				builder.parse("formacion=" + args[2]);
+				
+				headers.push_back("Línea");
+				headers.push_back("Formación");
+				headers.push_back("Accidente");
+				
+				fields.push_back(LINEA);
+				fields.push_back(FORMACION);
+				fields.push_back(ACCIDENTE);
+				
+				break;
+				
+			case 5:
+				headers.push_back("Falla");
+				fields.push_back(FALLA);
+				
+				break;
+			
+			case 6:
+				headers.push_back("Línea");
+				headers.push_back("Formacion");
+				fields.push_back(LINEA);
+				fields.push_back(FORMACION);
+				
+				break;
+				
+			case 7:
+				headers.push_back("Línea");
+				fields.push_back(LINEA);
+				
+				break;
+				
+			case 8:
+				headers.push_back("Accidente");
+				fields.push_back(ACCIDENTE);
+				
+				break;
+				
+			default: 
+				std::cerr << "Ha ocurrido un error" << std::endl;
+				return;
+		}
+		
+		KDtree * tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), BLOCKSIZE));
+		std::vector< Record * > result = tree->find(q);
+		
+		if (result.size() == 0) {
+			std::cout << "No se encontraron registros" << std::endl;
+		} else {
+		
+			for(int i = 0; i < headers.size(); i++) {
+				std::cout << headers[i];
+				std::cout << "\t\t";
+			}
+			
+			std::cout << std::endl;
+			std::cout << std::endl;
+		
+			for (int i = 0; i < result.size(); i++) {
+				for (int f = 0; f < fields.size(); f++) {
+					result[i]->getID()->getKey(fields[f])->dump();
+					std::cout << "\t\t";
+				}
+				std::cout << std::endl;
+			}
+
+
+		}
+		
+		delete tree;
+    }
     
     void usageAction() 
     {
@@ -428,6 +618,7 @@ private:
             << "\tclear\t\tVacía el contenido del árbol" << std::endl
             << "\tdelete\t\tBorra todos los archivos relacionados " << std::endl
             << "\tshow\t\tMuestra el contenido del árbol" << std::endl
+            << "\treport\t\tMuestra los reportes" << std::endl
             << std::endl
             << "Probá 'run help <comando>' para mas información sobre un comando específico" << std::endl
             ;
