@@ -5,6 +5,8 @@
 #include <vector>
 #include <cstdlib>
 
+#include <sstream>
+
 #include "KDTree/RecordID/ID.h"
 #include "KDTree/RecordID/IntKey.h"
 #include "KDTree/Record.h"
@@ -92,7 +94,7 @@ public:
 			ID* id = new ID(dimensions);
 
 		    id->addKey(new Linea(set[0]));
-            id->addKey(new FranjaHoraria(rand()%24));
+            id->addKey(new FranjaHoraria(atoi(set[4].c_str())));
 		    id->addKey(new Falla(set[1]));
 		    id->addKey(new Accidente(set[2]));
 		    id->addKey(new Formacion(atoi(set[3].c_str())));
@@ -100,16 +102,6 @@ public:
 	        records.push_back( new Record(id));
 
 		}
-
-		ID* id = new ID(dimensions);
-
-	    id->addKey(new Linea("Mitre"));
-        id->addKey(new FranjaHoraria(11));
-	    id->addKey(new Falla("Motores 80%"));
-	    id->addKey(new Accidente("choque estacion"));
-	    id->addKey(new Formacion(630));
-
-	    records.push_back( new Record(id));
 
 		return records;
 	}
