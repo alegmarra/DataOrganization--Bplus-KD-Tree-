@@ -12,6 +12,7 @@
 ID::ID(unsigned _dimensions) : keys(_dimensions), dimensions(_dimensions) {}
 
 void ID::addKey(unsigned dimension, Key* key){
+
     if (dimension >= dimensions)
         throw NonExistingDimensionException(dimension, dimensions);
 
@@ -55,8 +56,9 @@ Key* ID::getKey(t_Key type){
 
 unsigned ID::getSize(){
     int size = 0;
-	for (unsigned i = 0; i < dimensions; ++i)
-        size += keys[i]->getSize();
+
+    for (unsigned i = 0; i < dimensions; ++i)
+    	size += keys[i]->getSize();
 
     return size;
 }

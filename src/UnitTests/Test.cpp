@@ -31,7 +31,7 @@ public:
 
     void start(std::string subtest)
     {
-		std::cout << "test_" << subtest << ": ";
+		std::cout << "test_" << subtest << ": " << std::endl;
         failed = false;
     }
 

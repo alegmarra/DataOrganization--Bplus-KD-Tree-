@@ -169,11 +169,6 @@ std::vector<Record*> InnerNode::findByCondition(unsigned prevNode, Query* query,
 	std::vector<Record*> found;
 	if (prevNode){
 
-
-		//std::cout << "PREV NODE " << prevNode<< std::endl;
-
-
-
 		found = NodeSerializer::deserializeNode(prevNode)->find(query, dimensions);
 	}
 

@@ -9,7 +9,7 @@
 int main(int argc, char * argv[])
 {
 	Test* test;
-
+/*
 	test = new KeyTest();
 	test->run();
 	delete test;
@@ -33,7 +33,7 @@ int main(int argc, char * argv[])
     test = new NodeTest();
     test->run();
     delete test;
-
+*/
     test = new KDTreeTest();
     test->run();
     delete test;

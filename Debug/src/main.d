@@ -42,12 +42,23 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
  ../src/UnitTests/../KDTree/RecordID/Falla.h \
  ../src/UnitTests/../KDTree/RecordID/Accidente.h \
  ../src/UnitTests/../KDTree/RecordID/Formacion.h \
+ ../src/UnitTests/../KDTree/RecordID/KeyFactory.h \
  ../src/UnitTests/NodeTest.cpp ../src/UnitTests/KDTreeTest.cpp \
  ../src/UnitTests/../KDTree/KD.h \
  ../src/UnitTests/../KDTree/Serializers/NodeSerializer.h \
  ../src/UnitTests/../KDTree/Query/Query.h \
  ../src/UnitTests/../KDTree/../File/FileBlocks.h \
- ../src/UnitTests/../KDTree/RecordID/KeyFactory.h
+ /home/alemarra/tpDatos/src/InputParser.cpp \
+ /home/alemarra/tpDatos/src/Exceptions/FileErrorException.h \
+ /home/alemarra/tpDatos/src/KDTree/RecordID/ID.h \
+ /home/alemarra/tpDatos/src/KDTree/RecordID/IntKey.h \
+ /home/alemarra/tpDatos/src/KDTree/Record.h \
+ /home/alemarra/tpDatos/src/KDTree/RecordID/Linea.h \
+ /home/alemarra/tpDatos/src/KDTree/RecordID/FranjaHoraria.h \
+ /home/alemarra/tpDatos/src/KDTree/RecordID/Falla.h \
+ /home/alemarra/tpDatos/src/KDTree/RecordID/Accidente.h \
+ /home/alemarra/tpDatos/src/KDTree/RecordID/Formacion.h \
+ /home/alemarra/tpDatos/src/KDTree/RecordID/KeyFactory.h
 
 ../src/UnitTests/KeyTest.cpp:
 
@@ -141,6 +152,8 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
 
 ../src/UnitTests/../KDTree/RecordID/Formacion.h:
 
+../src/UnitTests/../KDTree/RecordID/KeyFactory.h:
+
 ../src/UnitTests/NodeTest.cpp:
 
 ../src/UnitTests/KDTreeTest.cpp:
@@ -153,4 +166,24 @@ src/main.d: ../src/main.cpp ../src/UnitTests/KeyTest.cpp \
 
 ../src/UnitTests/../KDTree/../File/FileBlocks.h:
 
-../src/UnitTests/../KDTree/RecordID/KeyFactory.h:
+/home/alemarra/tpDatos/src/InputParser.cpp:
+
+/home/alemarra/tpDatos/src/Exceptions/FileErrorException.h:
+
+/home/alemarra/tpDatos/src/KDTree/RecordID/ID.h:
+
+/home/alemarra/tpDatos/src/KDTree/RecordID/IntKey.h:
+
+/home/alemarra/tpDatos/src/KDTree/Record.h:
+
+/home/alemarra/tpDatos/src/KDTree/RecordID/Linea.h:
+
+/home/alemarra/tpDatos/src/KDTree/RecordID/FranjaHoraria.h:
+
+/home/alemarra/tpDatos/src/KDTree/RecordID/Falla.h:
+
+/home/alemarra/tpDatos/src/KDTree/RecordID/Accidente.h:
+
+/home/alemarra/tpDatos/src/KDTree/RecordID/Formacion.h:
+
+/home/alemarra/tpDatos/src/KDTree/RecordID/KeyFactory.h:

@@ -35,11 +35,12 @@ int KDtree::remove(Record* record){
  */
 void KDtree::setRoot() {
 
-  	NodeSerializer::setFile((FileBlocks *)treeFile);
 
+  	NodeSerializer::setFile((FileBlocks *)treeFile);
     Node::setFullSize(((FileBlocks *)treeFile)->getBlockSize());
 
 	try{
+
 		root = NodeSerializer::deserializeNode(0);
 	}
 	catch(FileErrorException& e){

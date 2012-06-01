@@ -12,6 +12,7 @@
 #include "../KDTree/RecordID/Accidente.h"
 #include "../KDTree/RecordID/Formacion.h"
 #include "../KDTree/RecordID/KeyFactory.h"
+#include "InputParser.cpp"
 
 #define X 0
 #define Y 1
@@ -241,36 +242,6 @@ private:
         stop();
     }
 
-    void test_Full_NonSense_records()
-    {
-        start("Full_NonSense_records");
-
-        unsigned blockSize = 2048;
-        KeyFactory::setDimensions(5);
-        Record::setDimensions(5);
-        unsigned qty = 100;
-
-        FileBlocks * f = new FileBlocks(path, blockSize);
-        KDtree * tree = new KDtree(5, f);
-
-        std::vector<Record* > records(qty);
-        
-        for (int i = 0; i < qty; ++i) {
-            records[i] = getRand_NonSense_Record(5);
-        }
-        
-        tree->load(records);
-        
-        if (verbose) {
-            tree->dump();
-        }
-
-        delete tree;
-
-        cleanUp();
-        stop();
-    }
-
     void cleanUp()
     {
 		remove(path);
@@ -333,5 +304,74 @@ private:
         return new Record(id);
     }
 
+    void test_Full_NonSense_records()
+    {
+        start("Full_NonSense_records");
+
+        unsigned blockSize = 1024;
+
+		unsigned k = 5;
+
+        KeyFactory::setDimensions(k);
+        Record::setDimensions(k);
+
+        remove(path);
+        remove(spacePath);
+
+        FileBlocks * f = new FileBlocks(path, blockSize);
+        KDtree * tree = new KDtree(k, f);
+
+        KeyFactory::setDimensions(k);
+        Record::setDimensions(k);
+
+
+        std::string textLog = "testData.txt";
+
+        std::vector<Record* > records = InputParser::recoverRecords(textLog.c_str());
+
+      /*
+        std::vector<Record* > records(q);
+
+
+        for (int i = 0; i < q; ++i)
+            records[i] = getRand_NonSense_Record();
+      */
+
+        try {
+            int result = tree->load(records);
+
+            if (result == 1)
+            	std::cout<< "CON DUPLICADOS" << std::endl;
+            else
+            	std::cout<< "SIN DUPLICADOS" << std::endl;
+
+        }
+        catch(std::exception& e) {
+            std::cout << e.what() << std::endl;
+        }
+
+        Query* q = new Query();
+
+        q->addCondition(LINEA, new QueryCondition(new Linea("Mitre")));
+        q->addCondition(FRANJA, new QueryCondition(new FranjaHoraria(11)));
+        q->addCondition(FALLA, new QueryCondition(new Falla("Motores 80%")));
+        q->addCondition(ACCIDENTE, new QueryCondition(new Accidente("choque estacion")));
+        q->addCondition(FORMACION, new QueryCondition(new Formacion(630)));
+
+
+        std::vector<Record*> results = tree->find(q);
+
+        std::cout<< "Results Size" << results.size() << std::endl;
+
+
+        for(int i = 0; i< results.size(); i++){
+        	results[i]->dump();
+        	std::cout<< std::endl;
+        }
+
+
+        cleanUp();
+
+    }
 
 };

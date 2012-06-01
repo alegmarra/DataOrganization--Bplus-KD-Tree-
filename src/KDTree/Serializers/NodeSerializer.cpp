@@ -42,20 +42,22 @@ unsigned NodeSerializer::serializeNode(Node* node, int nodeNumber) {
 }
 
 Node* NodeSerializer::deserializeNode(unsigned node) {
-    if (!file)
+
+	if (!file)
         throw FileNotSetException();
 
-    Node* newNode;
+	Node* newNode;
     char* buffer = (char*)file->find(&node);
 
     if (!buffer)
         throw FileErrorException("deserializing", node);
 
-    if (buffer[0] & IS_LEAF)
+    if (buffer[0] & IS_LEAF){
         newNode = new LeafNode();
-    else
+    }
+    else{
         newNode = new InnerNode();
-
+    }
     int bytes = newNode->deserialize(buffer);
 
     delete[] buffer;
