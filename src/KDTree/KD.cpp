@@ -74,7 +74,7 @@ int KDtree::load(std::vector<Record*>& records){
 			//root overflow
 			root = root->grow();
 		}
-		else if (partialStatus == 1){
+		else if (partialStatus == 3){
 			//Duplicated record in load
 			returnStatus = 1;
 		}

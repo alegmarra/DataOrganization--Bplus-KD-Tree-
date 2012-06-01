@@ -11,6 +11,8 @@ InnerNode::InnerNode(unsigned _level) : Node(_level) {
     occupiedSpace = 2;
 }
 
+
+
 int InnerNode::insert(Record* record) {
 
 	std::vector<PairKeyNode*>::iterator it = elements.begin();
@@ -19,7 +21,7 @@ int InnerNode::insert(Record* record) {
 	Key* inRecordKey = getKeyByLevel(id, level);
     int result;
 
-    // First check if the left node should handle the shit
+    // First check if the left node should handle
     if(inRecordKey->compareTo((*it)->getKey()) < 0) {
         Node* next = NodeSerializer::deserializeNode(firstLeft);
 		result = next->insert(record);
@@ -94,14 +96,6 @@ int InnerNode::insert(Record* record) {
 int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
 			 	 	 	 	  std::vector<PairKeyNode*>::iterator position){
 
-/*
-	if((*position)->getKey()->compareTo((*(position-1))->getKey()) == 0){
-
-		Node* next = NodeSerializer::deserializeNode((*position)->getNode());
-		int result = next->insert( );
-	}
-*/
-
 
 	if (occupiedSpace < maxSize){
 		Node* newLeaf = NULL;
@@ -116,6 +110,7 @@ int InnerNode::manageOverflow(unsigned oldNumber, Node* oldLeaf,
 
 		elements.insert(position, pair);
 
+		numElements++;
 
 		occupiedSpace += pair->getSize();
 
@@ -186,26 +181,6 @@ std::vector<Record*> InnerNode::findByCondition(unsigned prevNode, Query* query,
 	return found;
 }
 
-/*
-std::vector<Record*> InnerNode::findInRange(unsigned prevNode, Query* query,
-					std::vector<PairKeyNode*>::iterator it) {
-
-	std::vector<Record*> found;
-	found = NodeSerializer::deserializeNode(prevNode)->find(query);
-
-	while ((query->eval(level, (*it)->getKey()) == Query::MATCH)
-			&& (it < elements.end())) {
-
-		std::vector<Record*> partial;
-		partial = NodeSerializer::deserializeNode((*it)->getNode())->find(
-				query);
-		found.insert(found.end(), partial.begin(), partial.end());
-		it++;
-	}
-	return found;
-}
-*/
-
 
 std::vector<Record*> InnerNode::find(Record* record){
 
@@ -219,14 +194,6 @@ std::vector<Record*> InnerNode::find(Record* record){
 	return find(exactQ, record->getID()->getDimensions());
 }
 
-
-
-
-//TODO multiple search por equal
-//Keys reales
-//TODO intentar hacer mierda el àrbol con muchos registros y las claves reales del TP
-
-#include "../RecordID/IntKey.h"
 
 std::vector<Record*> InnerNode::find(Query* query, unsigned dimensions){
 
@@ -296,6 +263,9 @@ int InnerNode::remove(ID* id){
 
 			if( next->remove(id) == 0 ){
 				NodeSerializer::serializeNode(next, (*it)->getNode());
+
+				numElements--;
+
 				return 0;
 			}
 		}

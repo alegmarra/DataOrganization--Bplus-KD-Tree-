@@ -40,7 +40,7 @@ public:
         path = "/tmp/test_KDTree.bin";
 		spacePath = "/tmp/test_KDTree_space.bin";
 
-        verbose = false;
+        verbose = true;
 
         cleanUp();
     }
@@ -54,7 +54,7 @@ public:
 	virtual void run()
 	{
 		try {
-		    test_Find();
+		//    test_Find();
 		    test_Full_Records();
 		} catch (...) {
 			cleanUp();
@@ -72,7 +72,7 @@ private:
         cleanUp();
         Record::setDimensions(3);
         KeyFactory::setDimensions(3);
-        FileBlocks * f = new FileBlocks(path, 200);
+        FileBlocks * f = new FileBlocks(path, 2096);
         KDtree * tree = new KDtree(3, f);
         Query * q;
         std::vector< Record * > result;
@@ -249,7 +249,7 @@ private:
 
         cleanUp();
         
-        unsigned blockSize = 1024;
+        unsigned blockSize = 2048;//1024;
 		unsigned k = 5;
 
         KeyFactory::setDimensions(k);
@@ -283,6 +283,9 @@ private:
         
             int load_result = tree->load(records);
 
+           delete tree;
+
+           tree = new KDtree(k, new FileBlocks(path, blockSize));
             if (verbose) {
 
                 tree->dump();

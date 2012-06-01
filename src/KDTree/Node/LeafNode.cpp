@@ -76,16 +76,8 @@ Node* LeafNode::grow() {
  * @throw FileNotSetException, FileErrorException,
  * 		  InvalidOperationException
  */
-#include <iostream>
-#include "../RecordID/IntKey.h"
 
 int LeafNode::insert(Record* record) {
-
-ID* id = record->getID();
-IntKey * x = dynamic_cast<IntKey *>(id->getKey(0));
-IntKey * y = dynamic_cast<IntKey *>(id->getKey(1));
-IntKey * z = dynamic_cast<IntKey *>(id->getKey(2));
-//std::cout << "EnLeaf - ID: " << x->getValue() << " " << y->getValue() << " " << z->getValue() << std::endl;
 
     std::vector< Record * > result = find(record);
 
@@ -142,8 +134,6 @@ std::vector<Record*> LeafNode::find(Record* record){
     }
 
 	std::vector< Record * > result = find(exactQ, record->getID()->getDimensions());
-    // TODO Copiar la clave para poder borrar la query safely
-	//delete exactQ;
 	return result;
 }
 
@@ -364,5 +354,6 @@ void LeafNode::dump()
 
     for (int i = 0; i < elements.size(); i++) {
         elements[i]->dump();
+        std::cout << ";" << std::endl;
     }
 }

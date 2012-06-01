@@ -3,7 +3,7 @@
 
 #include "IntKey.h"
 
-#define FORMACION 4
+#define FORMACION 0
 
 #include "IntKey.h"
 
