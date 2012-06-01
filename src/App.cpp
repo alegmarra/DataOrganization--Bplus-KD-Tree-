@@ -647,7 +647,32 @@ private:
        
     void helpAction()
     {
-        std::cout << "Para! quien te pensas que soy? Juan Carlos Manual?" << std::endl;
+        if (path.empty()) {
+        	usageAction();
+        	return;
+        }
+        
+        if (routes.find(path) == routes.end()) {
+        	std::cerr << "No existe el comando " << path << std::endl << std::endl;
+        	usageAction();
+        	return;
+        }
+        
+        std::map< std::string, std::string > man;
+        
+        man["test"] = "NOMBRE: test - Corre las pruebas de unidad\n";
+    	man["test"] += "USO: run test\n";
+    	man["test"] += "DESCRIPCION\n";
+    	man["test"] += "\tCorre los conjuntos de pruebas de unidad. Cada conjunto de\n";
+    	man["test"] += "\tpruebas inicializa con BEGIN y finaliza con END. Cada prueba\n";
+    	man["test"] += "\tdel conjunto corre varios casos de prueba. Por cada caso que\n";
+    	man["test"] += "\tresulte exitoso se mostrará un '.' junto al nombre de la\n";
+    	man["test"] += "\tprueba. Por cada caso fallido, se mostrará una F. Si al\n";
+    	man["test"] += "\tfinalizar un conjunto de pruebas se encontraron casos\n";
+    	man["test"] += "\tel programa finaliza la ejecución y muestra el registro de\n";
+    	man["test"] += "\terrores de los casos fallidos.";
+    
+        std::cout << man[path] << std::endl << std::endl;
     }
 };
 
