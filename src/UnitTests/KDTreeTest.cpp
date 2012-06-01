@@ -40,7 +40,7 @@ public:
         path = "/tmp/test_KDTree.bin";
 		spacePath = "/tmp/test_KDTree_space.bin";
 
-        verbose = true;
+        verbose = false;
 
         cleanUp();
     }
