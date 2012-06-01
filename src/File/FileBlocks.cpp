@@ -214,8 +214,6 @@ int FileBlocks::remove(void* object){
 
 void* FileBlocks::find(void* object){
 
-	//if (*((unsigned*)object) == 0) throw InvalidOperationException();
-
     reset();
 
     char* buffer = new char [blockSize];

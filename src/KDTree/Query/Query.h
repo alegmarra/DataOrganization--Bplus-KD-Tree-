@@ -25,8 +25,8 @@ public:
     /**
      * Evaluates the key against the conditions set for de dimension.
      * Return values:
-     *     LOWER: Key is below range, follow the left subtree
-     *     HIGHER: Key is above range, move to the right keys
+     *     LOWER: Key is below range, follow the right keys
+     *     HIGHER: Key is above range, move to the left subtree
      *     MATCH: Key is in range, or no condition is set for the dimension, 
      *     follow both left and right subtrees
      *     EQUAL: Key matches exactly to the condition. Search follow the right 

@@ -47,6 +47,7 @@ Node* NodeSerializer::deserializeNode(unsigned node) {
 
     Node* newNode;
     char* buffer = (char*)file->find(&node);
+
     if (!buffer)
         throw FileErrorException("deserializing", node);
 

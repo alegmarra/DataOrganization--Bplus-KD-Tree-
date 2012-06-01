@@ -10,12 +10,16 @@
 #include "../KDTree/RecordID/Falla.h"
 #include "../KDTree/RecordID/Accidente.h"
 #include "../KDTree/RecordID/Formacion.h"
+#include "../KDTree/RecordID/KeyFactory.h"
 
 #define FILENAME "testFile_nodeSerializer.bin"
 
 class SerializersTest : public Test {
     public:
-        SerializersTest(): Test("Serializers") { }
+        SerializersTest(): Test("Serializers") {
+            Record::setDimensions(5);
+            KeyFactory::setDimensions(5);
+        }
 
         void run() {
             test_serializeDeserializeRecord();

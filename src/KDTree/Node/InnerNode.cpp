@@ -168,12 +168,22 @@ std::vector<Record*> InnerNode::findByCondition(unsigned prevNode, Query* query,
 
 	std::vector<Record*> found;
 	if (prevNode){
+
+
+		//std::cout << "PREV NODE " << prevNode<< std::endl;
+
+
+
 		found = NodeSerializer::deserializeNode(prevNode)->find(query, dimensions);
 	}
 
 	while ( (it < elements.end() && (query->eval(level, (*it)->getKey()) == qCondition))) {
 
 		std::vector<Record*> partial;
+
+
+		//std::cout << "GET NODE " << (*it)->getNode()<< std::endl;
+
 		partial = NodeSerializer::deserializeNode((*it)->getNode())->find(query, dimensions);
 		found.insert(found.end(), partial.begin(), partial.end());
 		it++;
@@ -221,6 +231,7 @@ std::vector<Record*> InnerNode::find(Record* record){
 //Keys reales
 //TODO intentar hacer mierda el àrbol con muchos registros y las claves reales del TP
 
+#include "../RecordID/IntKey.h"
 
 std::vector<Record*> InnerNode::find(Query* query, unsigned dimensions){
 
@@ -229,15 +240,19 @@ std::vector<Record*> InnerNode::find(Query* query, unsigned dimensions){
 
 	it=elements.begin();
 
+//	std::cout << "IT KEY " <<(dynamic_cast<IntKey*>((*it)->getKey()))->getValue() <<std::endl;
+	//std::cout << "DIMENSION " << (level%dimensions) <<std::endl;
 	switch (query->eval((level%dimensions), (*it)->getKey())){
 
 		case (Query::HIGHER):{
 
+		//	std::cout << "HIGHER " << firstLeft<< std::endl;
 
  			return NodeSerializer::deserializeNode(firstLeft)->find(query, dimensions);
 		}
 		case (Query::EQUAL):{
 
+			//std::cout << "EQUAL " << firstLeft<< std::endl;
 
 /*
 			std::vector<Record*> partial;
@@ -256,30 +271,30 @@ std::vector<Record*> InnerNode::find(Query* query, unsigned dimensions){
 
 		case (Query::LOWER):{
 
+			//std::cout << "LOWER" << std::endl;
+
 			unsigned prev ;
 
-			while((it < elements.end())){ //&& (query->eval(level, (*it)->getKey()) == Query::HIGHER)){
-				 if (query->eval(level, (*it)->getKey()) == Query::LOWER){
+			while((it < elements.end()) && (query->eval(level, (*it)->getKey()) == Query::LOWER)){
 					 prev = (*it)->getNode();
 					 it++;
-				 }
-				 else
-					 break;
-
 			}
-			if (it != elements.end())
+			if (it != elements.end()){
+
 				if(query->eval(level, (*it)->getKey()) == Query::MATCH)
 					//return findInRange(prev, query, it);
-					return findByCondition(firstLeft, query, it,Query::MATCH, dimensions);
+					return findByCondition(prev, query, it,Query::MATCH, dimensions);
 
-				else
-					return NodeSerializer::deserializeNode(prev)->find(query, dimensions);
+				else{
+					return NodeSerializer::deserializeNode((*it)->getNode())->find(query, dimensions);
+				}
+			}
 			else
 				return NodeSerializer::deserializeNode((*(it-1))->getNode())->find(query, dimensions);
 		}
 
 		case (Query::MATCH):{
-
+	//		std::cout << "MATCH" << std::endl;
 			//return findInRange(firstLeft, query, it);
 			return findByCondition(firstLeft, query, it,Query::MATCH, dimensions);
 		}

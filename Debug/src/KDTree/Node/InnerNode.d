@@ -15,7 +15,8 @@ src/KDTree/Node/InnerNode.d: ../src/KDTree/Node/InnerNode.cpp \
  ../src/KDTree/Node/../RecordID/Key.h \
  ../src/KDTree/Node/../../Exceptions/InvalidOperationException.cpp \
  ../src/KDTree/Node/../Serializers/NodeSerializer.h \
- ../src/KDTree/Node/../Serializers/../Node/Node.h
+ ../src/KDTree/Node/../Serializers/../Node/Node.h \
+ ../src/KDTree/Node/../RecordID/IntKey.h
 
 ../src/KDTree/Node/InnerNode.h:
 
@@ -56,3 +57,5 @@ src/KDTree/Node/InnerNode.d: ../src/KDTree/Node/InnerNode.cpp \
 ../src/KDTree/Node/../Serializers/NodeSerializer.h:
 
 ../src/KDTree/Node/../Serializers/../Node/Node.h:
+
+../src/KDTree/Node/../RecordID/IntKey.h:
