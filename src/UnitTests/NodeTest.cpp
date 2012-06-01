@@ -12,6 +12,7 @@
 #include "../File/FileBlocks.h"
 #include "../KDTree/RecordID/IntKey.h"
 #include "../KDTree/RecordID/ID.h"
+#include "../KDTree/RecordID/KeyFactory.h"
 
 class NodeTest: public Test{
 
@@ -31,6 +32,8 @@ public:
 		treeFile = new FileBlocks(path, blockSize);
 		NodeSerializer::setFile(treeFile);
         srand(time(NULL));
+        Record::setDimensions(5);
+        KeyFactory::setDimensions(5);
     }
 
     Record* getRandRecord(unsigned dimensions = 3) {

@@ -27,7 +27,6 @@ FileBlocks::FileBlocks(const char * path, unsigned blockSize)
 		deserialize();
 	}
 	else{
-		//Reserves block 0 for metadata
 		char* buffer = new char[blockSize];
 
         for (unsigned i = 0; i< blockSize; i++)
@@ -213,8 +212,6 @@ int FileBlocks::remove(void* object){
 
 
 void* FileBlocks::find(void* object){
-
-	//if (*((unsigned*)object) == 0) throw InvalidOperationException();
 
     reset();
 

@@ -41,6 +41,8 @@ public:
         path = "/tmp/test_FindByQuery.bin";
 		spacePath = "/tmp/test_FindByQuery_space.bin";
         k = 3;
+        Record::setDimensions(k);
+        KeyFactory::setDimensions(k);
 
         cleanUp();
     }
@@ -57,13 +59,15 @@ public:
 			//test_Constructor_NewFile_NoError();
 
 		    test_FindByQuery();
-		    //test_Full_NonSense_records();
+		    test_Full_NonSense_records();
 
 		} catch (...) {
 			cleanUp();
 			throw;
 		}
 
+//        test_FindByQuery();
+        test_Full_NonSense_records();
 	}
 
 private:
@@ -78,30 +82,6 @@ private:
     {
         ID * id;
         KeyFactory::setDimensions(3);
-/*
-        int datos[20][3] = {
-            {1,  8,  12},
-            {8,  8,  14},
-            {5,  17, 18},
-            {1,  9,  15},
-            {1,  15, 13},
-            {17, 15, 4},
-            {4,  13, 20}, // SPLIT!
-            {11, 14, 12},
-            {20, 18, 18},
-            {9,  29, 13}, //SPLIT!
-            {15, 16, 5},
-            {13, 3,  11},
-            {20, 7,  1},
-            {7,  12, 13},
-            {5,  9,  18},
-            {4,  17, 17},
-            {6,  2,  7},
-            {8,  13, 6},
-            {19, 15, 2},
-            {10, 17, 19}
-        };
-*/
 
 int datos[100][3] = {
 {13,13,16},{14,18,12},{18,20,8},{6,4,4},{2,9,10},{1,2,2},{17,18,18}, // 7 SPLIT
@@ -210,7 +190,7 @@ int datos[100][3] = {
         Key* h = new IntKey(high, 8);
 
         q->addCondition(Z, new QueryCondition(l,h));
-  
+
         result = tree->find(q);
 
         expected= 0;
@@ -222,7 +202,7 @@ int datos[100][3] = {
 
             if((z->getValue() >=low) && (z->getValue() <=high)){
             	expected++;
-            }
+               	     }
         }
 
         if	(result.size() == expected) pass();
@@ -240,7 +220,8 @@ int datos[100][3] = {
 
         result = tree->find(q);
 
-        if (result.size() == 1) pass();
+        expected = 1;
+        if (result.size() == expected) pass();
         else {
         	sprintf(error, "Exact match failed. Expected result size 1. Got %d" , (int)result.size());
             fail(error);
@@ -281,7 +262,7 @@ int datos[100][3] = {
 
         stop();
     }
-/*
+
     Record* getRand_NonSense_Record() {
         ID* id = new ID(k);
         std::string auxString;
@@ -313,24 +294,30 @@ int datos[100][3] = {
     {
         start("Full_NonSense_records");
 
-        blockSize = 256;
+        blockSize = 2048;
         path = "/tmp/test_Full.bin";
 		spacePath = "/tmp/test_Full_space.bin";
         k = 5;
+        KeyFactory::setDimensions(k);
+        Record::setDimensions(k);
 
         FileBlocks * f = new FileBlocks(path, blockSize);
         KDtree * tree = new KDtree(k, f);
-        KeyFactory::setDimensions(k);
-        Record::setDimensions(k);
+
         std::vector<Record* > records(q);
         for (int i = 0; i < q; ++i)
             records[i] = getRand_NonSense_Record();
-
-        tree->load(records);
-        tree->dump();
+//        try {
+            tree->load(records);
+            tree->dump();
+//        }
+//        catch(std::exception& e) {
+//            std::cout << e.what() << std::endl;
+//            cleanUp();
+//        }
 
         cleanUp();
     }
 
-*/
+
 };
