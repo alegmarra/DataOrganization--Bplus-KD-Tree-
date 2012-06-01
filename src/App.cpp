@@ -1,3 +1,7 @@
+#ifndef APP_CPP
+#define APP_CPP
+
+
 #include "UnitTests/KeyTest.cpp"
 #include "UnitTests/ConditionTest.cpp"
 #include "UnitTests/QueryTest.cpp"
@@ -8,6 +12,7 @@
 #include "InputParser.cpp"
 #include "KDTree/KD.h"
 #include "File/FileBlocks.h"
+#include "KDTree/Query/Builder.h"
 
 
 #include <map>
@@ -47,24 +52,28 @@ private:
     std::map< std::string, unsigned > fields;
 
 public:
-	App() {
-		action = "";
-		routes["test"] = TEST;
-		routes["load"] = LOAD;
-		routes["insert"] = INSERT;
-		routes["find"] = FIND;
-		routes["remove"] = REMOVE;
-		routes["clear"] = CLEAR;
-		routes["delete"] = DELETE;
-		routes["show"] = SHOW;
-		routes["help"] = HELP;
+    App() 
+    {
+        action = "";
+        
+        KeyFactory::setDimensions(5);
+        
+        routes["test"] = TEST;
+        routes["load"] = LOAD;
+        routes["insert"] = INSERT;
+        routes["find"] = FIND; 
+        routes["remove"] = REMOVE;
+        routes["clear"] = CLEAR;
+        routes["delete"] = DELETE;
+        routes["show"] = SHOW;
+        routes["help"] = HELP;
 
 		fields["linea"] = LINEA;
 		fields["franja"] = FRANJA;
 		fields["falla"] = FALLA;
 		fields["accidente"] = ACCIDENTE;
 		fields["formacion"] = FORMACION;
-	}
+    }
 
 	void setPath(std::string _path) {
 		path = _path;
@@ -286,7 +295,36 @@ private:
     
     void findAction() 
     {
-        std::cout << path;
+        if (path.size() == 0 || args.size() == 0) {
+            usageAction();
+            return;
+        }
+        
+        QueryBuilder builder;
+        Query * q = new Query();
+        builder.setQuery(q);
+
+        for (int i = 0; i < args.size(); i++) {
+            
+            bool parsed = builder.parse(args[i]);
+            
+            if (!parsed) {
+                delete q;
+                std::cerr << "Error de sintaxis" << std::endl;
+                return;
+            }
+        }
+        
+        KDtree * tree = new KDtree(5, new FileBlocks(path.c_str(), 4096));
+        std::vector< Record * > result = tree->find(q);
+
+        std::cout << "Se encontraron " << result.size() << " registros." << std::endl;
+        
+        for (int i = 0; i < result.size(); i++) {
+            result[i]->dump();
+            std::cout << std::endl;
+        }
+        
     };
     
     void removeAction() {
@@ -405,3 +443,4 @@ private:
     }
 };
 
+#endif
