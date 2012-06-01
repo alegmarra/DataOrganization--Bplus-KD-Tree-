@@ -17,7 +17,6 @@ class InnerNode: public Node{
 
     	void addPair(PairKeyNode* pair);
 
-    	//TODO ambos tiran exception
     	virtual Node* grow();
     	virtual Key* split(Node*& newNode);
 

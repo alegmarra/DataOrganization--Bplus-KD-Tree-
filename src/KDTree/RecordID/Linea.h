@@ -3,7 +3,7 @@
 
 #include "StringKey.h"
 
-#define LINEA 0
+#define LINEA 4
 
 /** @todo clase ilustrativa, potencialmente eliminable */
 class Linea : public StringKey {

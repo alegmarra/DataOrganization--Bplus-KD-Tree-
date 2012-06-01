@@ -40,6 +40,10 @@
 #define DIMENSIONS 5
 #endif
 
+#ifndef BLOCKSIZE
+#define BLOCKSIZE 4096
+#endif
+
 
 class App
 {
@@ -56,7 +60,7 @@ public:
     {
         action = "";
         
-        KeyFactory::setDimensions(5);
+        KeyFactory::setDimensions(DIMENSIONS);
         
         routes["test"] = TEST;
         routes["load"] = LOAD;
@@ -124,10 +128,9 @@ public:
 
 private:
 	void loadAction() {
-		std::vector<Record*> records = InputParser::recoverRecords(
-				args[0].c_str());
+		std::vector<Record*> records = InputParser::recoverRecords(	args[0].c_str());
 		unsigned dim = DIMENSIONS;
-		KDtree* tree = new KDtree(dim, new FileBlocks(path.c_str(), 4096));
+		KDtree* tree = new KDtree(dim, new FileBlocks(path.c_str(), BLOCKSIZE));
 		int result = tree->load(records);
 		if (result == 0)
 			std::cout << "Los registros se cargaron correctamente!"
@@ -279,7 +282,7 @@ private:
 
 		Record* record = getRecordFromInput();
 
-        KDtree* tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), 4096));
+        KDtree* tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), BLOCKSIZE));
         int result = tree->insert(record);
 
 		if (result == 0)
@@ -315,7 +318,7 @@ private:
             }
         }
         
-        KDtree * tree = new KDtree(5, new FileBlocks(path.c_str(), 4096));
+        KDtree * tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), BLOCKSIZE));
         std::vector< Record * > result = tree->find(q);
 
         std::cout << "Se encontraron " << result.size() << " registros." << std::endl;
@@ -331,7 +334,7 @@ private:
 
     	Record* record = getRecordFromInput();
 
-        KDtree* tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), 4096));
+        KDtree* tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), BLOCKSIZE));
         int result= tree->remove(record);
 
 		if (result == 0)
@@ -347,9 +350,7 @@ private:
     
     void clearAction() {
 
-    	unsigned dim = DIMENSIONS;
-
-        KDtree * tree = new KDtree(dim, new FileBlocks(path.c_str(), 4096));
+        KDtree * tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), BLOCKSIZE));
 
         tree->clear();
 
@@ -371,9 +372,7 @@ private:
     
     void showAction() {
 
-    	unsigned dim = DIMENSIONS;
-
-        KDtree * tree = new KDtree(dim, new FileBlocks(path.c_str(), 4096));
+        KDtree * tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), BLOCKSIZE));
 
         tree->dump();
 
@@ -427,7 +426,7 @@ private:
             << "\tfind\t\tRealiza una consulta sobre el árbol" << std::endl
             << "\tremove\t\tElimina un registro del árbol" << std::endl
             << "\tclear\t\tVacía el contenido del árbol" << std::endl
-            << "\tdelete\t\t???" << std::endl
+            << "\tdelete\t\Borra todos los archivos relacionados " << std::endl
             << "\tshow\t\tMuestra el contenido del árbol" << std::endl
             << std::endl
             << "Probá 'run help <comando>' para mas información sobre un comando específico" << std::endl

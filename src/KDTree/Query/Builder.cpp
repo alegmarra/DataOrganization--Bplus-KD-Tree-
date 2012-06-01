@@ -98,6 +98,15 @@ bool QueryBuilder::parse(std::string expr)
     Key * lowKey;
     Key * hiKey;
     
+    if(dimension == "franja"){
+
+
+
+
+
+    }
+
+
     if (low != "*") {
         lowKey = KeyFactory::getKey(dimensions[dimension], low);
         c->setLow(lowKey);
