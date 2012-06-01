@@ -683,8 +683,17 @@ man["load"] += "\t  linea[%s%]fallas[%s%]accidentes[%s%]formacion[%d%]franja[%d%
 man["load"] += "\tDonde '%s%' representa una cadena de caracteres distinta de ']'\n";
 man["load"] += "\ty '%d%' representa un número entero";
 
-
-
+man["insert"] = "NOMBRE: insert - Inserta un nuevo elemento en el árbol\n";
+man["insert"] += "USO: run insert <key1>=<value1> [<key2>=<value2> [<key3>=<value3>\n";
+man["insert"] += "\t[<key4>=<value4> [<key5>=<value5>]]]]\n";
+man["insert"] += "DESCRIPCION\n";
+man["insert"] += "\tPermite crear e insertar un registro. Cada argumento deber ser\n";
+man["insert"] += "\tun par clave=valor. Para admitir valores con espacios, todo el\n";
+man["insert"] += "\targumento debe estar entre comillas. Sólo una clave es obligatoria.\n";
+man["insert"] += "\tLas claves faltantes serán generadas con el valor más bajo\n";
+man["insert"] += "\tposible para el dominio de esa dimensión. Si el registro ya\n";
+man["insert"] += "\tse encuentra almacenado en el árbol, no se realizará ninguna\n";
+man["insert"] += "\tacción";
 /*
         routes["insert"] = INSERT;
         routes["find"] = FIND; 
