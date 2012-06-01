@@ -1,3 +1,7 @@
+#ifndef APP_CPP
+#define APP_CPP
+
+
 #include "UnitTests/KeyTest.cpp"
 #include "UnitTests/ConditionTest.cpp"
 #include "UnitTests/QueryTest.cpp"
@@ -8,6 +12,7 @@
 #include "InputParser.cpp"
 #include "KDTree/KD.h"
 #include "File/FileBlocks.h"
+#include "KDTree/Query/Builder.h"
 
 
 #include <map>
@@ -145,59 +150,31 @@ private:
             return;
         }
         
+        QueryBuilder builder;
         Query * q = new Query();
+        builder.setQuery(q);
 
         for (int i = 0; i < args.size(); i++) {
-            std::string dimension = "";
-            char op = 'M'; // (E)qual, (R)ange, (F)inished or (M)issing
-            std::string low = "";
-            std::string high = "";
-            char status = 'D'; // (D)imension, (L)ow or (H)igh
-            std::string * container = &dimension;           
-            for (int c = 0; c < args[i].size(); c++) {
-                char _c = args[i][c];
-                switch(status) {
-                    case 'D':
-                        if (_c == '=' || _c == '[') {
-                            if (_c == '=') {
-                                op = 'E';
-                            } else {
-                                op = 'R';
-                            }
-                            container = &low;
-                            status = 'L';
-                        } else {
-                            (*container) += tolower(_c);
-                        }
-                        break;
-                        
-                    case 'L':
-                        if (_c == ',') {
-                            container = &high;
-                            status = 'H';
-                        } else {
-                            (*container) += _c;
-                        }
-                        break;
-                        
-                    case 'H':
-                        if (_c == ']') {
-                            status = 'F';
-                        } else {
-                            (*container) += _c;
-                        }
-                        break;
-                        
-                    default: break;
-                }
-                
-            }
             
-            std::cout << "Dimension: " << dimension << std::endl;
-            std::cout << "Operador: " << op << std::endl;
-            std::cout << "Low: " << low << std::endl;
-            std::cout << "High: " << high << std::endl;
-        }        
+            bool parsed = builder.parse(args[i]);
+            
+            if (!parsed) {
+                delete q;
+                std::cerr << "Error de sintaxis" << std::endl;
+                return;
+            }
+        }
+        
+        KDtree * tree = new KDtree(5, new FileBlocks(path.c_str(), 4096));
+        std::vector< Record * > result = tree->find(q);
+
+        std::cout << "Se encontraron " << result.size() << " registros." << std::endl;
+        
+        for (int i = 0; i < result.size(); i++) {
+            result[i]->dump();
+            std::cout << std::endl;
+        }
+        
     };
     
     void removeAction() {};
@@ -300,3 +277,4 @@ private:
     }
 };
 
+#endif
