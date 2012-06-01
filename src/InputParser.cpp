@@ -5,6 +5,8 @@
 #include <vector>
 #include <cstdlib>
 
+#include <sstream>
+
 #include "KDTree/RecordID/ID.h"
 #include "KDTree/RecordID/IntKey.h"
 #include "KDTree/Record.h"
@@ -92,7 +94,14 @@ public:
 			ID* id = new ID(dimensions);
 
 		    id->addKey(new Linea(set[0]));
-            id->addKey(new FranjaHoraria(rand()%24));
+
+            std::istringstream convert(set[4]);
+		    unsigned fh;
+            if ( !(convert >> fh) ) fh = 0;
+std::cout << fh << std::endl;
+            id->addKey(new FranjaHoraria(fh));
+            //id->addKey(new FranjaHoraria(atoi(set[4].c_str())));
+
 		    id->addKey(new Falla(set[1]));
 		    id->addKey(new Accidente(set[2]));
 		    id->addKey(new Formacion(atoi(set[3].c_str())));
@@ -100,7 +109,7 @@ public:
 	        records.push_back( new Record(id));
 
 		}
-
+exit(2);
 		ID* id = new ID(dimensions);
 
 	    id->addKey(new Linea("Mitre"));
