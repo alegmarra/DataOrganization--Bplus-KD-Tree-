@@ -214,6 +214,8 @@ int FileBlocks::remove(void* object){
 
 void* FileBlocks::find(void* object){
 
+std::cout<< "IN FIND" <<std::endl;
+
     reset();
 
     char* buffer = new char [blockSize];

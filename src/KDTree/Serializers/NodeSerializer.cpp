@@ -42,25 +42,41 @@ unsigned NodeSerializer::serializeNode(Node* node, int nodeNumber) {
 }
 
 Node* NodeSerializer::deserializeNode(unsigned node) {
-    if (!file)
+
+std::cout<< "deserializeNode" <<std::endl;
+
+	if (!file)
         throw FileNotSetException();
 
-    Node* newNode;
-    char* buffer = (char*)file->find(&node);
+std::cout<< "NewNODE" <<std::endl;
+
+	Node* newNode= NULL;
+
+std::cout<< "FILE FIND" <<std::endl;
+
+    char* buffer = (char*)file->find(& node);
+
+std::cout<< "BUFFER" <<std::endl;
+
+
     if (!buffer){
 
-    	std::cout << "FILE ERROR" << std::endl;
+std::cout << " !BUFFER => FILE ERROR" << std::endl;
 
     	throw FileErrorException();
-
-
-
-
     }
-    if (buffer[0] & IS_LEAF)
+    if (buffer[0] & IS_LEAF){
+std::cout<< "New LEAF" <<std::endl;
+
         newNode = new LeafNode();
-    else
+    }
+    else{
+std::cout<< "New INNER" <<std::endl;
+
         newNode = new InnerNode();
+    }
+
+std::cout<< "DESERIALIZE BUFFER" <<std::endl;
 
     int bytes = newNode->deserialize(buffer);
 

@@ -401,13 +401,16 @@ tree->dump();
         start("Full_NonSense_records");
 
         blockSize = 256;
-        path = "/tmp/test_Full.bin";
-		spacePath = "/tmp/test_Full_space.bin";
+        path = "test_Full.bin";
+		spacePath = "test_Full_space.bin";
         k = 5;
+
+        remove(path);
+        remove(spacePath);
 
         FileBlocks * f = new FileBlocks(path, blockSize);
         KDtree * tree = new KDtree(k, f);
-        KeyFactory::setDimensions(k);
+/*        KeyFactory::setDimensions(k);
         Record::setDimensions(k);
         std::vector<Record* > records(q);
         for (int i = 0; i < q; ++i)
@@ -417,6 +420,7 @@ tree->dump();
         tree->dump();
 
         cleanUp();
+*/
     }
 
 

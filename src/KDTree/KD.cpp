@@ -35,15 +35,23 @@ int KDtree::remove(Record* record){
  */
 void KDtree::setRoot() {
 
+std::cout<< "setFile" <<std::endl;
   	NodeSerializer::setFile((FileBlocks *)treeFile);
+
+std::cout<< "setFullSize "<< ((FileBlocks *)treeFile)->getBlockSize() <<std::endl;
 
     Node::setFullSize(((FileBlocks *)treeFile)->getBlockSize());
 
 	try{
+		std::cout<< "deserializer ROOT: 0" <<std::endl;
 		root = NodeSerializer::deserializeNode(0);
 	}
 	catch(FileErrorException& e){
+
+		std::cout<< "ERROR => new LeafNode" <<std::endl;
 		root = new LeafNode();
+
+		std::cout<< "SerializeNode" <<std::endl;
 		NodeSerializer::serializeNode(root);
 	}
 
