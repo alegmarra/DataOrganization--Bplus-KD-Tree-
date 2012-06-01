@@ -235,38 +235,18 @@ std::vector<Record*> InnerNode::find(Query* query, unsigned dimensions){
 
 	it=elements.begin();
 
-//	std::cout << "IT KEY " <<(dynamic_cast<IntKey*>((*it)->getKey()))->getValue() <<std::endl;
-	//std::cout << "DIMENSION " << (level%dimensions) <<std::endl;
 	switch (query->eval((level%dimensions), (*it)->getKey())){
 
 		case (Query::HIGHER):{
-
-		//	std::cout << "HIGHER " << firstLeft<< std::endl;
 
  			return NodeSerializer::deserializeNode(firstLeft)->find(query, dimensions);
 		}
 		case (Query::EQUAL):{
 
-			//std::cout << "EQUAL " << firstLeft<< std::endl;
-
-/*
-			std::vector<Record*> partial;
-
-			while((query->eval(level, (*it)->getKey()) == Query::EQUAL)
-					 && (it < elements.end())){
-
-				partial = NodeSerializer::deserializeNode((*it)->getNode())->find(query);
-				found.insert(found.end(), partial.begin(), partial.end());
-				it++;
-			}
-			return found;
-*/
 			return findByCondition(firstLeft, query, it,Query::EQUAL, dimensions);
 		}
 
 		case (Query::LOWER):{
-
-			//std::cout << "LOWER" << std::endl;
 
 			unsigned prev ;
 
@@ -277,7 +257,6 @@ std::vector<Record*> InnerNode::find(Query* query, unsigned dimensions){
 			if (it != elements.end()){
 
 				if(query->eval(level, (*it)->getKey()) == Query::MATCH)
-					//return findInRange(prev, query, it);
 					return findByCondition(prev, query, it,Query::MATCH, dimensions);
 
 				else{
@@ -289,8 +268,6 @@ std::vector<Record*> InnerNode::find(Query* query, unsigned dimensions){
 		}
 
 		case (Query::MATCH):{
-	//		std::cout << "MATCH" << std::endl;
-			//return findInRange(firstLeft, query, it);
 			return findByCondition(firstLeft, query, it,Query::MATCH, dimensions);
 		}
 
@@ -315,10 +292,12 @@ int InnerNode::remove(ID* id){
 	while(it < elements.end()){
 		if ((*it)->getKey()->compareTo(id->getKey(level%dimension)) == 0 ){
 
-			int status = NodeSerializer::deserializeNode((*it)->getNode())->remove(id);
+			Node* next = NodeSerializer::deserializeNode((*it)->getNode());
 
-			if( status == 0 )
+			if( next->remove(id) == 0 ){
+				NodeSerializer::serializeNode(next, (*it)->getNode());
 				return 0;
+			}
 		}
 	}
 

@@ -253,11 +253,9 @@ private:
 		return recordsList;
 	}
 
-	void insertAction() {
-
+	Record* getRecordFromInput(){
 		std::vector < std::vector<std::string> > fieldsList = parseInput();
 
-		Record* record;
 		ID* id = new ID(DIMENSIONS);
 		std::vector<bool> visited(DIMENSIONS, false);
 
@@ -265,10 +263,22 @@ private:
 
 		fillMissingData(visited, id);
 
-        record = new Record(id);
+		return new Record(id);
+	}
+
+	void insertAction() {
+
+		Record* record = getRecordFromInput();
 
         KDtree* tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), 4096));
-        tree->insert(record);
+        int result = tree->insert(record);
+
+		if (result == 0)
+			std::cout << "Registro cargado correctamente!"
+					<< std::endl;
+		else
+			std::cerr << "Registro duplicado"
+					<< std::endl;
 
         delete tree;
 
@@ -279,7 +289,23 @@ private:
         std::cout << path;
     };
     
-    void removeAction() {};
+    void removeAction() {
+
+    	Record* record = getRecordFromInput();
+
+        KDtree* tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), 4096));
+        int result= tree->remove(record);
+
+		if (result == 0)
+			std::cout << "Registro eliminado!"
+					<< std::endl;
+		else
+			std::cerr << "Registro No encontrado"
+					<< std::endl;
+
+        delete tree;
+
+    };
     
     void clearAction() {
 

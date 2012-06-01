@@ -18,7 +18,12 @@ KDtree::KDtree(unsigned nDimensions, FileAbstract* myFile)
  */
 int KDtree::remove(Record* record){
 
-	return root->remove(record->getID());
+	int result = root->remove(record->getID());
+
+	if (result == 0)
+		NodeSerializer::serializeNode(root, 0);
+
+	return result;
 
 }
 
