@@ -1,7 +1,6 @@
 #ifndef APP_CPP
 #define APP_CPP
 
-
 #include "UnitTests/KeyTest.cpp"
 #include "UnitTests/ConditionTest.cpp"
 #include "UnitTests/QueryTest.cpp"
@@ -9,6 +8,28 @@
 #include "UnitTests/SerializersTest.cpp"
 #include "UnitTests/NodeTest.cpp"
 #include "UnitTests/KDTreeTest.cpp"
+
+#define TEST 1
+#define LOAD 2
+#define INSERT 3
+#define FIND 4
+#define REMOVE 5
+#define CLEAR 6
+#define DELETE 7
+#define SHOW 8
+#define HELP 9
+#define REPORT 10
+
+#ifndef DIMENSIONS
+#define DIMENSIONS 5
+#endif
+
+#ifdef BLOCKSIZE
+#undef BLOCKSIZE
+#endif
+#define BLOCKSIZE 512
+
+
 #include "InputParser.cpp"
 #include "KDTree/KD.h"
 #include "File/FileBlocks.h"
@@ -26,25 +47,6 @@
  *     run <action> [<args>]
  */
  
-#define TEST 1
-#define LOAD 2
-#define INSERT 3
-#define FIND 4
-#define REMOVE 5
-#define CLEAR 6
-#define DELETE 7
-#define SHOW 8
-#define HELP 9
-#define REPORT 10
-
-#ifndef DIMENSIONS
-#define DIMENSIONS 5
-#endif
-
-#ifndef BLOCKSIZE
-#define BLOCKSIZE 512
-#endif
-
 
 class App
 {
