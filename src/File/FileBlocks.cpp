@@ -314,7 +314,7 @@ FileBlocks::~FileBlocks(){
 	rewind(f_space);
 	fwrite(buffer, 4, ((blockSize/4)-1), f_space);
 	fclose(f_space);
-	delete[] (unsigned*)buffer;
+	//delete[] (unsigned*)buffer;
 }
 
 

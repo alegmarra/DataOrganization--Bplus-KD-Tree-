@@ -87,7 +87,7 @@ public:
 
 		std::vector<Record*> records;
 
-		int dimensions = 5; //inputRecords[0].size();
+		int dimensions = inputRecords[0].size();
 
 		srand(time(NULL));
 
