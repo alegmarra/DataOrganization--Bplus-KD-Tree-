@@ -1,18 +1,10 @@
-/*
- * ID.h
- *
- *  Created on: May 7, 2012
- *      Author: AleMarra
- */
-
 #ifndef ID_H_
 #define ID_H_
+
 #include <cstdlib>
 #include <vector>
 
 #include "Key.h"
-
-enum t_Key{ t_Linea, t_Franja, t_Falla, t_Accidente, t_Formacion };
 
 class Linea;
 class FranjaHoraria;
@@ -29,7 +21,6 @@ public:
      * @throw NonExistingDimensionException
      */
 	void addKey(unsigned dimension, Key* key);
-	void addKey(t_Key type, Key* key);
 
 	/** especializaciones para el TP */
 	void addKey(Linea* k);
@@ -43,7 +34,6 @@ public:
      * @throw NonExistingDimensionException
      */
 	Key* getKey(unsigned dimension);
-	Key* getKey(t_Key type);
 
 	unsigned getDimensions();
 	unsigned getSize();

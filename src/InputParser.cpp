@@ -16,6 +16,7 @@
 #include "KDTree/Record.h"
 
 #include <time.h>
+#include "KDTree/RecordID/KeyFactory.h"
 #include "KDTree/RecordID/Linea.h"
 #include "KDTree/RecordID/FranjaHoraria.h"
 #include "KDTree/RecordID/Falla.h"
@@ -97,12 +98,19 @@ public:
 
 			ID* id = new ID(dimensions);
 
+			id->addKey(LINEA, KeyFactory::getKey(LINEA, set[0]));
+			//id->addKey(FRANJA, KeyFactory::getKey(FRANJA, set[0]);
+			id->addKey(new FranjaHoraria(atoi(set[4].c_str())));
+			id->addKey(FALLA, KeyFactory::getKey(FALLA, set[1]));
+			id->addKey(ACCIDENTE, KeyFactory::getKey(ACCIDENTE, set[2]));
+			id->addKey(FORMACION, KeyFactory::getKey(FORMACION, set[3]));
+/*
 		    id->addKey(new Linea(set[0]));
             id->addKey(new FranjaHoraria(atoi(set[4].c_str())));
 		    id->addKey(new Falla(set[1]));
 		    id->addKey(new Accidente(set[2]));
 		    id->addKey(new Formacion(atoi(set[3].c_str())));
-
+*/
 	        records.push_back( new Record(id));
 
 		}

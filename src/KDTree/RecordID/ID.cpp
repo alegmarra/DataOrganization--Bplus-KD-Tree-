@@ -19,10 +19,6 @@ void ID::addKey(unsigned dimension, Key* key){
 	keys[dimension] = key;
 }
 
-void ID::addKey(t_Key type, Key* key){
-	keys[type] = key;
-}
-
 void ID::addKey(Linea* k) {
     keys[LINEA] = k;
 }
@@ -48,10 +44,6 @@ Key* ID::getKey(unsigned dimension){
         throw NonExistingDimensionException(dimension, dimensions);
 
 	return keys[dimension];
-}
-
-Key* ID::getKey(t_Key type){
-	return keys[type];
 }
 
 unsigned ID::getSize(){
