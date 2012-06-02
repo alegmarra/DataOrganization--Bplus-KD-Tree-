@@ -433,14 +433,14 @@ private:
     void reportAction()
     {
     	/*
-    	Todos los trenes que tienen cierta falla.
-		Todos los trenes que tienen cierto accidente.
-		Todas las fallas de una formacion determinada.
-		Todos los accidentes de una formacion determinada.
-		Todas las fallas.
-		Todas las formaciones.
-		Todas las lineas.
-		Todos los accidentes
+    	1. Todos los trenes que tienen cierta falla.
+		2. Todos los trenes que tienen cierto accidente.
+		3. Todas las fallas de una formacion determinada.
+		4. Todos los accidentes de una formacion determinada.
+		5. Todas las fallas.
+		6. Todas las formaciones.
+		7. Todas las lineas.
+		8. Todos los accidentes
 		*/
 		
 		std::map< std::string, unsigned > available_reports;
@@ -634,7 +634,7 @@ private:
             << "\tfind\t\tRealiza una consulta sobre el árbol" << std::endl
             << "\tremove\t\tElimina un registro del árbol" << std::endl
             << "\tclear\t\tVacía el contenido del árbol" << std::endl
-            << "\tdelete\t\tBorra todos los archivos relacionados " << std::endl
+            << "\tdelete\t\tBorra todos los archivos relacionados" << std::endl
             << "\tshow\t\tMuestra el contenido del árbol" << std::endl
             << "\treport\t\tMuestra los reportes" << std::endl
             << std::endl
@@ -720,14 +720,36 @@ man["remove"] += "\tElimina del arbol <tree_path> el registro identificado por l
 man["remove"] += "\t5 claves pasadas. Cada argumento debe ser un par clave=valor\n";
 man["remove"] += "\tPara admitir valores con espacios, todo el argumento debe estar\n";
 man["remove"] += "\tentre comillas.";
-/*
-        routes["clear"] = CLEAR;
-        routes["delete"] = DELETE;
-        routes["show"] = SHOW;
-        routes["help"] = HELP;
-        routes["report"] = REPORT;
-*/
 
+man["clear"] = "NOMBRE: clear - Vacía el contenido del árbol\n";
+man["clear"] += "USO: run clear <tree_path>\n";
+man["clear"] += "DESCRIPCION\n";
+man["clear"] += "\tElimina todos los registros almacenados en el árbol <tree_path>\n";
+man["clear"] += "\tpero mantiene los archivos en el disco";
+
+man["delete"] = "NOMBRE: delete - Borra todos los archivos relacionados\n";
+man["delete"] += "USO: run delete <tree_path>\n";
+man["delete"] += "DESCRIPCION\n";
+man["delete"] += "\tElimina del disco los archivos de soporte del árbol <tree_path>";
+
+man["show"] = "NOMBRE: show - Muestra el contenido del árbol\n";
+man["show"] += "USO: run show <tree_path>\n";
+man["show"] += "DESCRIPCION\n";
+man["show"] += "\tMuestra por pantalla la estructura actual del árbol <tree_path>\n";
+
+man["report"] = "NOMBRE: report - Muestra los reportes\n";
+man["report"] += "USO: run report <tree_path> <report>\n";
+man["report"] += "DESCRIPCION\n";
+man["report"] += "\tMuestra por pantalla los distintos informes disponibles\n";
+man["report"] += "\t<report> debe ser una opción de la siguiente lista:\n";
+man["report"] += "\t  trenesxfalla\t\t- Todos los trenes que tienen cierta falla\n";
+man["report"] += "\t  trenesxaccidente\t- Todos los trenes que tienen cierto accidente\n";
+man["report"] += "\t  fallasxformacion\t- Todas las fallas de una formacion determinada\n";
+man["report"] += "\t  accidentesxformacion\t- Todos los accidentes de una formacion determinada\n";
+man["report"] += "\t  fallas\t\t- Todas las fallas\n";
+man["report"] += "\t  formaciones\t\t- Todas las formaciones\n";
+man["report"] += "\t  lineas\t\t- Todas las lineas\n";
+man["report"] += "\t  accidentes\t\t- Todos los accidentes\n";
 
         std::cout << man[path] << std::endl << std::endl;
     }
