@@ -741,15 +741,16 @@ man["report"] = "NOMBRE: report - Muestra los reportes\n";
 man["report"] += "USO: run report <tree_path> <report>\n";
 man["report"] += "DESCRIPCION\n";
 man["report"] += "\tMuestra por pantalla los distintos informes disponibles\n";
-man["report"] += "\t<report> debe ser una opción de la siguiente lista:\n";
-man["report"] += "\t  trenesxfalla\t\t- Todos los trenes que tienen cierta falla\n";
-man["report"] += "\t  trenesxaccidente\t- Todos los trenes que tienen cierto accidente\n";
-man["report"] += "\t  fallasxformacion\t- Todas las fallas de una formacion determinada\n";
-man["report"] += "\t  accidentesxformacion\t- Todos los accidentes de una formacion determinada\n";
-man["report"] += "\t  fallas\t\t- Todas las fallas\n";
-man["report"] += "\t  formaciones\t\t- Todas las formaciones\n";
-man["report"] += "\t  lineas\t\t- Todas las lineas\n";
-man["report"] += "\t  accidentes\t\t- Todos los accidentes\n";
+man["report"] += "\t<report> debe ser una opción de la siguiente lista con los\n";
+man["report"] += "\tcorrespondientes parámetros:\n\n";
+man["report"] += "    trenesxfalla <falla>\t\t\t\t- Todos los trenes que tienen cierta falla\n";
+man["report"] += "    trenesxaccidente <accidente>\t\t\t- Todos los trenes que tienen cierto accidente\n";
+man["report"] += "    fallasxformacion <linea> <formacion>\t\t- Todas las fallas de una formacion determinada\n";
+man["report"] += "    accidentesxformacion <linea> <formacion>\t- Todos los accidentes de una formacion determinada\n";
+man["report"] += "    fallas\t\t\t\t\t- Todas las fallas\n";
+man["report"] += "    formaciones\t\t\t\t\t- Todas las formaciones\n";
+man["report"] += "    lineas\t\t\t\t\t- Todas las lineas\n";
+man["report"] += "    accidentes\t\t\t\t\t- Todos los accidentes\n";
 
         std::cout << man[path] << std::endl << std::endl;
     }
