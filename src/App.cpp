@@ -42,7 +42,7 @@
 #endif
 
 #ifndef BLOCKSIZE
-#define BLOCKSIZE 4096
+#define BLOCKSIZE 512
 #endif
 
 
@@ -56,11 +56,14 @@ private:
     std::map< std::string, unsigned > routes;
     std::map< std::string, unsigned > fields;
 
+    unsigned blockSize;
 public:
     App() 
     {
         action = "";
         
+        blockSize = 512;
+
         KeyFactory::setDimensions(DIMENSIONS);
         
         routes["test"] = TEST;
@@ -135,7 +138,7 @@ private:
 	void loadAction() {
 		std::vector<Record*> records = InputParser::recoverRecords(	args[0].c_str());
 		unsigned dim = DIMENSIONS;
-		KDtree* tree = new KDtree(dim, new FileBlocks(path.c_str(), BLOCKSIZE));
+		KDtree* tree = new KDtree(dim, new FileBlocks(path.c_str(), blockSize));
 		int result = tree->load(records);
 		if (result == 0)
 			std::cout << "Los registros se cargaron correctamente!"
@@ -287,7 +290,7 @@ private:
 
 		Record* record = getRecordFromInput();
 
-        KDtree* tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), BLOCKSIZE));
+        KDtree* tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), blockSize));
         int result = tree->insert(record);
 
 		if (result == 0)
@@ -339,7 +342,7 @@ private:
 
     	Record* record = getRecordFromInput();
 
-        KDtree* tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), BLOCKSIZE));
+        KDtree* tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), blockSize));
         int result= tree->remove(record);
 
 		if (result == 0)
@@ -355,7 +358,7 @@ private:
     
     void clearAction() {
 
-        KDtree * tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), BLOCKSIZE));
+        KDtree * tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), blockSize));
 
         tree->clear();
 
@@ -377,7 +380,7 @@ private:
     
     void showAction() {
 
-        KDtree * tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), BLOCKSIZE));
+        KDtree * tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), blockSize));
 
         tree->dump();
 
@@ -423,8 +426,13 @@ private:
     bool shown(Key* key,std::vector<Key*> shownKeys){
 
     	for(int i = 0; i< shownKeys.size(); i++){
-    			if(shownKeys[i]->compareTo(key) == 0)
+    			try{
+    				if(shownKeys[i]->compareTo(key) == 0)
+
     				return true;
+    			}catch(InvalidKeyException& e){
+
+    			}
     	}
 
     	return false;
@@ -587,7 +595,7 @@ private:
 				return;
 		}
 		
-		KDtree * tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), BLOCKSIZE));
+		KDtree * tree = new KDtree(DIMENSIONS, new FileBlocks(path.c_str(), blockSize));
 		std::vector< Record * > result = tree->find(q);
 		
 		if (result.size() == 0) {
@@ -607,14 +615,14 @@ private:
 
 			for (int i = 0; i < result.size(); i++) {
 				for (int f = 0; f < fields.size(); f++) {
-					if (!shown(result[i]->getID()->getKey(fields[f]), shownKeys)){
+					if ((!shown(result[i]->getID()->getKey(fields[f]), shownKeys)) || (fields.size()>1)){
 						result[i]->getID()->getKey(fields[f])->dump();
 						shownKeys.push_back(result[i]->getID()->getKey(fields[f]));
 						std::cout << "\t\t";
-						std::cout << std::endl;
-
+						if((fields.size()==1))std::cout << std::endl;
 					}
 				}
+				if((fields.size()>1))std::cout << std::endl;
 			}
 
 
