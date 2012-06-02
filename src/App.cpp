@@ -712,8 +712,15 @@ man["find"] += "\tinfinito positivo o negativo dependiend del extremo. Para\n";
 man["find"] += "\tadmitir valores con espacios, todo el argumento debe estar entre\n";
 man["find"] += "\tcomillas";
 
+man["remove"] = "NOMBRE: remove - Elimina un registro del árbol\n"; 
+man["remove"] += "USO: run remove <tree_path> <key1>=<value1> <key2>=<value2>\n";
+man["remove"] += "\t<key3>=<value3> <key4>=<value4> <key5>=<value5>\n";
+man["remove"] += "DESCRIPCION\n";
+man["remove"] += "\tElimina del arbol <tree_path> el registro identificado por las\n";
+man["remove"] += "\t5 claves pasadas. Cada argumento debe ser un par clave=valor\n";
+man["remove"] += "\tPara admitir valores con espacios, todo el argumento debe estar\n";
+man["remove"] += "\tentre comillas.";
 /*
-        routes["remove"] = REMOVE;
         routes["clear"] = CLEAR;
         routes["delete"] = DELETE;
         routes["show"] = SHOW;
