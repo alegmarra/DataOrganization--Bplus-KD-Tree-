@@ -221,14 +221,10 @@ std::vector<Record*> InnerNode::find(Query* query, unsigned dimensions){
 					 prev = (*it)->getNode();
 					 it++;
 			}
-			if (it != elements.end()){
+			if (it != elements.end() || query->eval(level, (*it)->getKey()) == Query::MATCH){
 
-				if(query->eval(level, (*it)->getKey()) == Query::MATCH)
 					return findByCondition(prev, query, it,Query::MATCH, dimensions);
 
-				else{
-					return NodeSerializer::deserializeNode((*it)->getNode())->find(query, dimensions);
-				}
 			}
 			else
 				return NodeSerializer::deserializeNode((*(it-1))->getNode())->find(query, dimensions);
