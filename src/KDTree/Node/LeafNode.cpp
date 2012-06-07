@@ -153,6 +153,7 @@ std::vector<Record*> LeafNode::find(Query* query, unsigned dimensions){
 	std::vector<Record*>  matchingRecords;
 	unsigned passed = 0;
 	std::vector<Record*>::iterator it;
+	int prevResult = 0;
     int queryResult;
 
 	//For every element in Node

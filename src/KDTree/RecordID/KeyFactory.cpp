@@ -37,7 +37,6 @@ Key* KeyFactory::getKey(unsigned level, std::string value)
             case ACCIDENTE: return new Accidente(value);
             case FORMACION: return new Formacion(atoi(value.c_str()));
             case FRANJA: {    
-				//buffer example => 12:01 - 12:31 20/05/2012, transforma a timestamp del 12:16 20/05/2012
 				char buffer[30];
 				strcpy(buffer, value.c_str());
 				int posBarraCero[7] = {2, 5, 10, 13, 16, 19, 24};

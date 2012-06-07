@@ -25,7 +25,7 @@ int IntKey::compareTo(Key* k) {
     if (!ik)
         throw InvalidKeyException("Invalid Type");
 
-    return value - ik->value;
+    return (value - ik->value);
 }
 
 int IntKey::serialize(char* buffer) {

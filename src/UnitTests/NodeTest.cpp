@@ -29,7 +29,7 @@ public:
 
 		path = "my_Node_test_file.bin";
 		pathSpace = "my_Node_test_file_space.bin";
-		blockSize = 4096;
+		blockSize = 512;
 
 		treeFile = new FileBlocks(path, blockSize);
 		NodeSerializer::setFile(treeFile);

@@ -227,7 +227,9 @@ std::vector<Record*> InnerNode::find(Query* query, unsigned dimensions){
 					return findByCondition(prev, query, it,Query::MATCH, dimensions);
 
 				else{
-					return NodeSerializer::deserializeNode((*it)->getNode())->find(query, dimensions);
+					return NodeSerializer::deserializeNode(prev)->find(query, dimensions);
+
+					//return NodeSerializer::deserializeNode((*it)->getNode())->find(query, dimensions);
 				}
 			}
 			else
