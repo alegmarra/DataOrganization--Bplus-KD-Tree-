@@ -217,11 +217,18 @@ std::vector<Record*> InnerNode::find(Query* query, unsigned dimensions){
 
 			unsigned prev ;
 
-			while((it < elements.end()) && (query->eval(level, (*it)->getKey()) == Query::LOWER)){
+			while((it < elements.end())){// && (query->eval(level, (*it)->getKey()) == Query::LOWER)){
+
+				if ((query->eval(level, (*it)->getKey()) == Query::LOWER)){
 					 prev = (*it)->getNode();
 					 it++;
+				}
+				else
+					break;
+
 			}
-			if (it != elements.end() || query->eval(level, (*it)->getKey()) == Query::MATCH){
+			if (it != elements.end())
+				if(query->eval(level, (*it)->getKey()) == Query::MATCH){
 
 					return findByCondition(prev, query, it,Query::MATCH, dimensions);
 

@@ -24,6 +24,8 @@ public:
 
     virtual ~KeyInfinity(){};
 
+    virtual void dump(){};
+
     friend class QueryCondition;
 
     // TODO: Remove KeyInfinity from tests and remove the friend test classes

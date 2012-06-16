@@ -18,6 +18,7 @@ Key* PairKeyNode::getKey() {
 }
 
 unsigned PairKeyNode::getNode() {
+
     return next;
 }
 

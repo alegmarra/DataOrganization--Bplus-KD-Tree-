@@ -24,7 +24,7 @@ class Key : public Serializable {
          * @throw InvalidKeyException
          */
         virtual int compareTo(Key * k) = 0;
-        virtual void dump();
+        virtual void dump()=0;
         virtual ~Key(){};
 
         virtual unsigned getSize() = 0;

@@ -31,6 +31,8 @@ public:
 		pathSpace = "my_Node_test_file_space.bin";
 		blockSize = 512;
 
+		Node::setFullSize(blockSize);
+
 		treeFile = new FileBlocks(path, blockSize);
 		NodeSerializer::setFile(treeFile);
         srand(time(NULL));
@@ -76,6 +78,7 @@ public:
 
 		test_LeafGrow_NoError();
 
+		//TODO
 /*		test_InnerInsert_Overflow_Error();
 
 		test_Find_NoError();
@@ -204,8 +207,9 @@ public:
         start("LeafInsert_Overflow_Error");
         treeFile->deleteData();
 
+
         Node* root = new LeafNode(0);
-        int maxElements = (blockSize * 0.75) / getRandRecord()->size();  // memory leak :D
+        int maxElements = (blockSize * 0.75) / getRandRecord()->size();
         for (int i = 0; i < maxElements-1; ++i)
             root->insert(getRandRecord());
 
@@ -216,6 +220,7 @@ public:
             failVerbose(numElements, maxElements-1, "Inserted records ");
 
         int res = root->insert(getRandRecord());
+
         if (res == 2)
             pass();
         else

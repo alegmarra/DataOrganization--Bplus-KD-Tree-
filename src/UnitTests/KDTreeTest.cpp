@@ -311,7 +311,6 @@ private:
         q->addCondition(ACCIDENTE, new QueryCondition(new Accidente("choque estacion")));
         q->addCondition(FORMACION, new QueryCondition(new Formacion(630)));
 
-
         std::vector<Record*> result = tree->find(q);
 
 

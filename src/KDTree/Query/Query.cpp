@@ -44,12 +44,13 @@ int Query::eval(unsigned dimension, Key * k)
 
     if (it != conditions.end()) {
         for (int i = 0; i < it->second.size(); i++) {
-            return it->second[i]->eval(k);
+
+        	return it->second[i]->eval(k);
         }
     }
-//CAMBIO
+
     return 4;
-    //return 0;
+
 }
 
 Query::~Query()
