@@ -14,6 +14,7 @@ class Key;
 
 class KDtree {
 public:
+
 	KDtree(unsigned k, FileAbstract* myFile);
 
 	/*
@@ -23,7 +24,7 @@ public:
 	 * 			1 at least one duplicated record
 	 * 			  was not inserted
 	 */
-	int load(std::vector<Record*>& records);
+	int load(std::vector<Record*> records);
 
 	/*
 	 * @brief	Inserts record in tree
@@ -45,8 +46,11 @@ public:
 
 	std::vector< Record * > find(Query* query);
 
-
+	/*
+	 * @brief	Deletes all data, leaves tree empty
+	 */
 	void clear();
+
 
     void dump();
 

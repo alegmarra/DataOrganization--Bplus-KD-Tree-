@@ -314,10 +314,15 @@ private:
 
         std::vector<Record*> result = tree->find(q);
 
-        if (verbose) {
-            dumpResult(result);
-            std::cout<< "Results Size" << result.size() << std::endl;
+
+
+         if (verbose) {
+             for (int i = 0; i< result.size(); i++)
+             	result[i]->dump();
+
+             std::cout<< "Results Size" << result.size() << std::endl;
         }
+
 
         cleanUp();
 

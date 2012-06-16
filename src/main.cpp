@@ -1,5 +1,9 @@
 #include "App.cpp"
 
+#include "KDTree/KD.h"
+#include "InputParser.cpp"
+
+
 int main(int argc, char * argv[])
 {
     App app;
@@ -19,7 +23,7 @@ int main(int argc, char * argv[])
     }
     
     app.run();
-        
+
     return 0;
 }
 

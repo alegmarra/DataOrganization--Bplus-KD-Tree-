@@ -1,10 +1,3 @@
-/*
- * FileBlocks.cpp
- *
- *  Created on: May 12, 2012
- *      Author: AleMarra
- */
-
 #include "FileBlocks.h"
 #include <string.h>
 

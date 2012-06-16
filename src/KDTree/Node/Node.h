@@ -34,8 +34,6 @@ public:
 
 	virtual std::vector<Record*> find(Query* query, unsigned dimensions)=0;
     
-//    virtual int remove(ID* id) = 0;
-//
 	virtual ~Node();
 
     /** fea idea, pero es por falta de tiempo */

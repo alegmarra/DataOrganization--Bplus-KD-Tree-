@@ -9,7 +9,10 @@
 #include "Formacion.h"
 
 
-ID::ID(unsigned _dimensions) : keys(_dimensions), dimensions(_dimensions) {}
+ID::ID(unsigned _dimensions): keys(_dimensions){
+
+	this->dimensions= _dimensions;
+}
 
 void ID::addKey(unsigned dimension, Key* key){
 

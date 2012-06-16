@@ -9,7 +9,7 @@
 #include "RecordID/ID.h"
 
 #ifndef K
-#define K 3
+#define K 5
 #endif
 
 unsigned Record::k = K;
@@ -33,7 +33,8 @@ int Record::serialize(char* buffer) {
 }
 
 int Record::deserialize(const char* buffer) {
-    if (!myID)
+
+	if (!myID)
         myID = new ID(k);
     return myID->deserialize(buffer);
 }
