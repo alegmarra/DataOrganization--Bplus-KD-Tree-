@@ -25,7 +25,6 @@ public:
 	 */
 	int load(std::vector<Record*>& records);
 
-
 	/*
 	 * @brief	Inserts record in tree
 	 *
@@ -43,7 +42,7 @@ public:
 	 */
 	int remove(Record* record);
 
-	//TODO Busqueda punual de un record particular
+
 	std::vector< Record * > find(Query* query);
 
 

@@ -125,7 +125,9 @@ void KDtree::dump()
     std::cout << "Node 0:";
     root->dump();
     std::cout << std::endl;
+
 }
+
 
 KDtree::~KDtree() {
 	delete treeFile;
